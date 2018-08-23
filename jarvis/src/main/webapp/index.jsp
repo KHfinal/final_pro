@@ -33,7 +33,7 @@
 	            			<input type="password" required class="form-control" />
 	            		</div>
 	            		<button class="btn btn-info mt-2" type="submit">Log In</button>
-	            		<button class="btn btn-info mt-2" type="button" onclick="location.href='<%=request.getContextPath()%>/chat/chatting.do'">chatting</button>
+	            		<button class="btn btn-info mt-2" type="button" onclick="location.href='<%=request.getContextPath()%>/chat/chatting.do'">chatting커밋하자</button>
             		</form>
        				<p class="mt-3 mb-0"><a href="${path }/page/social.do" class="text-info small">Forgot your email or password?</a></p>
    				</div>
