@@ -11,94 +11,38 @@
 </jsp:include>
 
 <style>
-/* POST */
-.panel {
-    border: 1px solid rgb(7, 48, 110); 
-    border-radius:0;
-    transition: box-shadow 0.5s;
-    margin: 2% 2%;
-}
-
-.panel-heading {
-    color: #fff !important;
-    /* background-color: rgb(7, 48, 110) !important; */
-    background-color: white;
-    border-bottom: 1px solid transparent;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.panel-body {
-    border-bottom: 1px solid rgb(7, 48, 110);
-    padding: 5% 0;
-}
-
-.panel-footer {
-    background-color: #fff;
-    padding: 2% 0;
-}
-
-.panel:hover {
-    box-shadow: 5px 0px 40px rgba(0,0,0, .4);
-}
-
-.panel-default > .panel-heading {
-	background-image: none;
-    background-color: rgb(7, 48, 110);
-    color: white;
-    padding: 25px;
-    border-bottom: 1px solid transparent;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-/* .panel-footer .btn:hover {
-    border: 1px solid rgb(7, 48, 110);
-    background-color: #fff;
-    color: rgb(7, 48, 110);
-} */
-
-.panel-footer ul {
-	list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.panel-footer li {
-	padding: 0.3em;
-}
-
-/* .panel-footer .btn {
-    margin: 15px 0;
-    background-color: rgb(7, 48, 110);
-    color: #fff;
-} */
 </style>
-	
-<form method="post">
-	<div class="panel panel-default" >
-	    <div class="panel-heading">
-			<div class="row">
-				<div class="col-sm-4">하하</div>
-				<div class="col-sm-4">하하</div>
-				<div class="col-sm-4">하하</div>
-			</div>
-	    </div>
-	    <div class="panel-body">
-	        <h1>이미지</h1>
-	        <h2>텍스트</h2>
-	        <h3>난 패널 바디!</h3>
-	    </div>
-	    <div class="panel-footer">
-	       	 댓글이 들어가는 panel-footer 부분
-	    </div>
-	</div>
-</form>
 
-</div>
-</body>
-</html>
+	<button class="btn btn-primary" data-toggle="modal" data-target="#postModal">게시글 등록</button>
+	
+	<!-- postModal -->
+	<div class="modal" id="postModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">게시물 등록</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+								
+				<!-- Modal body -->
+				<form method="post" enctype="multipart/form-data">
+					<div class="modal-body">
+						<textarea class="form-control" rows="5" id="comment" name="postText" placeholder="글을 적으시오"></textarea>
+
+
+
+					</div>
+					
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary text-center">Submit</button>
+						<button type="button" class="btn btn-danger text-center" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
