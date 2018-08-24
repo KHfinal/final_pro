@@ -1,0 +1,17 @@
+package kh.mark.jarvis.friend.model.dao;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import kh.mark.jarvis.friend.model.vo.Friend;
+@Repository
+public class FriendDaoImpl implements FriendDao{
+	
+	@Override
+	public List<Friend> selectList(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectList("friend.selectList",userId);
+	}
+
+}
