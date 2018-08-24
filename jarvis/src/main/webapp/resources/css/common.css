@@ -27,13 +27,14 @@ body {
 
 .main-content {
 	padding-top: 30px;
+	padding-left: 20px;
 }
 
 
 .side-nav {
     position: absolute;
     width: 100%;
-    background-color: #111;
+    background-color: black;
     height: 100%;
     z-index: 2;
 }
