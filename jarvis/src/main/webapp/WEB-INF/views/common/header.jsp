@@ -37,7 +37,7 @@
 </style>
 <header>
 	<div class="container-fluid headBar">
-		<table class="table">
+		<table class="table" style="margin-bottom: 0">
 			<tr>
 				<td style="width:20%">jarvis</td>
 				<td>${param.title }</td>
