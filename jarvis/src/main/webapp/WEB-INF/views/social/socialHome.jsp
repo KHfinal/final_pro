@@ -21,15 +21,14 @@
 
 .panel-heading {
     color: #fff !important;
-    background-color: rgb(7, 48, 110) !important;
-    padding: 25px;
+    /* background-color: rgb(7, 48, 110) !important; */
+    background-color: white;
     border-bottom: 1px solid transparent;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-
 
 .panel-body {
     border-bottom: 1px solid rgb(7, 48, 110);
@@ -83,7 +82,11 @@
 <form method="post">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <h1>회원명, 좋아요 수가 들어갈 부분</h1>
+			<div class="row">
+				<div class="col-sm-4">하하</div>
+				<div class="col-sm-4">하하</div>
+				<div class="col-sm-4">하하</div>
+			</div>
 	    </div>
 	    <div class="panel-body">
 	        <h1>이미지</h1>
