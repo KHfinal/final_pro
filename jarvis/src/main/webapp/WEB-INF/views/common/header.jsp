@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Jarvis social header</title>
-	<link rel="stylesheet" href="${path }/resources/fonts/font-awesome.min.css">
-	<link rel="stylesheet" href="${path }/resources/css/styles.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<link rel="stylesheet" href="${path }/resources/css/common.css?ver=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -19,24 +19,18 @@
 	<link href="https://fonts.googleapis.com/css?family=Audiowide|Cabin+Sketch|Monoton|Orbitron" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<style>
-	.headBar table{
-		background-color: #272D38;
-		text-align: center;
-		color : white;
-		font-family: 'Monoton', cursive;
-		/*font-family: 'Orbitron', sans-serif;
-	 	font-family: 'Audiowide', cursive;*/
-		/* font-family: 'Cabin Sketch', cursive; */
-		font-size: 2.5vw;
 
-	}
-	.table{
-		height:0.9em;
-	}
-</style>
+<script>
+$(function() {
+    $('.dropdown-toggle').click(function() {
+        this.attr("border", none);
+    })
+})
+</script>
+<body>
+
 <header>
-	<div class="container-fluid headBar">
+	<div class="container-fluid headBar header">
 		<table class="table">
 			<tr>
 				<td style="width:20%">jarvis</td>
@@ -50,9 +44,43 @@
 			</tr>
 		</table>
 	</div>
-
-
 </header>
-<body>
+
+<!-- SIDE BAR -->
+<nav class="side-nav">
+    <ul>
+        <li>
+            <a href="#">
+                <span><i class="fa fa-user"></i></span>
+                <span>Mypage</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span><i class="fas fa-user-friends"></i></span>
+                <span>friend List</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span><i class="fas fa-users"></i></span>
+                <span>Group List</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span><i class="fa fa-bookmark"></i></span>
+                <span>Bookmark</span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a class="dropdown-item" href="#">Link1</a></li>
+                <li><a class="dropdown-item" href="#">Link1</a></li>
+                <li><a class="dropdown-item" href="#">Link1</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="main-content">
 
 
