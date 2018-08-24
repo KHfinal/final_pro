@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.friend.model.service.FriendService;
 import kh.mark.jarvis.friend.model.vo.Friend;
-import kh.mark.jarvis.member.model.vo.member.Member;
 
 @Controller
 public class FriendController{
