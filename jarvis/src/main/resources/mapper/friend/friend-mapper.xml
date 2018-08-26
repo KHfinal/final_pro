@@ -3,7 +3,7 @@
 <mapper namespace="friend">
 <resultMap type="map" id="friendMap"></resultMap>
 	<select id="selectList" resultType="friend" parameterType="string">
-		SELECT * FROM FRIEND WHERE MEMBERADDR = #{memberAddr};
+		SELECT f_friend_email FROM FRIEND WHERE f_member_email = #{member_email};
 	</select>
 
 </mapper>

@@ -18,9 +18,9 @@ public class FriendServiceImpl implements FriendService{
 	private FriendDao dao;
 	
 	@Override
-	public List<Friend> selectList(String userId) {
+	public List<Friend> selectList(String member_email) {
 		
-		return dao.selectList(sqlSession,userId);
+		return dao.selectList(sqlSession,member_email);
 	}
 
 }
