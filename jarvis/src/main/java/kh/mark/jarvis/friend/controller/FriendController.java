@@ -24,13 +24,15 @@ public class FriendController{
 	private FriendService service;
 	
 	@RequestMapping("friend/selectList.do")
-	public ModelAndView selectList(ModelAndView mv,String userId) throws Throwable{
+	public ModelAndView selectList(ModelAndView mv,String member_email) throws Throwable{
 //		userId는 jsp에서 ${memberloggedIn.memberAddr}의 값으로 가져온다
-		List<Friend> list = service.selectList(userId);
+		List<Friend> list = service.selectList(member_email);
 		mv.addObject("list",list);
 		mv.setViewName("friend/friendList");
 		return mv;
 		
 	}
+	
+	
 	
 }

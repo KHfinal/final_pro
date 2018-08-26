@@ -56,16 +56,20 @@ overflow:hidden;
          <thead>
         
           
-         <%--  <c:forEach items="${list}" var="a" varStatus="vs">
+         <c:forEach items="${list}" var="a" varStatus="vs">
             <tr class='ok'>
 	            <td class="avatar"><img src="${path }/resources/upload/member/${a.사진 }"></td>
-	            <td >${a.이름 }</td>
+	            <td >${a.f_friend_email}</td>
+	            <script>
+	            var chattingSock=new SockJS("<c:url value='/chatting'/>");
+	            var listSock=new SockJS("<c:url value='/friendInList'/>");
+	            </script>
 	            <c:choose>
-					<c:when test="${memberLoggedIn.userId == a.이름}">친구중 친구이름과 같은 세션이 들어와있으면 true </c:when>
-					<c:when test="${memberLoggedIn.userId != a.이름}">false</c:when>
+					<c:when test="${memberLoggedIn.userId == a.이름}">green </c:when>
+					<c:when test="${memberLoggedIn.userId != a.이름}">gray</c:when>
 				</c:choose>
             </tr>
-        </c:forEach> --%>
+        </c:forEach> 
           </thead>
         </table>
       </div><!-- END id="list" -->  
@@ -80,7 +84,7 @@ overflow:hidden;
 		   <li class="active"><a href="#">1</a></li>
            <li ><a href="#">2</a></li>
            <li ><a href="#">3</a></li>
-		   <li ><a>Â»</a></li>
+		   <li ><a></a></li>
          </ul>
    </div>
   </div>

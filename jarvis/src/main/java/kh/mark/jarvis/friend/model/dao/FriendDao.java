@@ -7,6 +7,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import kh.mark.jarvis.friend.model.vo.Friend;
 
 public interface FriendDao {
-	List<Friend> selectList(SqlSessionTemplate sqlSession,String userId);
+	List<Friend> selectList(SqlSessionTemplate sqlSession,String member_email);
 
 }

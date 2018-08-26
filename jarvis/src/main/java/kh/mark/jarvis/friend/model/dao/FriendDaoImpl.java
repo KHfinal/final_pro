@@ -10,8 +10,8 @@ import kh.mark.jarvis.friend.model.vo.Friend;
 public class FriendDaoImpl implements FriendDao{
 	
 	@Override
-	public List<Friend> selectList(SqlSessionTemplate sqlSession, String userId) {
-		return sqlSession.selectList("friend.selectList",userId);
+	public List<Friend> selectList(SqlSessionTemplate sqlSession, String member_email) {
+		return sqlSession.selectList("friend.selectList",member_email);
 	}
 
 }
