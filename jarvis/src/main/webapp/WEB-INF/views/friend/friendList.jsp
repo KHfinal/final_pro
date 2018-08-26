@@ -56,7 +56,7 @@ overflow:hidden;
          <thead>
         
           
-          <c:forEach items="${list}" var="a" varStatus="vs">
+         <%--  <c:forEach items="${list}" var="a" varStatus="vs">
             <tr class='ok'>
 	            <td class="avatar"><img src="${path }/resources/upload/member/${a.사진 }"></td>
 	            <td >${a.이름 }</td>
@@ -65,7 +65,7 @@ overflow:hidden;
 					<c:when test="${memberLoggedIn.userId != a.이름}">false</c:when>
 				</c:choose>
             </tr>
-        </c:forEach>
+        </c:forEach> --%>
           </thead>
         </table>
       </div><!-- END id="list" -->  
