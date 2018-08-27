@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="kh.mark.jarvis.friend.model.vo.Friend" alias="friend"/>
+		<typeAlias type="kh.mark.jarvis.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kh.mark.jarvis.conversation.model.vo.Conversation" alias="conversation"/>
 	</typeAliases>
 </configuration>
