@@ -13,7 +13,7 @@ public class MemberController {
 	
 	@RequestMapping("/page/social.do")
 	public String socialPage() {
-		return "social/socialHome";
+		return "group/groupList";
 	}
 	
 	@RequestMapping("/page/private.do")
