@@ -22,6 +22,7 @@
 </head>
 
 <script>
+
 $(function() {
     $('.dropdown-toggle').click(function() {
         this.attr("border", none);

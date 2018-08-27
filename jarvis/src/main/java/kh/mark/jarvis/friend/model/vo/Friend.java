@@ -1,33 +1,34 @@
 package kh.mark.jarvis.friend.model.vo;
 
 public class Friend {
-	private String f_memberEmail;
-	private String f_friendEmail;
-	public String getMemberEmail() {
-		return f_memberEmail;
+	private String f_member_email;
+	private String f_friend_email;
+	public String getF_member_email() {
+		return f_member_email;
 	}
-	public void setMemberEmail(String memberEmail) {
-		this.f_memberEmail = memberEmail;
+	public void setF_member_email(String f_member_email) {
+		this.f_member_email = f_member_email;
 	}
-	public String getFriendEmail() {
-		return f_friendEmail;
+	public String getF_friend_email() {
+		return f_friend_email;
 	}
-	public void setFriendEmail(String friendEmail) {
-		this.f_friendEmail = friendEmail;
+	public void setF_friend_email(String f_friend_email) {
+		this.f_friend_email = f_friend_email;
+	}
+	@Override
+	public String toString() {
+		return "Friend [f_member_email=" + f_member_email + ", f_friend_email=" + f_friend_email + "]";
 	}
 	public Friend() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public String toString() {
-		return "Friend [memberEmail=" + f_memberEmail + ", friendEmail=" + f_friendEmail + "]";
-	}
-	public Friend(String memberEmail, String friendEmail) {
+	public Friend(String f_member_email, String f_friend_email) {
 		super();
-		this.f_memberEmail = memberEmail;
-		this.f_friendEmail = friendEmail;
+		this.f_member_email = f_member_email;
+		this.f_friend_email = f_friend_email;
 	}
+	
 	
 	
 	

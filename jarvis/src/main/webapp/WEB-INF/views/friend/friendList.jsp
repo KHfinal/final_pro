@@ -43,7 +43,9 @@ overflow:hidden;
 }
 
 </style>
-
+<script>
+	var listSock=new SockJS("<c:url value='/friendInList'/>");
+</script>
 
 <!--바디 -->
 <div class="container" style="margin-top:20px;">
@@ -60,10 +62,7 @@ overflow:hidden;
             <tr class='ok'>
 	            <td class="avatar"><img src="${path }/resources/upload/member/${a.사진 }"></td>
 	            <td >${a.f_friend_email}</td>
-	            <script>
-	            var chattingSock=new SockJS("<c:url value='/chatting'/>");
-	            var listSock=new SockJS("<c:url value='/friendInList'/>");
-	            </script>
+	            
 	            <c:choose>
 					<c:when test="${memberLoggedIn.userId == a.이름}">green </c:when>
 					<c:when test="${memberLoggedIn.userId != a.이름}">gray</c:when>

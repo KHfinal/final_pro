@@ -5,6 +5,6 @@ import java.util.List;
 import kh.mark.jarvis.friend.model.vo.Friend;
 
 public interface FriendService {
-	List<Friend> selectList(String member_email);
+	List<Friend> selectFriendList(String member_email);
 
 }
