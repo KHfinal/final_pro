@@ -106,9 +106,9 @@ var today=null;
 	<div class="chatting-cintainer col-2 pl-4 pr-4 pt-3">
 		<input type="text" id="friendSearch" class="form-control form-control-sm" placeholder="친구검색">
 		<div class="list-group">
-			<a href="#" class="list-group-item list-group-item-action">친구1</a>
-			<a href="#" class="list-group-item list-group-item-action">친구2</a>
-			<a href="#" class="list-group-item list-group-item-action">친구3</a>
+			<a href="#" class="list-group-item list-group-item-action">대화방1</a>
+			<a href="#" class="list-group-item list-group-item-action">대화방2</a>
+			<a href="#" class="list-group-item list-group-item-action">대화방3</a>
 		</div>
 	</div>
 	<!-- 채팅창 -->
@@ -137,11 +137,11 @@ var today=null;
 	<div class="chatting-cintainer col-2">
 		<div class="form-group">
 			<input type="text" id="friendSearch" placeholder="친구검색">
-			<ul>
-				<li>
-					친구
-				</li>
-			</ul>
+			<div class="list-group">
+				<a href="#" class="list-group-item list-group-item-action">친구1</a>
+				<a href="#" class="list-group-item list-group-item-action">친구2</a>
+				<a href="#" class="list-group-item list-group-item-action">친구3</a>
+			</div>
 		</div>
 	</div>
 	
