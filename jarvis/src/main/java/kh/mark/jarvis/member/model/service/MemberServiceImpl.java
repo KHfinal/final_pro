@@ -20,6 +20,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.selectLogin(sqlSession,member_email);
 	}
+
+	@Override
+	public int insertMember(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.insertMember(sqlSession,member);
+	}
 	
 
 }

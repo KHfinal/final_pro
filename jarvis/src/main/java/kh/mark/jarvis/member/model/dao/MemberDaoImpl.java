@@ -13,6 +13,13 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.selectLogin", member_email);
 				
 	}
+
+	@Override
+	public int insertMember(SqlSessionTemplate sqlSession, Member member) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("member.insertMember",member);
+
+	}
 	
 
 }

@@ -87,7 +87,7 @@ public class SocketHandler extends TextWebSocketHandler {
        String sessionId = "";
        while (sessionIds.hasNext()) {
            sessionId = sessionIds.next();
-           sessions.get(sessionId).sendMessage(new TextMessage(login.getMember_name()+"|"+message.getPayload()+"|"+session.getRemoteAddress()));
+           sessions.get(sessionId).sendMessage(new TextMessage(login.getMemberName()+"|"+message.getPayload()+"|"+session.getRemoteAddress()));
            
        }
        
