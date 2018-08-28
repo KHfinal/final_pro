@@ -64,7 +64,7 @@ $(function() {
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="${path }/group/groupList.do">
                 <span><i class="fas fa-users"></i></span>
                 <span>Group List</span>
             </a>
@@ -83,6 +83,6 @@ $(function() {
     </ul>
 </nav>
 
-<div class="main-content">
+<div class="main-content" style="padding-top: 0px; padding-left: 0px;">
 
 
