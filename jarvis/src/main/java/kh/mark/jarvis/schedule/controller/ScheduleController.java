@@ -1,5 +1,10 @@
 package kh.mark.jarvis.schedule.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +29,7 @@ public class ScheduleController {
 		logger.debug(s.toString());
 		int result = service.addSchedule(s);
 		String msg = "일정등록에 성공하였습니다.";
-		String loc = "/page/private.do";
+		String loc = "/schedule/privateHome.do?userEmail=kkh";
 		if(result<=0) {
 			msg = "일정등록에 실패하였습니다.";
 		}
@@ -38,9 +43,19 @@ public class ScheduleController {
 	
 	
 	@RequestMapping("/schedule/privateHome.do")
-	public ModelAndView displayPH(ModelAndView mv) {
-		
-		
+	public ModelAndView displayPH(ModelAndView mv,String userEmail) {
+		List<Schedule> list = new ArrayList<Schedule>();
+		list = service.loadEventList(userEmail);
+		logger.debug(list.toString());
+		List events = new ArrayList<>();
+		Map<String, String> result = new HashMap<>();
+		for(int i=0;i<list.size();i++) {
+			result.put("title", list.get(i).getTitle());
+			result.put("start", list.get(i).getStartDate().toString());
+			result.put("end",list.get(i).getEndDate().toString());
+			events.add(result);
+		}
+		logger.debug(events.toString());
 		mv.setViewName("private/privateHome");
 		
 		return mv;

@@ -50,9 +50,4 @@ public class MemberController {
 	public String socialPage() {
 		return "social/socialHome";
 	}
-	
-	@RequestMapping("/page/private.do")
-	public String privatePage() {
-		return "private/privateHome";
-	}
 }

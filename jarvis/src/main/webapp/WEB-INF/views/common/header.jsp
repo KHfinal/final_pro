@@ -38,7 +38,7 @@ $(function() {
 				<td style="width:20%"><a href="${path }/page/social.do" style="text-decoration: none;">jarvis</a></td>
 				<td>${param.title }</td>
 				<c:if test="${param.title eq 'social'}">
-				<td style="width:10%"><a href="${path }/page/private.do">P ></a></td>
+				<td style="width:10%"><a href="${path }/schedule/privateHome.do?userEmail=kkh">P ></a></td>
 				</c:if>
 				<c:if test="${param.title eq 'private'}">
 				<td style="width:10%"><a href="${path }/page/social.do">S ></a></td>

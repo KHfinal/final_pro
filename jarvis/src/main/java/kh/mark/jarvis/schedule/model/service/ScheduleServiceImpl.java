@@ -1,5 +1,7 @@
 package kh.mark.jarvis.schedule.model.service;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public int addSchedule(Schedule s) {
 		logger.debug("스케줄 등록 서비스단 시작");
 		return dao.addSchedule(sqlSession,s);
+	}
+
+
+	@Override
+	public List loadEventList(String userEmail) {
+		return dao.loadEventList(sqlSession,userEmail);
 	}
 
 }
