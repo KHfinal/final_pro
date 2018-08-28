@@ -9,67 +9,10 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="social" name="title"/>
 </jsp:include>
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=2">
 
 
 <style>
-#imgDisplay {
-	width: 25%;
-	height: 150px;
-}
-
-#imgDisplay img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-.filebox {
-	display: inline-block;
-	float: right;
-}
-
-.filebox label {
-	margin-top: 2%; 
-	display: inline-block; 
-	padding: .5em .75em; 
-	color: rgb(247, 251, 247); 
-	font-size: inherit; 
-	line-height: normal; 
-	vertical-align: middle; 
-	background-color: rgb(92, 184, 92); 
-	cursor: pointer; 
-	border: 1px solid #ebebeb; 
-	border-bottom-color: #e2e2e2; 
-	border-radius: .25em; 
-} 
-
-.filebox input[type="file"] { /* 파일 필드 숨기기 */ 
-	position: absolute; 
-	width: 1px; 
-	height: 1px; 
-	padding: 0; 
-	margin: -1px; 
-	overflow: hidden; 
-	clip:rect(0,0,0,0); 
-	border: 0; 
-}
-
-.filebox label:hover {
-	box-shadow: 0 0 0 20px rgba(0,0,0,0.2) inset;
-}
-
-.privacyBoundsContainer {
-	display: inline-block;
-}
-
-.privacyBoundsContainer label {
-	display: inline-block;
-	font-size: 1.2em;
-}
-
-#privacyBounds {
-	display: inline-block;
-	width: 200px;
-}
 
 </style>
 
@@ -123,8 +66,9 @@ function resetFormElement(e) {
 				</div>
 								
 				<!-- Modal body -->
-				<form id="createPostFrm" method="post" enctype="multipart/form-data">
+				<form id="createPostFrm" method="post" action="${path }/post/insertPost" enctype="multipart/form-data">
 					<div class="modal-body">
+						<input type="hidden" id="postWriter" value="${memberLoggedIn.get }"/>
 						<textarea class="form-control" rows="5" id="comment" name="postText" placeholder="문구 입력..."></textarea>
 						<hr>
 						

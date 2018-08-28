@@ -5,6 +5,11 @@
 		<typeAlias type="kh.mark.jarvis.friend.model.vo.Friend" alias="friend"/>
 		<typeAlias type="kh.mark.jarvis.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kh.mark.jarvis.conversation.model.vo.Conversation" alias="conversation"/>
+
+		<typeAlias type="kh.mark.jarvis.post.model.vo.Post" alias="post"/>
+		<typeAlias type="kh.mark.jarvis.post.model.vo.Attachment" alias="attach"/>
+
 		<typeAlias type="kh.mark.jarvis.schedule.model.vo.Schedule" alias="schedule"/>
+
 	</typeAliases>
 </configuration>
