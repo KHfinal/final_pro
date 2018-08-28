@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jarvis social header</title>
 
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link rel="stylesheet" href="${path }/resources/css/common.css?ver=1">
 <link href="https://fonts.googleapis.com/css?family=Audiowide|Cabin+Sketch|Monoton|Orbitron" rel="stylesheet">
@@ -25,6 +26,7 @@
 </head>
 
 <script>
+
 $(function() {
     $('.dropdown-toggle').click(function() {
         this.attr("border", none);
@@ -66,7 +68,7 @@ $(function() {
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="${path }/group/groupList.do">
                 <span><i class="fas fa-users"></i></span>
                 <span>Group List</span>
             </a>
@@ -85,6 +87,6 @@ $(function() {
     </ul>
 </nav>
 
-<div class="main-content">
+<div class="main-content" style="padding-top: 0px; padding-left: 0px;">
 
 
