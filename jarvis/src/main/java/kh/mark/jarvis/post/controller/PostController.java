@@ -65,6 +65,7 @@ public class PostController {
 				attach.setOriginalFileName(originalFileName);
 				attach.setRenamedFileName(renamedFileName);
 				attList.add(attach);
+				
 			}
 		}
 		
