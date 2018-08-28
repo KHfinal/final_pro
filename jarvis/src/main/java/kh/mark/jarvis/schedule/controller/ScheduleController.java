@@ -58,6 +58,7 @@ public class ScheduleController {
 		logger.debug(events.toString());
 		mv.setViewName("private/privateHome");
 		
+		
 		return mv;
 	}
 }
