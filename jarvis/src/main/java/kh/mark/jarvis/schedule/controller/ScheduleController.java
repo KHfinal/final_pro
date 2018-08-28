@@ -55,6 +55,7 @@ public class ScheduleController {
 			result.put("end",list.get(i).getEndDate().toString());
 			events.add(result);
 		}
+		
 		logger.debug(events.toString());
 		mv.setViewName("private/privateHome");
 		
