@@ -39,6 +39,8 @@ public class ScheduleController {
 	
 	@RequestMapping("/schedule/privateHome.do")
 	public ModelAndView displayPH(ModelAndView mv) {
+		
+		
 		mv.setViewName("private/privateHome");
 		
 		return mv;
