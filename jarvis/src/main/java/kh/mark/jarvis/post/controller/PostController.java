@@ -35,6 +35,7 @@ public class PostController {
 		logger.debug(post.getPrivacyBound());
 		logger.debug(upFile[0].getOriginalFilename());
 		logger.debug(upFile[1].getOriginalFilename());
+		logger.debug(upFile[2].getOriginalFilename());
 		
 		// postDate를 미리 지정해줘야한다.
 		
