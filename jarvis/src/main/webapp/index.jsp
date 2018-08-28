@@ -36,6 +36,7 @@
 	            		</div>
 	            		<button class="btn btn-info mt-2" type="submit">Log In</button>
             		</form>
+       				<p class="mt-3 mb-0"><a href="${path }/member/memberEnroll.do" class="text-info small">아이디가 없으신가요?</a></p>
        				<p class="mt-3 mb-0"><a href="${path }/page/social.do" class="text-info small">Forgot your email or password?</a></p>
    				</div>
 			</div>
