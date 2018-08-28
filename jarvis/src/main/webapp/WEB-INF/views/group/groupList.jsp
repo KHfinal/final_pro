@@ -22,7 +22,7 @@
                     <div class="col-10">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#searchGroup">그룹 찾기</a>
+                                <a class="nav-link active" data-toggle="tab" href="#searchGroup">그룹 찾기asd</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#myGroup">그룹</a>
