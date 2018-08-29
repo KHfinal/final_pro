@@ -10,6 +10,7 @@
 		<typeAlias type="kh.mark.jarvis.post.model.vo.Attachment" alias="attach"/>
 
 		<typeAlias type="kh.mark.jarvis.schedule.model.vo.Schedule" alias="schedule"/>
+		<typeAlias type="kh.mark.jarvis.gorup.model.vo.Group" alias="group"/>
 
 	</typeAliases>
 </configuration>
