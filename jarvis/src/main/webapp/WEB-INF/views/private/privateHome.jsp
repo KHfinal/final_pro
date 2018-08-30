@@ -29,7 +29,51 @@
       <!-- Modal body -->
       <div class="modal-body">
         <form action="${path }/schedule/insertSchedule.do" id="inputFrm">
-        	<input type="hidden" name="userEmail" value="kkh">
+        	<input type="hidden" name="userEmail" value="${memberLoggedIn.memberEmail }">
+	        <table class="table">
+	        	<tr >
+	        		<th> 제목  </th>
+	        		<td><input class="form-control" type="text" placeholder="일정을 입력하세요" name="title" id="title"></td>
+	        	</tr>
+	        	<tr>
+	        		<th> 시작 날짜 </th>
+	        		<td><input class="form-control" type="date" id="date_start" name = "startDate"></td>	        	
+	        	</tr>
+	        	<tr>
+	        		<th> 종료 날짜 </th>
+	        		<td><input class="form-control" type="date" id="date_end" name = "endDate"></td>
+	        	</tr>
+	        	<tr>
+	        		<th> 내용  </th>
+	        		<td> <textarea rows="5" name="content" id="content" class="form-control"></textarea></td>
+	        	</tr>
+	        </table>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button id="add" type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validate()">등록</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- 일정수정Modal -->
+<div class="modal" id="modify">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">일정</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="${path }/schedule/insertSchedule.do" id="inputFrm">
+        	<input type="hidden" name="userEmail" value="${memberLoggedIn.memberEmail }">
 	        <table class="table">
 	        	<tr >
 	        		<th> 제목  </th>
@@ -76,7 +120,23 @@
 				$("#date_end").val(day);
 				$("#content").val("");
 				$("#title").val("");
-			}
+			},
+			events: ${events},
+			eventClick:function(calEvent, jsEvent, view) {
+				$("#modify").modal("show");
+				
+			    
+			},
+			lang : "ko",
+			googleCalendarApiKey:"AIzaSyB8U2-71YAEPsxssN8OG5hwI-64TLORxgQ",
+			eventSource : [
+				{
+					googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
+	                , className : "koHolidays"
+	                , color : "#FF0000"
+	                , textColor : "#FFFFFF"
+				}
+			]
 		});
 	}
 	function fn_validate(){
