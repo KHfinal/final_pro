@@ -68,6 +68,7 @@ function resetFormElement(e) {
 					<h4 class="modal-title">게시물 등록</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+						
 								
 				<!-- Modal body -->
 				<form id="createPostFrm" method="post" action="${path }/post/insertPost.do" enctype="multipart/form-data">
@@ -91,6 +92,7 @@ function resetFormElement(e) {
 						
 						<div class="filebox"> <label for="imgInput">업로드</label> <input type="file" id="imgInput" name="upFile" multiple> </div>
 					</div>
+					
 					
 					
 					<!-- Modal footer -->
