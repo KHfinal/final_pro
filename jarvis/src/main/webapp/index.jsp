@@ -33,7 +33,7 @@
 		            		<label class="text-secondary">Email</label>
 		            		<input type="text" name='memberEmail' required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}$" inputmode="email" class="form-control" />
 	            		</div>
-	            		
+	            		<span></span>
 	            		<div class="form-group">
 	            			<label class="text-secondary">Password</label>
 	            			<input type="password" name="memberPw" required class="form-control" />
