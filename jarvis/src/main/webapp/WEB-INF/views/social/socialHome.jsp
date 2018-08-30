@@ -67,7 +67,7 @@ function resetFormElement(e) {
 				</div>
 								
 				<!-- Modal body -->
-				<form id="createPostFrm" method="post" action="${path }/post/insertPost" enctype="multipart/form-data">
+				<form id="createPostFrm" method="post" action="${path }/post/insertPost.do" enctype="multipart/form-data">
 					<div class="modal-body">
 						<input type="hidden" id="postWriter" name="postWriter" value="yong"/>
 						<textarea class="form-control" rows="5" id="postContents" name="postContents" placeholder="문구 입력..."></textarea>

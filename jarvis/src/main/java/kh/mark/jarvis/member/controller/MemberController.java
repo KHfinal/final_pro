@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import kh.mark.jarvis.friend.controller.FriendController;
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
 @SessionAttributes(value= {"memberLoggedIn"})
@@ -124,6 +123,9 @@ public class MemberController {
 			return "common/msg";
 		}
 		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("social/socialHome");
 		
 		
 		
