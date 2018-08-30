@@ -28,8 +28,8 @@ public class PostDaoImpl implements PostDao {
 	
 
 	@Override
-	public List<Attachment> selectAttach(SqlSessionTemplate sqlSession, int postNo) {
-		return sqlSession.selectList("post.selectAttach", postNo);
+	public List<Attachment> selectAttach(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("post.selectAttach");
 	}
 
 }

@@ -35,6 +35,6 @@
 	</resultMap>
 	
 	<select id="selectAttach" parameterType="attach" resultType="attach" resultMap="selectAttach">
-		SELECT * FROM ATTACHMENT WHERE POST_NO = #{postNo} ORDER BY ATTACHMENT_NO ASC
+		SELECT * FROM ATTACHMENT ORDER BY ATTACHMENT_NO ASC
 	</select>
 </mapper>
