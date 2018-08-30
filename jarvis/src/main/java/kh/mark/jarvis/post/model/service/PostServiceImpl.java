@@ -36,4 +36,14 @@ public class PostServiceImpl implements PostService {
 		
 		return result;
 	}
+	
+	@Override
+	public List<Post> selectPostList() {
+		return dao.selectPostList(sqlSession);
+	}
+
+	@Override
+	public List<Attachment> selectAttach(int postNo) {
+		return dao.selectAttach(sqlSession, postNo);
+	}
 }

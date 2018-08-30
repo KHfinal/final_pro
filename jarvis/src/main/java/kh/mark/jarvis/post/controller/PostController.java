@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +29,7 @@ public class PostController {
 	@Autowired
 	private PostService service;
 	
-	@RequestMapping("/post/insertPost")
+	@RequestMapping("/post/insertPost.do")
 	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) {
 		logger.debug(post.getPostContents());
 		logger.debug(post.getPostWriter());
@@ -71,8 +72,43 @@ public class PostController {
 		
 		int result = service.insertPost(post, attList);
 		
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg = "POST를 성공적으로 등록하였습니다.";
+			loc = "/post/socialHomeView.do?postNo=" + post.getPostNo();
+		} else {
+			msg = "POST 등록이 실패하였습니다.";
+			loc = "/social/socialHome";
+		}
+		
 		ModelAndView mv = new ModelAndView();
 		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
 		return mv;
+	}
+	
+	@RequestMapping("/post/socialHomeView.do")
+	public String selectPost(int postNo, Model model) {
+		
+		List<Post> postList = service.selectPostList();
+		List<Attachment> attachmentList = service.selectAttach(postNo);
+		
+		String loc = "social/socialHome";
+		
+		if(postList != null && attachmentList != null) {
+			model.addAttribute("post", postList);
+			model.addAttribute("attachmentList", attachmentList);
+		} else {
+			String msg = "게시물이 존재하지 않습니다.";
+			model.addAttribute("msg", msg);
+		}
+		
+		return loc; 
 	}
 }
