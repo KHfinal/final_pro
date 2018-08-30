@@ -122,5 +122,6 @@ public class MemberController {
 		}
 		
 		return "redirect:/"; //로그인 창으로 돌아가기
+		
 	}
 }
