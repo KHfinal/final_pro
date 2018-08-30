@@ -56,7 +56,7 @@ function resetFormElement(e) {
 
 </script>
 
-	<button class="btn btn-primary" data-toggle="modal" data-target="#postModal">게시글 등록</button>
+	<button class="btn btn-primary" id="insertBtn" data-toggle="modal" data-target="#postModal">게시글 등록</button>
 	
 	<!-- postModal -->
 	<div class="modal fade" id="postModal">

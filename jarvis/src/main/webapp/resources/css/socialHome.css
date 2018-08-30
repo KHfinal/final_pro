@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+#insertBtn {
+	float: left;
+	display: inline-block;
+}
+
 #imgDisplay {
 	width: 25%;
 	height: 150px;
