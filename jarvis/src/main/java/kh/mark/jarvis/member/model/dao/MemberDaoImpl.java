@@ -17,8 +17,9 @@ public class MemberDaoImpl implements MemberDao{
 	@Override	//회원가입
 	public int insertMember(SqlSessionTemplate sqlSession, Member member) {
 		// TODO Auto-generated method stub
+		System.out.println("DAO insert : "+member);
 		return sqlSession.insert("member.insertMember",member);
-
+		
 	}
 	
 

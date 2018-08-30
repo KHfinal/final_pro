@@ -24,6 +24,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override	//회원가입
 	public int insertMember(Member member) {
 		// TODO Auto-generated method stub
+		System.out.println("서비스 insert : "+member);
 		return memberDao.insertMember(sqlSession,member);
 	}
 	

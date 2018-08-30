@@ -107,6 +107,7 @@ public class MemberController {
 		member.setMemberPw(enPw);	//암호화 처리한것을 pw에 저장
 				
 		int result=memberService.insertMember(member); //회원가입 서비스로 이동
+		System.out.println("컨트롤러 enrollend: "+member);
 		
 		String msg="";
 		String loc="";
