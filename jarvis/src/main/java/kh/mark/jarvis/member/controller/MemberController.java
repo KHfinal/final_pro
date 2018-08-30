@@ -127,11 +127,6 @@ public class MemberController {
 		
 		mv.setViewName("social/socialHome");
 		
-		
-		
 		return "redirect:/"; //로그인 창으로 돌아가기
 	}
-		
-	
-	
 }
