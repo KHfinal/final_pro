@@ -123,10 +123,6 @@ public class MemberController {
 			return "common/msg";
 		}
 		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.setViewName("social/socialHome");
-		
 		return "redirect:/"; //로그인 창으로 돌아가기
 	}
 }
