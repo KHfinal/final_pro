@@ -36,7 +36,7 @@
 	</select>
  	
  	<insert id="insertMember">
-  	INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},default,null,default,default,null,null,null,default,null,null,null)
+  	INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},null,null,default,null,null,null,null,null,null,null)
   	 <!-- VO과 맞추면된다. #{approvalStatus},#{approvalKey},#{reg_date},#{log_data},#{memberPFP},#{memberConcern},#{memberGender},#{memberBirthday},#{addr1},#{addr2},#{addr3}-->
   </insert>
   

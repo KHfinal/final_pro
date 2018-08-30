@@ -44,6 +44,7 @@ public class MemberController {
 		logger.debug("Member : " + m);
 		System.out.println("Membercontroller : "+m);
 		
+		//아이디 존재확인
 		if(m==null)
 		{
 				logger.debug("실패실패");
@@ -51,42 +52,33 @@ public class MemberController {
 		}
 		else
 		{		
-			
+			//비밀번호확인
 			if (BCPE.matches(memberPw, m.getMemberPw()))
 			{
 				logger.debug("로그인성공");
 				msg="로그인 성공";
 				mv.addObject("memberLoggedIn", m);
+				loc="/page/social.do";
 				
 			} 
-			
+			//비밀번호 오류
 			else 
 			{
 				msg="비밀번호가 일치하지 않습니다.";
+				loc="/";
 			}
 				
 		}
-		
-		loc="/";
 		mv.addObject("msg",msg);
 		mv.addObject("loc",loc);
 		mv.setViewName("common/msg"); //원래 common/header
 		return mv;
-		
-		
-		
 	}
 	
 	@RequestMapping("/page/social.do")
 	public String socialPage() {
 		return "social/socialHome";
 	}
-	
-	@RequestMapping("/page/private.do")
-	public String privatePage() {
-		return "private/privateHome";
-	}
-	
 
 	//로그인화면에서 회원가입 페이지로
 	@RequestMapping("/member/memberEnroll.do")
@@ -109,7 +101,7 @@ public class MemberController {
 		int result=memberService.insertMember(member); //회원가입 서비스로 이동
 		
 		String msg="";
-		String loc="";
+		String loc="/";
 		
 		if (result>0) 
 		{
@@ -118,16 +110,14 @@ public class MemberController {
 		else 
 		{
 			msg="회원가입에 실패하였습니다.";
-			loc="/";
-			model.addAttribute("msg",msg);
-			model.addAttribute("loc",loc);
-			return "common/msg";
+			loc="/views/member/memberEnroll.jsp";
 		}
 		
 		
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
 		
-		
-		return "redirect:/"; //로그인 창으로 돌아가기
+		return "common/msg";
 	}
 		
 	

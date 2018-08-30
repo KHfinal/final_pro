@@ -1,5 +1,7 @@
 package kh.mark.jarvis.schedule.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class ScheduleController {
 	@RequestMapping("/schedule/privateHome.do")
 	public ModelAndView displayPH(ModelAndView mv) {
 		
-		
+		//일정리스트를 arraylist에 담아서 보내야한다.
 		mv.setViewName("private/privateHome");
 		
 		return mv;
