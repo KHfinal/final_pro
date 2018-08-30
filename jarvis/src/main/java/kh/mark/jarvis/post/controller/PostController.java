@@ -33,13 +33,12 @@ public class PostController {
 		logger.debug(post.getPostContents());
 		logger.debug(post.getPostWriter());
 		logger.debug(post.getPrivacyBound());
-		logger.debug(upFile[0].getOriginalFilename());
-		logger.debug(upFile[1].getOriginalFilename());
-		logger.debug(upFile[2].getOriginalFilename());
+
+		for(int i=0; i<upFile.length; i++) {
+			logger.debug(upFile[i].getOriginalFilename());
+		}
 		
 		// postDate를 미리 지정해줘야한다.
-		
-		
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/post");
 		List<Attachment> attList = new ArrayList<Attachment>();
 		
@@ -70,7 +69,7 @@ public class PostController {
 			}
 		}
 		
-//		int result = service.insertPost(post, attList);
+		int result = service.insertPost(post, attList);
 		
 		ModelAndView mv = new ModelAndView();
 		
