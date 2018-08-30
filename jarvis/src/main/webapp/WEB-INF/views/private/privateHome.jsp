@@ -121,7 +121,7 @@
 				$("#content").val("");
 				$("#title").val("");
 			},
-			events: ${events},textColor:"white",color:"black",
+			events: ${events},
 			eventClick:function(calEvent, jsEvent, view) {
 				$("#modify").modal("show");
 				
