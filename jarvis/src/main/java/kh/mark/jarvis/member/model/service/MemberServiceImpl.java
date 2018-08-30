@@ -15,13 +15,13 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberDao memberDao;
 	
-	@Override
-	public Member selectLogin(String member_email) {
+	@Override	//로그인
+	public Member selectLogin(String memberEmail) {
 		// TODO Auto-generated method stub
-		return memberDao.selectLogin(sqlSession,member_email);
+		return memberDao.selectLogin(sqlSession,memberEmail);
 	}
 
-	@Override
+	@Override	//회원가입
 	public int insertMember(Member member) {
 		// TODO Auto-generated method stub
 		return memberDao.insertMember(sqlSession,member);
