@@ -97,12 +97,12 @@ public class PostController {
 	public String selectPost(int postNo, Model model) {
 		
 		List<Post> postList = service.selectPostList();
-		List<Attachment> attachmentList = service.selectAttach(postNo);
+		List<Attachment> attachmentList = service.selectAttach();
 		
 		String loc = "social/socialHome";
 		
 		if(postList != null && attachmentList != null) {
-			model.addAttribute("post", postList);
+			model.addAttribute("postList", postList);
 			model.addAttribute("attachmentList", attachmentList);
 		} else {
 			String msg = "게시물이 존재하지 않습니다.";

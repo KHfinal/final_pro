@@ -15,6 +15,6 @@ public interface PostDao {
 
 	List<Post> selectPostList(SqlSessionTemplate sqlSession);
 
-	List<Attachment> selectAttach(SqlSessionTemplate sqlSession, int postNo);
+	List<Attachment> selectAttach(SqlSessionTemplate sqlSession);
 
 }

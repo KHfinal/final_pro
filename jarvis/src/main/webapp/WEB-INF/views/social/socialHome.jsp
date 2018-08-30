@@ -68,7 +68,6 @@ function resetFormElement(e) {
 					<h4 class="modal-title">게시물 등록</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-						
 								
 				<!-- Modal body -->
 				<form id="createPostFrm" method="post" action="${path }/post/insertPost.do" enctype="multipart/form-data">
@@ -85,15 +84,13 @@ function resetFormElement(e) {
 						    <label for="privacyBound" style="display: inline;">공개 범위</label>
 						    <select class="form-control" id="privacyBound" name="privacyBound">
 							    <option value="public">전체 보기</option>
-							    <option value="friends">친구만</option>
+							    <option value="friend">친구만</option>
 							    <option value="private">나만 보기</option>
 						    </select>
 						</div>
 						
 						<div class="filebox"> <label for="imgInput">업로드</label> <input type="file" id="imgInput" name="upFile" multiple> </div>
 					</div>
-					
-					
 					
 					<!-- Modal footer -->
 					<div class="modal-footer">
@@ -104,5 +101,25 @@ function resetFormElement(e) {
 			</div>
 		</div>
 	</div>
-
+	
+	<hr>
+	<c:forEach items="${postList}" var="post" varStatus="vs">
+	<div class="panel panel-default" >
+	    <div class="panel-heading">
+	        <h1>${post.getPostWriter() }</h1>
+	        
+	    </div>
+	    <div class="panel-body">
+	    	<p>${post.getPostContents() }</p>
+	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
+	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
+	        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+	        	</c:if>
+	        </c:forEach>
+	    </div>
+	    <div class="panel-footer">
+	    </div>
+	</div>
+	</c:forEach>
+	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
