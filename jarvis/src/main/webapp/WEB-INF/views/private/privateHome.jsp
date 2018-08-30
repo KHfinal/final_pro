@@ -29,6 +29,7 @@
       <!-- Modal body -->
       <div class="modal-body">
         <form action="${path }/schedule/insertSchedule.do" id="inputFrm">
+        	<input type="hidden" name="userEmail" value="kkh">
 	        <table class="table">
 	        	<tr >
 	        		<th> 제목  </th>

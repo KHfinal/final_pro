@@ -68,7 +68,7 @@ function resetFormElement(e) {
 				<!-- Modal body -->
 				<form id="createPostFrm" method="post" action="${path }/post/insertPost" enctype="multipart/form-data">
 					<div class="modal-body">
-						<input type="hidden" id="postWriter" value="${memberLoggedIn.get }"/>
+						<input type="hidden" id="postWriter" value="${memberLoggedIn}"/>
 						<textarea class="form-control" rows="5" id="comment" name="postText" placeholder="문구 입력..."></textarea>
 						<hr>
 						

@@ -12,7 +12,6 @@ public class Member {
 	private String approvalStatus;	//이메일인증관련
 	private String approvalKey;		//이메일인증관련
 	private Date reg_date;			//가입일
-	private Date log_data;			//로그인 날짜
 	private String memberPFP; //프로필사진
 	private String memberConcern; //관심분야
 	private String memberGender;  //성별
@@ -26,10 +25,9 @@ public class Member {
 	
 	public Member() {}
 
-
-
 	public Member(String memberEmail, String memberPw, String memberName, String memberNickname, String phone,
-			String approvalStatus, String approvalKey, Date reg_date, Date log_data) {
+			String approvalStatus, String approvalKey, Date reg_date, String memberPFP, String memberConcern,
+			String memberGender, Date memberBirthday, String addr1, String addr2, String addr3) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberPw = memberPw;
@@ -39,25 +37,6 @@ public class Member {
 		this.approvalStatus = approvalStatus;
 		this.approvalKey = approvalKey;
 		this.reg_date = reg_date;
-		this.log_data = log_data;
-	}
-
-
-
-	public Member(String memberEmail, String memberPw, String memberName, String memberNickname, String phone,
-			String approvalStatus, String approvalKey, Date reg_date, Date log_data, String memberPFP,
-			String memberConcern, String memberGender, Date memberBirthday, String addr1, String addr2, String addr3
-			) {
-		super();
-		this.memberEmail = memberEmail;
-		this.memberPw = memberPw;
-		this.memberName = memberName;
-		this.memberNickname = memberNickname;
-		this.phone = phone;
-		this.approvalStatus = approvalStatus;
-		this.approvalKey = approvalKey;
-		this.reg_date = reg_date;
-		this.log_data = log_data;
 		this.memberPFP = memberPFP;
 		this.memberConcern = memberConcern;
 		this.memberGender = memberGender;
@@ -65,11 +44,7 @@ public class Member {
 		this.addr1 = addr1;
 		this.addr2 = addr2;
 		this.addr3 = addr3;
-		
 	}
-
-
-
 	public String getMemberEmail() {
 		return memberEmail;
 	}
@@ -166,16 +141,6 @@ public class Member {
 
 
 
-	public Date getLog_data() {
-		return log_data;
-	}
-
-
-
-	public void setLog_data(Date log_data) {
-		this.log_data = log_data;
-	}
-
 
 
 	public String getMemberPFP() {
@@ -270,7 +235,7 @@ public class Member {
 	public String toString() {
 		return "Member [memberEmail=" + memberEmail + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberNickname=" + memberNickname + ", phone=" + phone + ", approvalStatus=" + approvalStatus
-				+ ", approvalKey=" + approvalKey + ", reg_date=" + reg_date + ", log_data=" + log_data + ", memberPFP="
+				+ ", approvalKey=" + approvalKey + ", reg_date=" + reg_date + ", memberPFP="
 				+ memberPFP + ", memberConcern=" + memberConcern + ", memberGender=" + memberGender
 				+ ", memberBirthday=" + memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3
 				+ ", friendAdd=" + "]";
