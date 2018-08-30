@@ -45,16 +45,16 @@
 	box-shadow: 0 0 0 20px rgba(0,0,0,0.2) inset;
 }
 
-.privacyBoundsContainer {
+.privacyBoundContainer {
 	display: inline-block;
 }
 
-.privacyBoundsContainer label {
+.privacyBoundContainer label {
 	display: inline-block;
 	font-size: 1.2em;
 }
 
-#privacyBounds {
+#privacyBound {
 	display: inline-block;
 	width: 200px;
 }
