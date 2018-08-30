@@ -26,8 +26,6 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder BCPE;
 	
-	
-	
 	// 로그인 정보
 	@RequestMapping(value="/member/login.do",method=RequestMethod.POST)
 	public ModelAndView memberLogin(String memberEmail, String memberPw) {
