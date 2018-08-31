@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+#insertBtn {
+	position: relative;
+	left: 92%;
+}
+
+#imgDisplay {
+	width: 25%;
+	height: 150px;
+}
+
+#imgDisplay img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.filebox {
+	display: inline-block;
+	float: right;
+}
+
+.filebox label {
+	margin-top: 2%; 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: rgb(247, 251, 247); 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: rgb(92, 184, 92); 
+	cursor: pointer; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+} 
+
+.filebox input[type="file"] { /* 파일 필드 숨기기 */ 
+	position: absolute; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px; 
+	overflow: hidden; 
+	clip:rect(0,0,0,0); 
+	border: 0; 
+}
+
+.filebox label:hover {
+	box-shadow: 0 0 0 20px rgba(0,0,0,0.2) inset;
+}
+
+.privacyBoundContainer {
+	display: inline-block;
+}
+
+.privacyBoundContainer label {
+	display: inline-block;
+	font-size: 1.2em;
+}
+
+#privacyBound {
+	display: inline-block;
+	width: 200px;
+}
+
+
+
+
+/* post 리스트 출력  */
+.panel {
+	margin-left: 15%;
+    border: 1px solid rgb(7, 48, 110); 
+    border-radius:0;
+    transition: box-shadow 0.5s;
+    width: 50%;
+    margin-top: 3%;
+}
+
+.panel-heading {
+    color: #fff !important;
+    background-color: rgb(7, 48, 110) !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+.panel-body {
+    border-bottom: 1px solid rgb(7, 48, 110);
+    padding: 2% 0;
+}
+
+.panel-body .imgSize {
+	max-width: 100%;
+}
+
+.panel-footer {
+    background-color: #fff;
+    padding: 2% 0;
+}
+
+.panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .4);
+}
+
+.panel-default > .panel-heading {
+	background-image: none;
+    background-color: rgb(7, 48, 110);
+    color: white;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+
+/* .panel-footer .btn:hover {
+    border: 1px solid rgb(7, 48, 110);
+    background-color: #fff;
+    color: rgb(7, 48, 110);
+} */
+
+.panel-footer ul {
+	list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.panel-footer li {
+	padding: 0.3em;
+}
+
+/* .panel-footer .btn {
+    margin: 15px 0;
+    background-color: rgb(7, 48, 110);
+    color: #fff;
+} */

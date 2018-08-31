@@ -27,9 +27,9 @@
 	}
 </style>
 <script>
-	$(function(){
-		$("#myCarousel").carousel("pause");
-	})
+	$(document).ready(function() {      
+	   $('#categoryCarousel').carousel('pause');
+	});
 </script>
 	<div class="headBar sticky-top">
         <div style="background-color:#272D38;height: 50px;">
@@ -49,6 +49,53 @@
                         <button type="button" class="btn btn-success btn-sm mt-3" data-toggle="modal" data-target="#createGroup" style="float: right;">그룹 만들기</button>
                     </div>
                 </div>
+		            <div class="justify-content-center">
+		            	<div id="categoryCarousel" class="carousel slide" data-ride="carousel" style="width: 100%;" data-interval="false"> 
+						  <div class="carousel-inner">
+						    <div class="carousel-item active">
+							    <div class="row justify-content-center">
+					                <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+						                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>    
+					                </div>
+					                <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+						                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+				                </div>
+						    </div>
+						    <div class="carousel-item">
+							    <div class="row justify-content-center">
+							        <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+					                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
+					                </div>
+					                <div class="ml-2 mr-2">
+						                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>    
+					                </div>
+					            </div>    
+						    </div>
+						  </div>
+						  <a class="carousel-control-prev" href="#categoryCarousel" data-slide="prev" style="color: black;">
+						    <img class="carousel-control-next-icon" src="${path }/resources/img/preblack32.png">
+						  </a>
+						  <a class="carousel-control-next" href="#categoryCarousel" data-slide="next" style="color: black;">
+						    <img class="carousel-control-next-icon" src="${path }/resources/img/neblack32.png">
+						  </a>
+						</div>
+		            </div>
             </div>
         </div>
     </div>
@@ -60,16 +107,53 @@
                     <h4 class="modal-title">새 그룹 만들기</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="">
+                <form action="${path }/group/groupInsert.do" method="post">
                     <div class="modal-body">
                         <span>그룹 이름 입력</span>
-                        <input type="text" class="form-control form-control-lg">
-                        <div class="custom-control custom-checkbox">
-						    <input type="checkbox" class="custom-control-input" id="customCheck" name="">
-						    <label class="custom-control-label" for="customCheck">분류1</label>
-					    </div>
+                        <input type="text" class="form-control form-control-lg" name="g_name">
                         <label for="comment">그룹 소개 글</label>
-						<textarea class="form-control" rows="5" id="comment" placeholder="간단한 소개 글을 입력해 주세요."></textarea>
+						<textarea class="form-control" name="g_intro" rows="5" id="comment" placeholder="간단한 소개 글을 입력해 주세요."></textarea>
+                    	<span>그룹 분류</span>
+                    	<div class="form-control-lg">
+	                    	<div class="row">
+		                        <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category1" name="g_category">
+								    <label class="custom-control-label" for="category1">여행</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category2" name="g_category">
+								    <label class="custom-control-label" for="category2">예술&문화</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category3" name="g_category">
+								    <label class="custom-control-label" for="category3">건강</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category4" name="g_category">
+								    <label class="custom-control-label" for="category4">패션&뷰티</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category5" name="g_category">
+								    <label class="custom-control-label" for="category5">스포츠</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category6" name="g_category">
+								    <label class="custom-control-label" for="category6">푸드</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category7" name="g_category">
+								    <label class="custom-control-label" for="category7">리빙</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category8" name="g_category">
+								    <label class="custom-control-label" for="category8">재테크</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category9" name="g_category">
+								    <label class="custom-control-label" for="category9">1</label>
+							    </div>
+						    </div>
+					    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" data-dismiss="modal">생성</button>
@@ -79,86 +163,10 @@
                 </div>
             </div>
         </div>
-        <div class="container" style="height: 3000px;">
+        <div class="container mt-5" style="height: 3000px;">
         	<div class="tab-content">
 				<div class="tab-pane active container" id="searchGroup">
-					<div class="container sticky-top">
-			            <div class="justify-content-center">
-			            	<div id="demo" class="carousel slide" data-ride="carousel" style="width: 100%;"> 
-							  <div class="carousel-inner">
-							    <div class="carousel-item active">
-								    <div class="row justify-content-center">
-								        <div class="ml-2 mr-2">
-				                    		<a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-							                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>    
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-							                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-					                </div>
-							    </div>
-							    <div class="carousel-item">
-								    <div class="row justify-content-center">
-								        <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-							                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>    
-						                </div>
-						                <div class="ml-2 mr-2">
-						                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						                <div class="ml-2 mr-2">
-							                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-						                </div>
-						            </div>    
-							    </div>
-							  </div>
-							  <a class="carousel-control-prev" href="#demo" data-slide="prev" style="color: black;">
-							    <img class="carousel-control-next-icon" src="${path }/resources/img/preblack32.png">
-							  </a>
-							  <a class="carousel-control-next" href="#demo" data-slide="next" style="color: black;">
-							    <img class="carousel-control-next-icon" src="${path }/resources/img/neblack32.png">
-							  </a>
-							</div>
-			            	
-			                <%-- <div class="ml-2 mr-2">
-			                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-			                </div>
-			                <div class="ml-2 mr-2">
-			                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-			                </div>
-			                <div class="ml-2 mr-2">
-			                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-			                </div>
-			                <div class="ml-2 mr-2">
-				                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>    
-			                </div>
-			                <div class="ml-2 mr-2">
-			                    <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-			                </div>
-			                <div class="ml-2 mr-2">
-				                <a href="#"><img class="card-img-top cateImg img-thumbnail" src="${path }/resources/img/KakaoTalk_4.png"></a>
-			                </div> --%>
-			            </div>
-			        </div>
+					
 	        		<div id="portfolio">
 						<div class="col-lg-12 text-center">
 							<h2 class="section-heading text-uppercase mt-3">그룹</h2>
