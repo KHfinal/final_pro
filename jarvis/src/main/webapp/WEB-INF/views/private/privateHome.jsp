@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="${path }/resources/fullcalendar/fullcalendar.css">
 <script src="${path }/resources/fullcalendar/moment.js"></script>
 <script src="${path }/resources/fullcalendar/fullcalendar.js"></script>
+<script src="${path }/resources/fullcalendar/gcal.js"></script>
+<script src="${path }/resources/fullcalendar/ko.js"></script>
 <style>
+    .fc-sat { color:#0000FF; }     /* 토요일 */
+    .fc-sun { color:#FF0000; }    /* 일요일 */
 
 </style>
 <div id="calendar"></div>
@@ -60,7 +64,7 @@
     </div>
   </div>
 </div>
-<!-- 일정수정Modal -->
+ <!-- 일정수정Modal -->
 <div class="modal" id="modify">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -72,24 +76,24 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="${path }/schedule/insertSchedule.do" id="inputFrm">
+        <form action="${path }/schedule/modifySchedule.do" id="inputFrm">
         	<input type="hidden" name="userEmail" value="${memberLoggedIn.memberEmail }">
 	        <table class="table">
 	        	<tr >
 	        		<th> 제목  </th>
-	        		<td><input class="form-control" type="text" placeholder="일정을 입력하세요" name="title" id="title"></td>
+	        		<td><input class="form-control" type="text" placeholder="일정을 입력하세요" name="title" id="modtitle"></td>
 	        	</tr>
 	        	<tr>
 	        		<th> 시작 날짜 </th>
-	        		<td><input class="form-control" type="date" id="date_start" name = "startDate"></td>	        	
+	        		<td><input class="form-control" type="date" id="moddate_start" name = "startDate"></td>	        	
 	        	</tr>
 	        	<tr>
 	        		<th> 종료 날짜 </th>
-	        		<td><input class="form-control" type="date" id="date_end" name = "endDate"></td>
+	        		<td><input class="form-control" type="date" id="moddate_end" name = "endDate"></td>
 	        	</tr>
 	        	<tr>
 	        		<th> 내용  </th>
-	        		<td> <textarea rows="5" name="content" id="content" class="form-control"></textarea></td>
+	        		<td> <textarea rows="5" name="content" id="modcontent" class="form-control"></textarea></td>
 	        	</tr>
 	        </table>
         </form>
@@ -97,7 +101,8 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button id="add" type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validate()">등록</button>
+        <button type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validate()">수정</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">삭제</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
       </div>
 
@@ -113,31 +118,33 @@
 			dayClick: function(date){
 				var year = date._d.getFullYear();
 				var month = date._d.getMonth()<10 ? '0'+(date._d.getMonth()+1) : date._d.getMonth();
-				var date = date._d.getDate()<10 ? '0'+date._d.getDate() : date._d.getDate();
-				var day = year+"-"+month+"-"+date;
+				var date1 = date._d.getDate()<10 ? '0'+date._d.getDate() : date._d.getDate();
+				var day = year+"-"+month+"-"+date1;
+				console.log(date);
+				console.log(date._d.getHours());
+				console.log(date._d.getMinutes());
+				console.log(date._d.toISOString());
 				$("#registration").modal("show");
 				$("#date_start").val(day);
 				$("#date_end").val(day);
 				$("#content").val("");
 				$("#title").val("");
 			},
-			events: ${events},
 			eventClick:function(calEvent, jsEvent, view) {
-				$("#modify").modal("show");
 				
-			    
+				
+				
+				$("#modify").modal("show");
 			},
-			lang : "ko",
-			googleCalendarApiKey:"AIzaSyB8U2-71YAEPsxssN8OG5hwI-64TLORxgQ",
-			eventSource : [
-				{
-					googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
-	                , className : "koHolidays"
-	                , color : "#FF0000"
-	                , textColor : "#FFFFFF"
-				}
-			]
+			eventLimit: true, // for all non-agenda views
+			  views: {
+			    agenda: {
+			      eventLimit: 6 // adjust to 6 only for agendaWeek/agendaDay
+			    }
+			 },
+			googleCalendarApiKey:"AIzaSyB8U2-71YAEPsxssN8OG5hwI-64TLORxgQ"
 		});
+		$('#calendar').fullCalendar('addEventSource',${events});
 	}
 	function fn_validate(){
 		if($("#title").val().trim()==0){
@@ -148,6 +155,9 @@
 			alert("일정종료날짜가 시작날짜보다 작습니다.");
 			return false;
 		}
-		$("#inputFrm").submit();
+		console.log($("#date_start").val());
+		console.log($("#date_end").val());
+		
+		$("#inputFrm").submit(); 
 	}
 </script>
