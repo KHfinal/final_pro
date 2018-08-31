@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+#insertBtn {
+	position: relative;
+	left: 92%;
+}
+
 #imgDisplay {
 	width: 25%;
 	height: 150px;
@@ -45,16 +50,95 @@
 	box-shadow: 0 0 0 20px rgba(0,0,0,0.2) inset;
 }
 
-.privacyBoundsContainer {
+.privacyBoundContainer {
 	display: inline-block;
 }
 
-.privacyBoundsContainer label {
+.privacyBoundContainer label {
 	display: inline-block;
 	font-size: 1.2em;
 }
 
-#privacyBounds {
+#privacyBound {
 	display: inline-block;
 	width: 200px;
 }
+
+
+
+
+/* post 리스트 출력  */
+.panel {
+	margin-left: 15%;
+    border: 1px solid rgb(7, 48, 110); 
+    border-radius:0;
+    transition: box-shadow 0.5s;
+    width: 50%;
+    margin-top: 3%;
+}
+
+.panel-heading {
+    color: #fff !important;
+    background-color: rgb(7, 48, 110) !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+.panel-body {
+    border-bottom: 1px solid rgb(7, 48, 110);
+    padding: 2% 0;
+}
+
+.panel-body .imgSize {
+	max-width: 100%;
+}
+
+.panel-footer {
+    background-color: #fff;
+    padding: 2% 0;
+}
+
+.panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .4);
+}
+
+.panel-default > .panel-heading {
+	background-image: none;
+    background-color: rgb(7, 48, 110);
+    color: white;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+
+/* .panel-footer .btn:hover {
+    border: 1px solid rgb(7, 48, 110);
+    background-color: #fff;
+    color: rgb(7, 48, 110);
+} */
+
+.panel-footer ul {
+	list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.panel-footer li {
+	padding: 0.3em;
+}
+
+/* .panel-footer .btn {
+    margin: 15px 0;
+    background-color: rgb(7, 48, 110);
+    color: #fff;
+} */

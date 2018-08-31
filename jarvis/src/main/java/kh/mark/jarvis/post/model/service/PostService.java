@@ -9,4 +9,9 @@ public interface PostService {
 
 	int insertPost(Post post, List<Attachment> attList);
 
+	List<Attachment> selectAttach();
+
+	List<Post> selectPostList();
+
+
 }

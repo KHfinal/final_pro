@@ -1,5 +1,7 @@
 package kh.mark.jarvis.post.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,17 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public int insertAttach(SqlSessionTemplate sqlSession, Attachment a) {
 		return sqlSession.insert("post.insertAttach", a);
+	}
+
+	@Override
+	public List<Post> selectPostList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("post.selectPostList");
+	}
+	
+
+	@Override
+	public List<Attachment> selectAttach(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("post.selectAttach");
 	}
 
 }
