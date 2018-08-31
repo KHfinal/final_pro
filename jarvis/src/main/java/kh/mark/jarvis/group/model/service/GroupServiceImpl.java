@@ -1,5 +1,8 @@
 package kh.mark.jarvis.group.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,14 @@ public class GroupServiceImpl implements GroupService {
 		
 		return dao.groupInsert(Session, g);
 	}
+
+	@Override
+	public List<Map<String, String>> selectGroupList() {
+		
+		return dao.selectGroupList(Session);
+	}
+	
+	
 
 	
 }

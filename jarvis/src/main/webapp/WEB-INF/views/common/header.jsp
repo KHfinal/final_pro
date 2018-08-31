@@ -86,6 +86,6 @@ $(function() {
     </ul>
 </nav>
 
-<div class="main-content" style="padding-top: 0px; padding-left: 0px;">
+<div class="main-content mt-0" style="padding-top: 0px; padding-left: 0px;">
 
 
