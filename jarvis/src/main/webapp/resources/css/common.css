@@ -11,7 +11,7 @@ body {
 
 .header {
     width: 100%;
-    background-color: #272D38;
+    background-color: #FFE4BA;
     z-index: 40 !important;
     height: 60px;
     margin: 0;
@@ -26,16 +26,15 @@ body {
 }
 
 .main-content {
-	padding-top: 30px;
-	padding-left: 20px;
-	padding-right: 20px;
+	margin-top: 30px;
+	margin-right: 20px;
 }
 
 
 .side-nav {
     position: absolute;
+    background-color: #FFE4BA;
     width: 100%;
-    background-color: black;
     height: 100%;
     z-index: 2;
 }
@@ -98,7 +97,7 @@ body {
     }
 
     .main-content {
-        margin-left: 80px;
+        margin-left: 100px;
     }
 }
 
@@ -121,6 +120,6 @@ body {
     }
 
     .main-content {
-        margin-left: 200px;
+        margin-left: 220px;
     }
 }

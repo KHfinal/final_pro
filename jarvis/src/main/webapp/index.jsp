@@ -12,7 +12,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="resources/fonts/font-awesome.min.css">
 	<link rel="stylesheet" href="resources/css/-Login-form-Page-BS4-.css">
-	<link rel="stylesheet" href="resources/css/styles.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -25,19 +24,25 @@
         	<div class="col-10 col-sm-8 col-md-6 col-lg-6 offset-1 offset-sm-2 offset-md-3 offset-lg-0 align-self-center d-lg-flex align-items-lg-center align-self-lg-stretch bg-white p-5 rounded rounded-lg-0 my-5 my-lg-0" id="login-block">
     			<div class="m-auto w-lg-75 w-xl-50">
         			<h2 class="text-info font-weight-light mb-5"><i class="fa fa-diamond"></i>My Jarvis</h2>
-        			<form action="${path }/member/login">
+        			
+        			<!-- 로그인 form 시작 -->
+        			<form action="${path }/member/login.do" method="post">
+	            		
 	            		<div class="form-group">
 		            		<label class="text-secondary">Email</label>
-		            		<input type="text" name='member_email' required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}$" inputmode="email" class="form-control" />
+		            		<input type="text" name='memberEmail' required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}$" inputmode="email" class="form-control" />
 	            		</div>
+	            		
 	            		<div class="form-group">
 	            			<label class="text-secondary">Password</label>
-	            			<input type="password" required class="form-control" />
+	            			<input type="password" name="memberPw" required class="form-control" />
 	            		</div>
 	            		<button class="btn btn-info mt-2" type="submit">Log In</button>
             		</form>
+       				<!-- 로그인 form 끝 -->
+       				
        				<p class="mt-3 mb-0"><a href="${path }/member/memberEnroll.do" class="text-info small">아이디가 없으신가요?</a></p>
-       				<p class="mt-3 mb-0"><a href="${path }/page/social.do" class="text-info small">Forgot your email or password?</a></p>
+       				<p class="mt-3 mb-0"><a href="${path }/post/socialHomeView.do" class="text-info small">Forgot your email or password?</a></p>
    				</div>
 			</div>
             <div class="col-lg-6 d-flex align-items-end" id="bg-block" style="background-image:url(&quot;resources/img/aldain-austria-316143-unsplash.jpg&quot;);background-size:cover;background-position:center center;">

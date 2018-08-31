@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="post">
 	<insert id="insertPost" parameterType="post">
-		INSERT INTO POSET(POSTNO, POSTWRITER, POSTCONTENTS, PRIVACYBOUND, POSTDATE);
+		INSERT INTO POST(POST_NO, POST_WRITER, POST_CONTENTS, PRIVACY_BOUND, POST_DATE)
+		VALUES(seq_post_no.nextval, #{postWriter}, #{postContents}, #{privacyBound}, systimestamp)
+		<selectKey keyProperty="postNo" resultType="_int" order="AFTER">
+			SELECT SEQ_POST_NO.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
+	
+	<insert id="insertAttach" parameterType="attach">
+		INSERT INTO ATTACHMENT(ATTACHMENT_NO, POST_NO, ORIGINAL_FILENAME, RENAMED_FILENAME, UPLOAD_DATE)
+		VALUES(seq_attachment_no.nextval, #{postNo}, #{originalFileName}, #{renamedFileName}, systimestamp)
+	</insert>
+	
+	<resultMap type="post" id="selectPost">  <!-- Map을 이용할 때, resultMap사용. id는 xml안에서 태그를 불러올 변수명이다. -->
+		<result column="post_no" property="postNo"/>
+		<result column="post_writer" property="postWriter"/>
+		<result column="post_contents" property="postContents"/>
+		<result column="privacy_bound" property="privacyBound"/>
+		<result column="post_date" property="postDate"/>
+	</resultMap>
+	
+	<select id="selectPostList" resultType="post" resultMap="selectPost">
+		SELECT * FROM POST ORDER BY POST_DATE DESC
+	</select>
+	
+	<resultMap type="attach" id="selectAttach">  <!-- Map을 이용할 때, resultMap사용. id는 xml안에서 태그를 불러올 변수명이다. -->
+		<result column="attachment_no" property="attachmentNo"/>
+		<result column="post_no" property="postNo"/>
+		<result column="original_filename" property="originalFileName"/>
+		<result column="renamed_filename" property="renamedFileName"/>
+		<result column="upload_date" property="uploadDate"/>
+	</resultMap>
+	
+	<select id="selectAttach" parameterType="attach" resultType="attach" resultMap="selectAttach">
+		SELECT * FROM ATTACHMENT ORDER BY ATTACHMENT_NO ASC
+	</select>
 </mapper>
