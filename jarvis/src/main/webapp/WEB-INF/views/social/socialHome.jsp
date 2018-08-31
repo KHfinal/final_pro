@@ -12,12 +12,6 @@
 
 <link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=3">
 
-
-<style>
-
-
-</style>
-
 <script>
 $(function() {
     $("#imgInput").on('change', function(){
@@ -55,8 +49,69 @@ function resetFormElement(e) {
 
 
 </script>
+<style>
+#createPostContainer {
+	width: 42%;
+    margin-left: 14%;
+}
 
-	<button class="btn btn-primary" id="insertBtn" data-toggle="modal" data-target="#postModal">게시글 등록</button>
+.postAttachContainer img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+.postAttachContainer:hover img {
+    -webkit-transform:scale(1.05);
+    -moz-transform:scale(1.05);
+    -ms-transform:scale(1.05);   
+    -o-transform:scale(1.05);
+    transform:scale(1.05);
+}
+
+#createPostContainer {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+#createPostContainer:hover {
+    -webkit-transform:scale(1.03);
+    -moz-transform:scale(1.03);
+    -ms-transform:scale(1.03);   
+    -o-transform:scale(1.03);
+    transform:scale(1.03);
+    z-index: 100 !important;
+}
+</style>
+	
+	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
+	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
+		<div class="modal-header">
+			<h4 class="modal-title">Welcome to Jarvis</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+		
+		<div class="modal-body">
+			<textarea rows="5" id="postContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
+		</div>
+	</div>
+	
+
 	
 	<!-- postModal -->
 	<div class="modal fade" id="postModal">
@@ -65,7 +120,7 @@ function resetFormElement(e) {
 				
 				<!-- Modal Header -->
 				<div class="modal-header">
-					<h4 class="modal-title">게시물 등록</h4>
+					<h4 class="modal-title">게시물 올리기</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 								
@@ -114,9 +169,12 @@ function resetFormElement(e) {
 	    	<div id="postContentsContainer">
 	    		<pre>${post.getPostContents() }</pre>
 			</div>
+			
 	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
 	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
-	        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+	    			<div class="postAttachContainer">
+		        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+			        </div>
 	        	</c:if>
 	        </c:forEach>
 	        <div style="clear: both"></div>
