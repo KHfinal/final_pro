@@ -10,7 +10,7 @@
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=2">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=3">
 
 
 <style>
@@ -103,21 +103,29 @@ function resetFormElement(e) {
 	</div>
 	
 	<hr>
+	
+	<!-- 게시물 패널 -->
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <h1>${post.getPostWriter() }</h1>
-	        
+	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span>${post.getPostDate() }</span>
 	    </div>
 	    <div class="panel-body">
-	    	<p>${post.getPostContents() }</p>
+	    	<div id="postContentsContainer">
+	    		<pre>${post.getPostContents() }</pre>
+			</div>
 	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
 	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
 	        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
 	        	</c:if>
 	        </c:forEach>
+	        <div style="clear: both"></div>
 	    </div>
 	    <div class="panel-footer">
+			<form id="createCommentFrm" method="post" action="">
+				<img src="${path }/resources/upload/post/dd.gif"><input type="text" id="commentTxt" class="form-control"/>
+				<div style="clear: both"></div>
+			</form>
 	    </div>
 	</div>
 	</c:forEach>
