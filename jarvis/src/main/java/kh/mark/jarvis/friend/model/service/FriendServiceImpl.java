@@ -17,10 +17,18 @@ public class FriendServiceImpl implements FriendService{
 	@Autowired
 	private FriendDao dao;
 	
-	@Override
+	/*@Override
 	public List<Friend> selectFriendList(String member_email) {
 		
 		return dao.selectFriendList(sqlSession,member_email);
-	}
+	}*/
+
+	@Override
+	public List<Friend> selectFriendListJson(String email) {
+		// TODO Auto-generated method stub
+		return dao.selectFriendListJson(sqlSession,email);
+	};
+
+	
 
 }
