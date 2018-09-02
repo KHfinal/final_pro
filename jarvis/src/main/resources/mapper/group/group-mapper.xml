@@ -11,5 +11,13 @@
 	<insert id="groupInsert">
 		INSERT INTO GROUP_LIST VALUES(SEQ_GROUP_LIST.NEXTVAL,#{g_name},null,null,#{g_intro},#{g_category, typeHandler=strArr},DEFAULT,#{g_originalFilename},#{g_renamedFilename})
 	</insert>
+	
+	<select id="groupSearch" parameterType="string" resultMap="groupMap">
+		SELECT * FROM GROUP_LIST WHERE G_NAME=#{titleSearch} ORDER BY G_DATE DESC
+	</select>
+	
+	<select id="groupFilter" parameterType="string" resultMap="groupMap">
+		SELECT * FROM GROUP_LIST WHERE G_CATEGORY LIKE '%'||#{category}||'%' ORDER BY G_DATE DESC
+	</select>
   
 </mapper>

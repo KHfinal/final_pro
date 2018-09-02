@@ -22,6 +22,19 @@ public class GroupDaoImpl implements GroupDao {
 		
 		return Session.selectList("group.selectGroupList");
 	}
+
+	@Override
+	public List<Map<String, String>> groupSearch(SqlSessionTemplate Session, String titleSearch) {
+		
+		return Session.selectList("group.groupSearch", titleSearch);
+	}
+
+	@Override
+	public List<Map<String, String>> groupFilter(SqlSessionTemplate Session, String category) {
+		
+		return Session.selectList("group.groupFilter", category);
+	}
+	
 	
 
 	
