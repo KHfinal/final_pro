@@ -29,6 +29,18 @@ public class GroupServiceImpl implements GroupService {
 		
 		return dao.selectGroupList(Session);
 	}
+
+	@Override
+	public List<Map<String, String>> groupSearch(String titleSearch) {
+		
+		return dao.groupSearch(Session, titleSearch);
+	}
+
+	@Override
+	public List<Map<String, String>> groupFilter(String category) {
+		
+		return dao.groupFilter(Session, category);
+	}
 	
 	
 

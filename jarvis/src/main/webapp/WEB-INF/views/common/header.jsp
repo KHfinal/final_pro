@@ -52,7 +52,7 @@ $(function() {
 </header>
 
 <!-- SIDE BAR -->
-<nav class="side-nav">
+<nav class="side-nav sticky-top" style="float: left;">
     <ul>
         <li>
             <a href="#">

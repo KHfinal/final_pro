@@ -111,4 +111,13 @@ public class PostController {
 		
 		return loc; 
 	}
+	@RequestMapping("/post/socialHomeView1.do")
+	public String selectPost1(Model model) {
+		
+		
+		String loc = "social/socialHome";
+		
+		
+		return loc; 
+	}
 }
