@@ -13,10 +13,62 @@
 <link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=3">
 
 
-<style>
 
+<style>
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+#myInput {
+    border-box: box-sizing;
+    background-image: url('searchicon.png');
+    background-position: 14px 12px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 14px 20px 12px 45px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+#myInput:focus {outline: 3px solid #ddd;}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
 
 </style>
+
 
 <script>
 $(function() {
@@ -52,11 +104,165 @@ function resetFormElement(e) {
 	e.wrap('<form>').closest('form').get(0).reset(); // 폼으로 감싼후 지워준다.
 	e.unwrap();
 }
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    
+}
+/*========소켓용 ==========*/
+function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+$(document).ready(function(){
+	
+	var email = '${memberLoggedIn.memberEmail}';
+	alert(email);
+	$.ajax({
+		url:"${path}/friend/selectFriendListJson.do",
+		type:"POST",
+		data:{email:email},
+		dataType:"json",
+		success : function(data){
+			var friendList;
+			
+			$.each(data.list,function(i,item){
+				friendList = "<a href='#' >"+item.F_FRIENDEMAIL+"<label > 있음</label></a>";
+				$('#myDropdown').append(friendList);
+				}); 
+			
+			
+		},
+		
+	});
+});
+/* $(document).ready(function () {
+	alert("소켓 시작");
+	$.ajax({
+		url:'${path}/chatting.do',
+		type:"POST",
+		succes:function (data) {
+			
+		});
+	});
+	
+	var sock=new SockJS("<c:url value='/friendInList'/>")
+	
+	sock.onmessage=onMessage;
+	alert("sock ");
+	
+	
+	
+	function onMessage(evt)
+	{
+		var host=null;
+		var strArray=evt.data.split("|");
+		var userName=null;
+		var message=null;
+		alert(strArray); */
+		/* 데이터가 있으면 */
+	/* 	if(strArray.length>1)
+		{
+			//채팅 메세지를 구현
+			userName=strArray[0];//접속자 아이디
+			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
+			//실제아이피주소만 남기기
+			var ck_host='${host}';
+			console.log(host);
+			console.log(ck_host);
+			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
+			{
+				//자기자신 메세지
+				var printHTML="<div class='well' style='margin-left:30%'>";
+				printHTML+="<div class='alert alert-info'>";
+				printHTML+="<sub>"+printDate+"</sub><br/>";
+				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
+				printHTML+="</div>";
+				printHTML+="</div>";
+				$("#chatdata").append(printHTML);
+								
+				
+			}
+		}
+		
+	};
+}); */
 
 
 </script>
+<style>
+#createPostContainer {
+	width: 42%;
+    margin-left: 14%;
+}
 
-	<button class="btn btn-primary" id="insertBtn" data-toggle="modal" data-target="#postModal">게시글 등록</button>
+.postAttachContainer img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+.postAttachContainer:hover img {
+    -webkit-transform:scale(1.05);
+    -moz-transform:scale(1.05);
+    -ms-transform:scale(1.05);   
+    -o-transform:scale(1.05);
+    transform:scale(1.05);
+}
+
+#createPostContainer {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+#createPostContainer:hover {
+    -webkit-transform:scale(1.03);
+    -moz-transform:scale(1.03);
+    -ms-transform:scale(1.03);   
+    -o-transform:scale(1.03);
+    transform:scale(1.03);
+    z-index: 100 !important;
+}
+</style>
+	
+	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
+	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
+		<div class="modal-header">
+			<h4 class="modal-title">Welcome to Jarvis</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+		
+		<div class="modal-body">
+			<textarea rows="5" id="postContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
+		</div>
+	</div>
+	
+
 	
 	<!-- postModal -->
 	<div class="modal fade" id="postModal">
@@ -65,7 +271,7 @@ function resetFormElement(e) {
 				
 				<!-- Modal Header -->
 				<div class="modal-header">
-					<h4 class="modal-title">게시물 등록</h4>
+					<h4 class="modal-title">게시물 올리기</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 								
@@ -114,9 +320,12 @@ function resetFormElement(e) {
 	    	<div id="postContentsContainer">
 	    		<pre>${post.getPostContents() }</pre>
 			</div>
+			
 	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
 	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
-	        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+	    			<div class="postAttachContainer">
+		        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+			        </div>
 	        	</c:if>
 	        </c:forEach>
 	        <div style="clear: both"></div>
@@ -129,5 +338,13 @@ function resetFormElement(e) {
 	    </div>
 	</div>
 	</c:forEach>
+	
+	<!--친구 현황  -->
+	<div class="dropdown">
+		<button onclick="myFunction()" class="dropbtn">친구</button>
+		<div id="myDropdown" class="dropdown-content">
+			<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+		</div>
+	</div>  
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

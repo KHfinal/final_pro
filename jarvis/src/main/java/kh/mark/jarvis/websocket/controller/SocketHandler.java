@@ -1,7 +1,9 @@
 package kh.mark.jarvis.websocket.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,10 +18,10 @@ import kh.mark.jarvis.member.model.vo.Member;
 
 public class SocketHandler extends TextWebSocketHandler {
 
-	/*private List<WebSocketSession> sessionList=new ArrayList();*/
+	private List<WebSocketSession> sessionList=new ArrayList();
 	private Logger logger=LoggerFactory.getLogger(SocketHandler.class);
 	/*1:1*/
-	 private Map<String, WebSocketSession> sessions = new HashMap<String, WebSocketSession>();
+	 /*private Map<String, WebSocketSession> sessions = new HashMap<String, WebSocketSession>();*/
 
 	
 	@Override
@@ -35,25 +37,29 @@ public class SocketHandler extends TextWebSocketHandler {
 		//logger.info("접속한 사용자 : "+session);
 		
 		/*1:1*/
-		sessions.put(session.getId(), session);
+		/*sessions.put(session.getId(), session);*/
 		
 		/*logger.debug("@@@@@@@@@@@@@현재 접속자 : " + sessionList);*/
 		
 		//server의 session객체에 저장되어있는 값을 불러오기!
 		//spring security가 적용되어있어야함! 
 		
-		/*sessionList.add(session);
+		sessionList.add(session);
 
-			Member login=(Member)session.getAttributes().get("memberLoggedIn");
-			//채팅방입장하면 상대방에게 입장메세지를 출력
-			for(WebSocketSession s : sessionList )
-			{	
-//				s에 있는 사람중 현재 접속한 사람을 제외하고 현재 접속한 사람의 아이디를 출력
-				
-				if(s==session) continue;
-				s.sendMessage(new TextMessage(login.getUserId()+"님이 입장하셨습니다.!"));
-				
-			}*/
+		Member login=null;
+		List<Member> userEmailList = new ArrayList<Member>();
+//		s에 있는 사람중 현재 접속한 사람을 제외하고 현재 접속한 사람의 아이디를 출력
+			for(int j = 0 ; j< sessionList.size();j++) {
+				login=(Member)sessionList.get(j).getAttributes().get("memberLoggedIn");
+				if(userEmailList.contains(login.getMemberEmail()) ==false) {
+					userEmailList.add(login);
+				}else {
+					continue;
+				}
+			}
+		logger.debug("접속자 : " + userEmailList);
+		sessionList.get(0).sendMessage(new TextMessage(userEmailList.toString()));
+		
 			
 
 
@@ -74,22 +80,22 @@ public class SocketHandler extends TextWebSocketHandler {
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		
 		
-		/*for(WebSocketSession s : sessionList)
+		for(WebSocketSession s : sessionList)
 		{
 			//보내는 순서를 정확하게 기억을 해야함 "|"구분자로 
 			//배열로 처리한 다음 페이지를 변경
-			s.sendMessage(new TextMessage(login.getUserId()+"|"+message.getPayload()+"|"+session.getRemoteAddress()));
-			 (4) sendMessage 하게되면 onMessage(evt)로 이동한다
-		}*/
+			s.sendMessage(new TextMessage(login.getMemberEmail()+"|"+message.getPayload()+"|"+session.getRemoteAddress()));
+			 //(4) sendMessage 하게되면 onMessage(evt)로 이동한다
+		}
 		
 		/* 1:1*/
-		Iterator<String> sessionIds = sessions.keySet().iterator();
+		/*Iterator<String> sessionIds = sessions.keySet().iterator();
        String sessionId = "";
        while (sessionIds.hasNext()) {
            sessionId = sessionIds.next();
            sessions.get(sessionId).sendMessage(new TextMessage(login.getMemberName()+"|"+message.getPayload()+"|"+session.getRemoteAddress()));
            
-       }
+       }*/
        
        //연결되어 있는 모든 클라이언트들에게 메시지를 전송한다.
 //       session.sendMessage(new TextMessage("echo:" + message.getPayload()));
@@ -100,16 +106,16 @@ public class SocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		/*1:1*/
-		sessions.remove(session.getId());
+		/*sessions.remove(session.getId());*/
 		
-		/*sessionList.remove(session);
+		sessionList.remove(session);
 		
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		for(WebSocketSession s : sessionList)
 		{
 			
-			s.sendMessage(new TextMessage(login.getUserId()+"님이 퇴장하셨습니다."));
-		}*/
+			s.sendMessage(new TextMessage(login.getMemberEmail()+"님이 퇴장하셨습니다."));
+		}
 		
 		
 		//super.afterConnectionClosed(session, status);
