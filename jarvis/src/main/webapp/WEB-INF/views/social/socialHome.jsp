@@ -10,16 +10,12 @@
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=3">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=4">
 
 
 
 <style>
-#createPostContainer {
-	width: 42%;
-    margin-left: 14%;
-}
-
+/*
 .postAttachContainer img {
     -webkit-transform:scale(1);
     -moz-transform:scale(1);
@@ -62,6 +58,7 @@
     transform:scale(1.03);
     z-index: 100 !important;
 }
+*/
 /*================================  */
 .dropbtn {
     background-color: #4CAF50;
@@ -316,7 +313,8 @@ $(document).ready(function () {
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;
+	        <span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
 	    	<div id="postContentsContainer">
@@ -326,7 +324,7 @@ $(document).ready(function () {
 	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
 	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
 	    			<div class="postAttachContainer">
-		        		<img class="imgSize" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+		        		<img class="imgSize img-thumbnail" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
 			        </div>
 	        	</c:if>
 	        </c:forEach>
@@ -334,12 +332,25 @@ $(document).ready(function () {
 	    </div>
 	    <div class="panel-footer">
 			<form id="createCommentFrm" method="post" action="">
-				<img src="${path }/resources/upload/post/dd.gif"><input type="text" id="commentTxt" class="form-control"/>
+				<span><img id="commentProfil" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+				<input type="text" id="inputCommentTxt" name="inputCommentTxt" class="form-control" placeholder=" 댓글을 입력하세요..."/>
+				<button id="commentSubmitBtn" class="btn btn-primary btn-sm" type="submit">전송</button>
 				<div style="clear: both"></div>
 			</form>
 	    </div>
 	</div>
 	</c:forEach>
+	
+	<style>
+	
+	
+	</style>
+	
+	
+	
+	
+	
+	
 	
 	<!--친구 현황  -->
 	<div class="container">
@@ -377,6 +388,7 @@ $(document).ready(function () {
   </div>
   
 </div>
+
 	<form id='listFrom' class="dropdown" action='${path}/chatting.do'>
 		<div id="myDropdown" class="dropdown-content">
 			<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
