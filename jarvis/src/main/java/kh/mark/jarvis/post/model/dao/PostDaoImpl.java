@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import kh.mark.jarvis.post.model.vo.Attachment;
+import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Repository
@@ -30,6 +31,11 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public List<Attachment> selectAttach(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("post.selectAttach");
+	}
+
+	@Override
+	public int insertComment(SqlSessionTemplate sqlSession, JarvisComment comment) {
+		return sqlSession.insert("post.insertComment", comment);
 	}
 
 }

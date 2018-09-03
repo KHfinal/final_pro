@@ -10,55 +10,12 @@
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=4">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=15">
 
 
 
 <style>
-/*
-.postAttachContainer img {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
 
-.postAttachContainer:hover img {
-    -webkit-transform:scale(1.05);
-    -moz-transform:scale(1.05);
-    -ms-transform:scale(1.05);   
-    -o-transform:scale(1.05);
-    transform:scale(1.05);
-}
-
-#createPostContainer {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-#createPostContainer:hover {
-    -webkit-transform:scale(1.03);
-    -moz-transform:scale(1.03);
-    -ms-transform:scale(1.03);   
-    -o-transform:scale(1.03);
-    transform:scale(1.03);
-    z-index: 100 !important;
-}
-*/
 /*================================  */
 .dropbtn {
     background-color: #4CAF50;
@@ -260,7 +217,6 @@ $(document).ready(function () {
 			<textarea rows="5" id="postContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
 		</div>
 	</div>
-	
 
 	
 	<!-- postModal -->
@@ -320,7 +276,6 @@ $(document).ready(function () {
 	    	<div id="postContentsContainer">
 	    		<pre>${post.getPostContents() }</pre>
 			</div>
-			
 	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
 	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
 	    			<div class="postAttachContainer">
@@ -330,22 +285,28 @@ $(document).ready(function () {
 	        </c:forEach>
 	        <div style="clear: both"></div>
 	    </div>
+	    
+	    <!-- 댓글!! -->
 	    <div class="panel-footer">
-			<form id="createCommentFrm" method="post" action="">
-				<span><img id="commentProfil" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-				<input type="text" id="inputCommentTxt" name="inputCommentTxt" class="form-control" placeholder=" 댓글을 입력하세요..."/>
-				<button id="commentSubmitBtn" class="btn btn-primary btn-sm" type="submit">전송</button>
-				<div style="clear: both"></div>
-			</form>
+	    	<div class="commentContainer">
+				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
+					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
+					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
+					<input type="hidden" name="commentLevel" value="1"/>
+					
+					<span><img id="commentProfil" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
+					<button id="commentSubmitBtn" class="btn btn-primary btn-sm" type="submit">전송</button>
+					<div style="clear: both"></div>
+				</form>
+				
+			</div>
 	    </div>
 	</div>
 	</c:forEach>
 	
-	<style>
-	
-	
-	</style>
-	
+
+
 	
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.mark.jarvis.post.model.dao.PostDao;
 import kh.mark.jarvis.post.model.vo.Attachment;
+import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Service
@@ -45,5 +46,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Attachment> selectAttach() {
 		return dao.selectAttach(sqlSession);
+	}
+
+	@Override
+	public int insertComment(JarvisComment comment) {
+		int result = dao.insertComment(sqlSession, comment);
+		return result;
 	}
 }
