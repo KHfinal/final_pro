@@ -30,7 +30,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	
 	private List<WebSocketSession> sessionList=new ArrayList();
 	private Logger logger=LoggerFactory.getLogger(SocketHandler.class);
-	List<String> userName = new ArrayList<>();
+	List<String> userName = new ArrayList();
 	/*List<Member> memberList = new ArrayList();*/
 	
 //	(2) var sock= new SockJS가 생성되면서 실행
