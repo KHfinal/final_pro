@@ -147,7 +147,7 @@ function readURL(input) {
 	    }
 	}
 }
-
+/*
 function resetFormElement(e) { 
 	e.wrap('<form>').closest('form').get(0).reset(); // 폼으로 감싼후 지워준다.
 	e.unwrap();
@@ -156,8 +156,10 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
     
 }
+*/
 /*========소켓용 ==========*/
-function filterFunction() {
+
+/* function filterFunction() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -172,6 +174,80 @@ function filterFunction() {
     }
 }
 
+
+$(document).ready(function(){
+	
+	var email = '${memberLoggedIn.memberEmail}';
+	alert(email);
+	$.ajax({
+		url:"${path}/friend/selectFriendListJson.do",
+		type:"POST",
+		data:{email:email},
+		dataType:"json",
+		success : function(data){
+			var friendList;
+			
+			$.each(data.list,function(i,item){
+				friendList = "<a href='#' >"+item.F_FRIENDEMAIL+"<label > 있음</label></a>";
+				$('#myDropdown').append(friendList);
+				}); 
+			
+			
+		},
+		
+	});
+});
+$(document).ready(function () {
+	alert("소켓 시작");
+	$.ajax({
+		url:'${path}/chatting.do',
+		type:"POST",
+		succes:function (data) {
+			
+		});
+	});
+	
+	var sock=new SockJS("<c:url value='/friendInList'/>")
+	
+	sock.onmessage=onMessage;
+	alert("sock ");
+	
+	
+	
+	function onMessage(evt)
+	{
+		var host=null;
+		var strArray=evt.data.split("|");
+		var userName=null;
+		var message=null;
+		alert(strArray); */
+		/* 데이터가 있으면 */
+	/* 	if(strArray.length>1)
+		{
+			//채팅 메세지를 구현
+			userName=strArray[0];//접속자 아이디
+			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
+			//실제아이피주소만 남기기
+			var ck_host='${host}';
+			console.log(host);
+			console.log(ck_host);
+			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
+			{
+				//자기자신 메세지
+				var printHTML="<div class='well' style='margin-left:30%'>";
+				printHTML+="<div class='alert alert-info'>";
+				printHTML+="<sub>"+printDate+"</sub><br/>";
+				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
+				printHTML+="</div>";
+				printHTML+="</div>";
+				$("#chatdata").append(printHTML);
+								
+				
+			}
+		}
+		
+	};
+}); */
 
 
 </script>
@@ -240,7 +316,7 @@ function filterFunction() {
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span>${post.getPostDate() }</span>
+	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
 	    	<div id="postContentsContainer">
