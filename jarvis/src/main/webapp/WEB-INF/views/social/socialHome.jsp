@@ -15,6 +15,54 @@
 
 
 <style>
+#createPostContainer {
+	width: 42%;
+    margin-left: 14%;
+}
+
+.postAttachContainer img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+.postAttachContainer:hover img {
+    -webkit-transform:scale(1.05);
+    -moz-transform:scale(1.05);
+    -ms-transform:scale(1.05);   
+    -o-transform:scale(1.05);
+    transform:scale(1.05);
+}
+
+#createPostContainer {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+#createPostContainer:hover {
+    -webkit-transform:scale(1.03);
+    -moz-transform:scale(1.03);
+    -ms-transform:scale(1.03);   
+    -o-transform:scale(1.03);
+    transform:scale(1.03);
+    z-index: 100 !important;
+}
+/*================================  */
 .dropbtn {
     background-color: #4CAF50;
     color: white;
@@ -124,131 +172,9 @@ function filterFunction() {
     }
 }
 
-$(document).ready(function(){
-	
-	var email = '${memberLoggedIn.memberEmail}';
-	alert(email);
-	$.ajax({
-		url:"${path}/friend/selectFriendListJson.do",
-		type:"POST",
-		data:{email:email},
-		dataType:"json",
-		success : function(data){
-			var friendList;
-			
-			$.each(data.list,function(i,item){
-				friendList = "<a href='#' >"+item.F_FRIENDEMAIL+"<label > 있음</label></a>";
-				$('#myDropdown').append(friendList);
-				}); 
-			
-			
-		},
-		
-	});
-});
-/* $(document).ready(function () {
-	alert("소켓 시작");
-	$.ajax({
-		url:'${path}/chatting.do',
-		type:"POST",
-		succes:function (data) {
-			
-		});
-	});
-	
-	var sock=new SockJS("<c:url value='/friendInList'/>")
-	
-	sock.onmessage=onMessage;
-	alert("sock ");
-	
-	
-	
-	function onMessage(evt)
-	{
-		var host=null;
-		var strArray=evt.data.split("|");
-		var userName=null;
-		var message=null;
-		alert(strArray); */
-		/* 데이터가 있으면 */
-	/* 	if(strArray.length>1)
-		{
-			//채팅 메세지를 구현
-			userName=strArray[0];//접속자 아이디
-			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
-			//실제아이피주소만 남기기
-			var ck_host='${host}';
-			console.log(host);
-			console.log(ck_host);
-			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
-			{
-				//자기자신 메세지
-				var printHTML="<div class='well' style='margin-left:30%'>";
-				printHTML+="<div class='alert alert-info'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$("#chatdata").append(printHTML);
-								
-				
-			}
-		}
-		
-	};
-}); */
 
 
 </script>
-<style>
-#createPostContainer {
-	width: 42%;
-    margin-left: 14%;
-}
-
-.postAttachContainer img {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-.postAttachContainer:hover img {
-    -webkit-transform:scale(1.05);
-    -moz-transform:scale(1.05);
-    -ms-transform:scale(1.05);   
-    -o-transform:scale(1.05);
-    transform:scale(1.05);
-}
-
-#createPostContainer {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-#createPostContainer:hover {
-    -webkit-transform:scale(1.03);
-    -moz-transform:scale(1.03);
-    -ms-transform:scale(1.03);   
-    -o-transform:scale(1.03);
-    transform:scale(1.03);
-    z-index: 100 !important;
-}
-</style>
 	
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
@@ -340,11 +266,48 @@ $(document).ready(function(){
 	</c:forEach>
 	
 	<!--친구 현황  -->
-	<div class="dropdown">
-		<button onclick="myFunction()" class="dropbtn">친구</button>
+	<div class="container">
+  <h2>Fading Modal</h2>
+  <p>Add the "fade" class to the modal container if you want the modal to fade in on open and fade out on close.</p>
+
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+       <a>${memberLoggedIn.memberEmail}</a>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+	<form id='listFrom' class="dropdown" action='${path}/chatting.do'>
 		<div id="myDropdown" class="dropdown-content">
 			<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+			<input type="hidden" name="email" value="${memberLoggedIn.memberEmail}">
 		</div>
-	</div>  
+		<button type="submit" class="btn btn-primary text-center">친구이동</button> 
+	</form>
+	
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
