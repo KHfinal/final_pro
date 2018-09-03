@@ -19,7 +19,9 @@ public class Member {
 	private String addr1;			//주소
 	private String addr2;			//주소
 	private String addr3;			//주소
-	private String addInfo;
+
+	private String addInfo;         //추가정보입력여부
+
 	
 	
 	
@@ -252,6 +254,8 @@ public class Member {
 				+ memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3 + ", addInfo=" + addInfo
 				+ "]";
 	}
+
+	
 
 	
 }

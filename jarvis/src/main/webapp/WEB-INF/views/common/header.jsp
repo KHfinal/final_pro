@@ -83,6 +83,12 @@ $(function() {
                 <li><a class="dropdown-item" href="#">Link1</a></li>
             </ul>
         </li>
+        <li>
+            <a href="${path }/chat/chattingView.do">
+                <span><i class="fas fa-users"></i></span>
+                <span>Messenger</span>
+            </a>
+        </li>
     </ul>
 </nav>
 

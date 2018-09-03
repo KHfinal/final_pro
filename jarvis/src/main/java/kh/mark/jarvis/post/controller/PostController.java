@@ -1,6 +1,7 @@
 package kh.mark.jarvis.post.controller;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class PostController {
 	private PostService service;
 	
 	@RequestMapping("/post/insertPost.do")
-	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) {
+	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
 		logger.debug(post.getPostContents());
 		logger.debug(post.getPostWriter());
 		logger.debug(post.getPrivacyBound());
@@ -50,6 +51,8 @@ public class PostController {
 			if(!f.isEmpty()) {
 				String originalFileName = f.getOriginalFilename();
 				String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd_HHmmssSS");
 				
 				int rndNum = (int) (Math.random() * 1000);
@@ -94,10 +97,21 @@ public class PostController {
 	}
 	
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model) {
+	public String selectPost(Model model) throws ParseException {
 		
 		List<Post> postList = service.selectPostList();
 		List<Attachment> attachmentList = service.selectAttach();
+		
+		
+//		for(Post p : postList) {
+//			SimpleDateFormat formmater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			
+//			String dateString = formmater.format(p.getPostDate());		
+//			
+//			System.out.println("##########DATESTRING" + dateString);
+//			Date date = formmater.parse(dateString);
+//			System.out.println("##########DATE" + date);
+//		}
 		
 		String loc = "social/socialHome";
 		
@@ -108,16 +122,6 @@ public class PostController {
 			String msg = "게시물이 존재하지 않습니다.";
 			model.addAttribute("msg", msg);
 		}
-		
-		return loc; 
-	}
-	@RequestMapping("/post/socialHomeView1.do")
-	public String selectPost1(Model model) {
-		
-		
-		String loc = "social/socialHome";
-		
-		
 		return loc; 
 	}
 }

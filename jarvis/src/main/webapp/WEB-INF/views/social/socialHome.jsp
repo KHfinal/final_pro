@@ -15,6 +15,54 @@
 
 
 <style>
+#createPostContainer {
+	width: 42%;
+    margin-left: 14%;
+}
+
+.postAttachContainer img {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+.postAttachContainer:hover img {
+    -webkit-transform:scale(1.05);
+    -moz-transform:scale(1.05);
+    -ms-transform:scale(1.05);   
+    -o-transform:scale(1.05);
+    transform:scale(1.05);
+}
+
+#createPostContainer {
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    -ms-transition:.2s;
+    -o-transition:.2s;
+    transition:.2s;
+}
+
+#createPostContainer:hover {
+    -webkit-transform:scale(1.03);
+    -moz-transform:scale(1.03);
+    -ms-transform:scale(1.03);   
+    -o-transform:scale(1.03);
+    transform:scale(1.03);
+    z-index: 100 !important;
+}
+/*================================  */
 .dropbtn {
     background-color: #4CAF50;
     color: white;
@@ -99,7 +147,7 @@ function readURL(input) {
 	    }
 	}
 }
-
+/*
 function resetFormElement(e) { 
 	e.wrap('<form>').closest('form').get(0).reset(); // 폼으로 감싼후 지워준다.
 	e.unwrap();
@@ -108,8 +156,10 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
     
 }
+*/
 /*========소켓용 ==========*/
-function filterFunction() {
+
+/* function filterFunction() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -123,6 +173,7 @@ function filterFunction() {
         }
     }
 }
+
 
 $(document).ready(function(){
 	
@@ -146,7 +197,7 @@ $(document).ready(function(){
 		
 	});
 });
-/* $(document).ready(function () {
+$(document).ready(function () {
 	alert("소켓 시작");
 	$.ajax({
 		url:'${path}/chatting.do',
@@ -200,55 +251,6 @@ $(document).ready(function(){
 
 
 </script>
-<style>
-#createPostContainer {
-	width: 42%;
-    margin-left: 14%;
-}
-
-.postAttachContainer img {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-.postAttachContainer:hover img {
-    -webkit-transform:scale(1.05);
-    -moz-transform:scale(1.05);
-    -ms-transform:scale(1.05);   
-    -o-transform:scale(1.05);
-    transform:scale(1.05);
-}
-
-#createPostContainer {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-#createPostContainer:hover {
-    -webkit-transform:scale(1.03);
-    -moz-transform:scale(1.03);
-    -ms-transform:scale(1.03);   
-    -o-transform:scale(1.03);
-    transform:scale(1.03);
-    z-index: 100 !important;
-}
-</style>
 	
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
@@ -314,7 +316,7 @@ $(document).ready(function(){
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span>${post.getPostDate() }</span>
+	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
 	    	<div id="postContentsContainer">
@@ -340,11 +342,48 @@ $(document).ready(function(){
 	</c:forEach>
 	
 	<!--친구 현황  -->
-	<div class="dropdown">
-		<button onclick="myFunction()" class="dropbtn">친구</button>
+	<div class="container">
+  <h2>Fading Modal</h2>
+  <p>Add the "fade" class to the modal container if you want the modal to fade in on open and fade out on close.</p>
+
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+       <a>${memberLoggedIn.memberEmail}</a>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+	<form id='listFrom' class="dropdown" action='${path}/chatting.do'>
 		<div id="myDropdown" class="dropdown-content">
 			<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+			<input type="hidden" name="email" value="${memberLoggedIn.memberEmail}">
 		</div>
-	</div>  
+		<button type="submit" class="btn btn-primary text-center">친구이동</button> 
+	</form>
+	
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
