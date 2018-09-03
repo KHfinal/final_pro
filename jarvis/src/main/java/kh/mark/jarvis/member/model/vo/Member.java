@@ -4,22 +4,22 @@ import java.sql.Date;
 
 
 public class Member {
-	private String memberEmail;  //이메일
-	private String memberPw;	//패스워드
-	private String memberName;	//이름
-	private String memberNickname;	//닉네임
-	private String phone;			//연락처
-	private String approvalStatus;	//이메일인증관련
-	private String approvalKey;		//이메일인증관련
-	private Date reg_date;			//가입일
-	private String memberPFP; //프로필사진
-	private String memberConcern; //관심분야
-	private String memberGender;  //성별
-	private Date memberBirthday;	//생일
-	private String addr1;			//주소
-	private String addr2;			//주소
-	private String addr3;			//주소
-	private String addInfo;         //추가정보입력여부
+   private String memberEmail;  //이메일
+   private String memberPw;   //패스워드
+   private String memberName;   //이름
+   private String memberNickname;   //닉네임
+   private String phone;         //연락처
+   private String approvalStatus;   //이메일인증관련
+   private String approvalKey;      //이메일인증관련
+   private Date reg_date;         //가입일
+   private String memberPFP; //프로필사진
+   private String memberConcern; //관심분야
+   private String memberGender;  //성별
+   private Date memberBirthday;   //생일
+   private String addr1;         //주소
+   private String addr2;         //주소
+   private String addr3;         //주소
+   private String addInfo;         //추가정보입력여부
 	
 	
 	
