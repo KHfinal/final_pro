@@ -37,4 +37,11 @@
 	<select id="selectAttach" parameterType="attach" resultType="attach" resultMap="selectAttach">
 		SELECT * FROM ATTACHMENT ORDER BY ATTACHMENT_NO ASC
 	</select>
+	
+	<!-- 댓글 -->
+	<insert id="insertComment" parameterType="comment">
+		INSERT INTO JARVIS_COMMENT(COMMENT_NO, COMMENT_WRITER, COMMENT_CONTENTS, COMMENT_LEVEL, POST_REF, COMMENT_DATE)
+		VALUES(seq_comment_no.nextval, #{commentWriter}, #{commentContents}, #{commentLevel}, #{postRef}, systimestamp)
+	
+	</insert>
 </mapper>

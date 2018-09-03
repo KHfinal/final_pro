@@ -65,7 +65,7 @@ public class ScheduleController {
 		List<Map<String, Object>> sList = service.eventList(userEmail);
 		JSONArray jsArr = new JSONArray();
 		for(Map<String, Object> map : sList) {
-			Map<String, String> event = new HashMap<>();
+			Map<String, String> event = new HashMap();
 			event.put("title", map.get("TITLE").toString());
 			event.put("start", map.get("START_DATE").toString().substring(0, 10));
 			event.put("end", map.get("END_DATE").toString().substring(0, 10));
