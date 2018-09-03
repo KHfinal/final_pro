@@ -19,15 +19,17 @@ public class Member {
 	private String addr1;			//주소
 	private String addr2;			//주소
 	private String addr3;			//주소
-	
+	private String addInfo;         //추가정보입력여부
 	
 	
 	
 	public Member() {}
 
+
+
 	public Member(String memberEmail, String memberPw, String memberName, String memberNickname, String phone,
 			String approvalStatus, String approvalKey, Date reg_date, String memberPFP, String memberConcern,
-			String memberGender, Date memberBirthday, String addr1, String addr2, String addr3) {
+			String memberGender, Date memberBirthday, String addr1, String addr2, String addr3, String addInfo) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberPw = memberPw;
@@ -44,7 +46,11 @@ public class Member {
 		this.addr1 = addr1;
 		this.addr2 = addr2;
 		this.addr3 = addr3;
+		this.addInfo = addInfo;
 	}
+
+
+
 	public String getMemberEmail() {
 		return memberEmail;
 	}
@@ -141,8 +147,6 @@ public class Member {
 
 
 
-
-
 	public String getMemberPFP() {
 		return memberPFP;
 	}
@@ -227,7 +231,15 @@ public class Member {
 
 
 
+	public String getAddInfo() {
+		return addInfo;
+	}
 
+
+
+	public void setAddInfo(String addInfo) {
+		this.addInfo = addInfo;
+	}
 
 
 
@@ -235,11 +247,13 @@ public class Member {
 	public String toString() {
 		return "Member [memberEmail=" + memberEmail + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberNickname=" + memberNickname + ", phone=" + phone + ", approvalStatus=" + approvalStatus
-				+ ", approvalKey=" + approvalKey + ", reg_date=" + reg_date + ", memberPFP="
-				+ memberPFP + ", memberConcern=" + memberConcern + ", memberGender=" + memberGender
-				+ ", memberBirthday=" + memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3
-				+ ", friendAdd=" + "]";
+				+ ", approvalKey=" + approvalKey + ", reg_date=" + reg_date + ", memberPFP=" + memberPFP
+				+ ", memberConcern=" + memberConcern + ", memberGender=" + memberGender + ", memberBirthday="
+				+ memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3 + ", addInfo=" + addInfo
+				+ "]";
 	}
+
+	
 
 	
 }
