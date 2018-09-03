@@ -97,7 +97,7 @@
  
 </script>
 	<div class="headBar sticky-top">
-        <div style="background-color:#FFE4BA;min-height: 50px;">
+        <div style="background-color:#A9E2C5;min-height: 50px;">
             <div class="container">
                 <div class="row">
 	                <div class="col-3">
@@ -239,8 +239,8 @@
 						</div>
 						<div class="row">
 							<c:forEach var="g" items="${list}">				
-								<div class="col-md-4 col-sm-6 portfolio-item">
-									<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do">
+								<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
+									<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
 										<div class="portfolio-hover">
 							                <div class="portfolio-hover-content">
 							                  	<p>${g.g_intro}</p>
@@ -257,6 +257,11 @@
 						</div>
 					</div>
 				</div>
+				<script>
+					function fn_view(data){
+						location.href="${path }/group/groupView.do?groupNo="+data;
+					}
+				</script>
 				
 				<div class="tab-pane container" id="myGroup">
 					
@@ -268,6 +273,5 @@
        </div>
         	
     </section>  
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

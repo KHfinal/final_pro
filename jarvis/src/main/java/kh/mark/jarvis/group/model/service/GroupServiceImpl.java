@@ -41,6 +41,13 @@ public class GroupServiceImpl implements GroupService {
 		
 		return dao.groupFilter(Session, category);
 	}
+
+	@Override
+	public Group groupView(int groupNo) {
+		
+		return dao.groupView(Session, groupNo);
+	}
+	
 	
 	
 
