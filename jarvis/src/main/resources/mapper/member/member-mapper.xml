@@ -19,7 +19,7 @@
 	<result column="addr1" property="addr1" />
 	<result column="addr2" property="addr2" />
 	<result column="addr3" property="addr3" />
-		
+	<result column="add_info" property="addInfo" />
 	 	
 	 	
 
@@ -27,18 +27,19 @@
 </resultMap>
 
 	<!-- 
-	<select id="selectOne" resultMap="memberMap" parameterType="string">
- 		SELECT * FROM MEMBER WHERE USERID=#{userId} 	
- 	</select> 
- 	-->
-	<select id="selectLogin" resultMap="memberMap" parameterType="string">
-		SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
-	</select>
- 	
- 	<insert id="insertMember">
-  	INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},null,null,default,null,null,null,null,null,null,null)
-  	 <!-- VO과 맞추면된다. #{approvalStatus},#{approvalKey},#{reg_date},#{log_data},#{memberPFP},#{memberConcern},#{memberGender},#{memberBirthday},#{addr1},#{addr2},#{addr3}-->
+   <select id="selectOne" resultMap="memberMap" parameterType="string">
+       SELECT * FROM MEMBER WHERE USERID=#{userId}    
+    </select> 
+    -->
+   <select id="selectLogin" resultMap="memberMap" parameterType="string">
+      SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+   </select>
+    
+    <insert id="insertMember">
+     INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},null,null,default,null,null,null,null,null,null,null,default)
+      <!-- VO과 맞추면된다. #{approvalStatus},#{approvalKey},#{reg_date},#{log_data},#{memberPFP},#{memberConcern},#{memberGender},#{memberBirthday},#{addr1},#{addr2},#{addr3}-->
   </insert>
+
   
   
 </mapper>
