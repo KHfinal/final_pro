@@ -114,5 +114,20 @@ public class GroupController {
 		
 		return mv;
 	}
+	
+	@RequestMapping("/group/groupView.do")
+	public ModelAndView groupView(int groupNo) {
+		ModelAndView mv=new ModelAndView();
+		System.out.println(groupNo);
+		
+		Group g=service.groupView(groupNo);
+		
+		System.out.println(g);
+		
+		mv.addObject("group", g);
+		mv.setViewName("group/groupView");
+		
+		return mv;
+	}
 
 }

@@ -19,7 +19,9 @@ public class Member {
 	private String addr1;			//주소
 	private String addr2;			//주소
 	private String addr3;			//주소
+
 	private String addInfo;         //추가정보입력여부
+
 	
 	
 	

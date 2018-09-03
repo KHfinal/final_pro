@@ -52,7 +52,7 @@ $(function() {
 </header>
 
 <!-- SIDE BAR -->
-<nav class="side-nav sticky-top" style="float: left;">
+<nav class="side-nav sticky-top" style="float: left; min-height: 800px;">
     <ul>
         <li>
             <a href="#">
@@ -91,6 +91,8 @@ $(function() {
         </li>
     </ul>
 </nav>
+
+
 
 <div class="main-content mt-0" style="padding-top: 0px; padding-left: 0px;">
 
