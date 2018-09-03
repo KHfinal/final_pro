@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.post.model.service.PostService;
 import kh.mark.jarvis.post.model.vo.Attachment;
+import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Controller
@@ -30,6 +31,7 @@ public class PostController {
 	@Autowired
 	private PostService service;
 	
+	// 1. 게시물 등록
 	@RequestMapping("/post/insertPost.do")
 	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
 		logger.debug(post.getPostContents());
@@ -96,22 +98,12 @@ public class PostController {
 		return mv;
 	}
 	
+	// 2. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model) throws ParseException {
+	public String selectPost(Model model) {
 		
 		List<Post> postList = service.selectPostList();
 		List<Attachment> attachmentList = service.selectAttach();
-		
-		
-//		for(Post p : postList) {
-//			SimpleDateFormat formmater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			
-//			String dateString = formmater.format(p.getPostDate());		
-//			
-//			System.out.println("##########DATESTRING" + dateString);
-//			Date date = formmater.parse(dateString);
-//			System.out.println("##########DATE" + date);
-//		}
 		
 		String loc = "social/socialHome";
 		
@@ -124,4 +116,38 @@ public class PostController {
 		}
 		return loc; 
 	}
+	
+	// 3. 댓글 등록
+	@RequestMapping("/post/postCommentInsert.do")
+	public ModelAndView insertComment(JarvisComment comment) {
+		ModelAndView mv = new ModelAndView();
+		
+		int result = service.insertComment(comment);
+		
+		String msg = "";
+		String loc = "";
+		
+		if(result>0) {
+			msg = "댓글이 성공적으로 등록되었습니다.";
+			loc = "/post/socialHomeView.do";
+		} else {
+			msg = "댓글 등록이 실패하였습니다.";
+			loc = "/social/socialHome";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
+		
+	}
+	
+	// 4. 댓글 조회
+	public String selectComment() {
+		
+		return "";
+	}
+	
 }
