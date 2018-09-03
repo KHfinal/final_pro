@@ -53,8 +53,10 @@ public class FriendController{
 	@RequestMapping("/chatting.do")
 	public String chatting(Model model,HttpServletRequest request) {
 		/*접속한사람 하고 비교? */ /* 세션에대한정보가 없기때문에 정확한 구분위해 */
-		model.addAttribute("host",request.getRemoteAddr());
-		
+		String email = request.getParameter("email");
+		List<Friend> list = friendService.selectFriendListJson(email);
+		model.addAttribute("email",email);
+		model.addAttribute("list",list);
 		return "friend/chattingView";
 	}
 	
