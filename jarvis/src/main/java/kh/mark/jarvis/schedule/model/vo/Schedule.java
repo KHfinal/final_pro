@@ -9,16 +9,18 @@ public class Schedule {
 	private Date startDate;
 	private Date endDate;
 	private String content;
+	private String color;
 	
 	public Schedule() {}
 	
-	public Schedule(String userEmail, String title, Date startDate, Date endDate, String content) {
+	public Schedule(String userEmail, String title, Date startDate, Date endDate, String content, String color) {
 		super();
 		this.userEmail = userEmail;
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.content = content;
+		this.color = color;
 	}
 
 	public String getUserEmail() {
@@ -60,12 +62,21 @@ public class Schedule {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	@Override
 	public String toString() {
 		return "Schedule [userEmail=" + userEmail + ", title=" + title + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", content=" + content + "]";
+				+ endDate + ", content=" + content + ", color=" + color + "]";
 	}
+
+	
 	
 	
 }
