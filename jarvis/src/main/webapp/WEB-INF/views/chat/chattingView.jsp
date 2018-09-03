@@ -8,6 +8,7 @@
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script>
 //SocketJS 채팅구현
 var sock=new SockJS("<c:url value='/chatting'/>")
@@ -54,33 +55,33 @@ var today=null;
 			message=strArray[1];//전송내용
 			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);//실제아이피주소만 남기기
 			today=new Date();
-			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"today.getMinutes()+":"+today.getSecondes();
+			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 			console.log(printDate);
 			
 			var ck_host='${host}';
 			console.log(host);
-			console.log(ch_host);
+			console.log(ck_host);
 			
-			if(host==ck_host||(host==0&&ch_host.includes('0:0:')))
+			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
 			{
 				//자기자신 메세지
-				var printHTML="<div class='well' style='margin-left:30%'>";
-				printHTML+="<div class='alert alert-info'>";
+				var printHTML="<div class='well' style='margin-left:30%;'>";
+				printHTML+="<div class='alert alert-primary' style='min-width:10px;'>";
 				printHTML+="<sub>"+printDate+"</sub><br/>";
 				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-				printHtml+="</div>";
-				printHtml+="</div>";
+				printHTML+="</div>";
+				printHTML+="</div>";
 				$("#chatdata").append(printHTML);
 			}
 			else
 			{
 				//타인의 메세지
-				var printHTML="<div class='well' style='margin-left:-5%;margin-right:30%'>";
-				printHTML+="<div class='alert alert-warning'>";
+				var printHTML="<div class='well' style='margin-left:0%;margin-right:30%'>";
+				printHTML+="<div class='alert alert-secondary' style='min-width:10px;'>";
 				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-				printHtml+="</div>";
-				printHtml+="</div>";
+				printHTML+="<img style='width:50px;height:50px;' src='${path}/resources/upload/profileImg/defaultmen.PNG' class='rounded-circle' alt='"+userName+"'><strong>["+userName+"] : "+message+"</strong>";
+				printHTML+="</div>";
+				printHTML+="</div>";
 				$("#chatdata").append(printHTML);
 			}
 		}
@@ -88,14 +89,14 @@ var today=null;
 		{
 			//나가기 들어온 사람 알리기
 			today=new Date();
-			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"today.getMinutes()+":"+today.getSecondes();
+			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 			message=strArray[0];
-			var printHTML="<div class='well' style='margin-left:-5%;margin-right:30%'>";
+			var printHTML="<div class='well' style='margin-left:0%;margin-right:30%'>";
 			printHTML+="<div class='alert alert-danger'>";
 			printHTML+="<sub>"+printDate+"</sub><br/>";
 			printHTML+="<strong>[서버관리자] : "+message+"</strong>";
-			printHtml+="</div>";
-			printHtml+="</div>";
+			printHTML+="</div>";
+			printHTML+="</div>";
 			$("#chatdata").append(printHTML);
 		}
 	};
@@ -108,6 +109,8 @@ var today=null;
 <style>
 	div#chatdata{
 		height:650px;
+		overflow-x:hidden;
+		overflow-y:auto;
 	}
 	div.chatting-cintainer{
 		height:770px;
