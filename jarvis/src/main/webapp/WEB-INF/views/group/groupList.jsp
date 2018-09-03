@@ -99,61 +99,83 @@
 	<div class="headBar sticky-top">
         <div style="background-color:#A9E2C5;min-height: 50px;">
             <div class="container">
-                <div class="row">
-	                <div class="col-3">
-	                	<ul class="nav nav-pills">
-							<li class="nav-item">
-								<a class="nav-link active" data-toggle="pill" href="#searchGroup">그룹</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="pill" href="#myGroup">내 그룹</a>
-							</li>
-	                    </ul>
-	                </div>
-	                <div class="col-6">
-	                	<form action="${path }/group/groupSearch.do" method="post">
-							<div>
-								<div class="input-group">
-									<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
-									<div class="input-group-append">
-										<button class="btn btn-success" type="submit">Go</button> 
-									</div>	
+                <table class="table">
+	                <tr>
+	                	<td>
+	                		<ul class="nav nav-pills">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="pill" href="#searchGroup">그룹</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="pill" href="#myGroup">내 그룹</a>
+								</li>
+		                    </ul>
+	                	</td>
+	                	<td>
+	                		<form action="${path }/group/groupSearch.do" method="post">
+								<div>
+									<div class="input-group">
+										<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
+										<div class="input-group-append">
+											<button class="btn btn-success" type="submit">Go</button> 
+										</div>	
+									</div>
 								</div>
-							</div>
-						</form>
-	                </div>
-	                <div class="col-3">
-	                	<button type="button" class="btn btn-success btn-sm mt-1" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
-	                </div>
-                </div>
-                
-                <div id="content">
-                	<div id="lista1" class="als-container">
-						<div class="als-viewport">
-							<ul class="als-wrapper">
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=여행"><img src="${path }/resources/groupJs/images/als-images/travle.png" title="calculator" style="width:128px;height: 50px;margin-right: 0px;"/></a>여행</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=예술&문화"><img src="${path }/resources/groupJs/images/als-images/art.png" title="light bulb" style="width:128px;height: 50px;"/></a>예술&문화</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=건강"><img src="${path }/resources/groupJs/images/als-images/health.png" title="card" style="width:128px;height: 50px;"/></a>건강</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=패션&뷰티"><img src="${path }/resources/groupJs/images/als-images/beauty.png" title="chess" style="width:128px;height: 50px;"/></a>패션&뷰티</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=스포츠"><img src="${path }/resources/groupJs/images/als-images/sports.png" title="alarm clock" style="width:128px;height: 50px;"/></a>스포츠</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=푸드"><img src="${path }/resources/groupJs/images/als-images/food.png" title="scissors" style="width:128px;height: 50px;"/></a>푸드</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=리빙"><img src="${path }/resources/groupJs/images/als-images/living.png" title="heart" style="width:128px;height: 50px;"/></a>리빙</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=재테크"><img src="${path }/resources/groupJs/images/als-images/investment.png" title="pin" style="width:128px;height: 50px;"/></a>재테크</li>
-								<li class="als-item"><a href="${path }/group/groupFilter.do?category=1"><img src="${path }/resources/groupJs/images/als-images/heart.png" title="mobile phone" style="width:128px;height: 50px;"/></a>1</li>
-							</ul>
-						</div>
-						<a class="carousel-control-prev als-prev" href="#demo" data-slide="prev" style="top: 15px;">
-						    <span class="carousel-control-prev-icon"><img src="${path }/resources/groupJs/images/thin_left_arrow_333.png" alt="prev" title="previous"/></span>
-						  </a>
-						  <a class="carousel-control-next als-next" href="#demo" data-slide="next" style="top: 15px;">
-						    <span class="carousel-control-next-icon"><img src="${path }/resources/groupJs/images/thin_right_arrow_333.png" alt="next" title="next" /></span>
-						  </a>
-					</div>
-				</div>
+							</form>
+	                	</td>
+	                	<td>
+	                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
+	                	</td>
+	                	<td>
+	                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
+	                	</td>
+	                </tr>     
+                </table>
+            </div>
+			<div id="demo" class="collapse">
 				
-            </div>	
-		</div>  
-    </div>
+				<ul class="nav nav-pills justify-content-center">
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="travle" value="여행">여행</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="arts" value="예술&문화">예술&문화</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="health" value="건강">건강</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="beauty" value="패션&뷰티">패션&뷰티</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="sports" value="스포츠">스포츠</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="food" value="푸드">푸드</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="living" value="리빙">리빙</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="재테크">재테크</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="1" value="1">1</button>
+					</li>
+				</ul>
+							    
+			</div>
+        </div>	
+	</div>
+	<script>
+	$(function(){
+		$('.t').on('click',function(){
+			var data=$(this).val();
+			location.href="${path}/group/groupFilter.do?category="+data;
+		});
+	});
+	</script>  
+    
 
     <section class="row pt-0">
      
