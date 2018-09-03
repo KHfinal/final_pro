@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="friend">
 <resultMap type="map" id="friendMap"></resultMap>
-	<select id="selectList" resultType="friend" parameterType="string">
-		SELECT f_friend_email FROM FRIEND WHERE f_member_email = #{member_email}
+	
+	<select id="selectFriendListJson" resultMap="friendMap" parameterType="string">
+		SELECT f_friendemail FROM FRIEND WHERE f_member_email =  #{email}
 	</select>
 
 </mapper>

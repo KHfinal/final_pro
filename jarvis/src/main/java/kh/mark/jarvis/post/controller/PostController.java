@@ -77,7 +77,7 @@ public class PostController {
 		
 		if(result>0) {
 			msg = "POST를 성공적으로 등록하였습니다.";
-			loc = "/post/socialHomeView.do?postNo=" + post.getPostNo();
+			loc = "/post/socialHomeView.do";
 		} else {
 			msg = "POST 등록이 실패하였습니다.";
 			loc = "/social/socialHome";
@@ -94,7 +94,7 @@ public class PostController {
 	}
 	
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(int postNo, Model model) {
+	public String selectPost(Model model) {
 		
 		List<Post> postList = service.selectPostList();
 		List<Attachment> attachmentList = service.selectAttach();
@@ -108,6 +108,15 @@ public class PostController {
 			String msg = "게시물이 존재하지 않습니다.";
 			model.addAttribute("msg", msg);
 		}
+		
+		return loc; 
+	}
+	@RequestMapping("/post/socialHomeView1.do")
+	public String selectPost1(Model model) {
+		
+		
+		String loc = "social/socialHome";
+		
 		
 		return loc; 
 	}

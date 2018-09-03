@@ -131,11 +131,11 @@ header {
 	float: left;
 }
 
-.als-prev, .als-next {
+/* .als-prev, .als-next {
 	position: absolute;
 	cursor: pointer;
 	clear: both;
-}
+} */
 
 
 /**************************
@@ -150,7 +150,7 @@ header {
 #lista1 .als-item {
 	margin: 0px 30px;
 	min-height: 50px;
-	min-width: 128px;
+	min-width: 64px;
 }
 
 #lista1 .als-item img {
@@ -161,7 +161,7 @@ header {
 }
 
 #lista1 .als-prev, #lista1 .als-next {
-	top: 58px;
+	
 	width: 15px;
 	height: 22px;
 }

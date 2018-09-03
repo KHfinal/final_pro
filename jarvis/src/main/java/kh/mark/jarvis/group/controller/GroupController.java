@@ -91,5 +91,43 @@ public class GroupController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	@RequestMapping("/group/groupSearch.do")
+	public ModelAndView groupSearch(String titleSearch) {
+		ModelAndView mv=new ModelAndView();
+		logger.debug(titleSearch);
+		List<Map<String, String>> list=service.groupSearch(titleSearch);
+		
+		mv.addObject("list", list);
+		mv.setViewName("group/groupList");
+		return mv;
+	}
+	
+	@RequestMapping("/group/groupFilter.do")
+	public ModelAndView groupFilter(String category) {
+		ModelAndView mv=new ModelAndView();
+		logger.debug(category);
+		List<Map<String, String>> list=service.groupFilter(category);
+		
+		mv.addObject("list", list);
+		mv.setViewName("group/groupList");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/group/groupView.do")
+	public ModelAndView groupView(int groupNo) {
+		ModelAndView mv=new ModelAndView();
+		System.out.println(groupNo);
+		
+		Group g=service.groupView(groupNo);
+		
+		System.out.println(g);
+		
+		mv.addObject("group", g);
+		mv.setViewName("group/groupView");
+		
+		return mv;
+	}
 
 }

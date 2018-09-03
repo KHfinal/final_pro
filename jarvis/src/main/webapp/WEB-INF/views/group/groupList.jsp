@@ -29,15 +29,7 @@
 <script type="text/javascript" src="${path }/resources/groupJs/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="${path }/resources/groupJs/js/jquery.als-1.7.min.js"></script>
 <style>
-	.cateImg{
-		width: 100px;
-		height: 50px;
-		border-radius: 7px;
-		-moz-border-radius: 7px;
-		-khtml-border-radius: 7px;
-		-webkit-border-radius: 7px;
-		opacity: 0.7;
-	}
+
 </style>
 <script>
 	/* $(document).ready(function() {      
@@ -105,7 +97,7 @@
  
 </script>
 	<div class="headBar sticky-top">
-        <div style="background-color:#FFE4BA;min-height: 50px;">
+        <div style="background-color:#A9E2C5;min-height: 50px;">
             <div class="container">
                 <div class="row">
 	                <div class="col-3">
@@ -119,10 +111,10 @@
 	                    </ul>
 	                </div>
 	                <div class="col-6">
-	                	<form action="">
+	                	<form action="${path }/group/groupSearch.do" method="post">
 							<div>
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="그룹 찾아보기">
+									<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
 									<div class="input-group-append">
 										<button class="btn btn-success" type="submit">Go</button> 
 									</div>	
@@ -131,39 +123,34 @@
 						</form>
 	                </div>
 	                <div class="col-3">
-	                	<button type="button" class="btn btn-primary btn-sm align-self-center" data-toggle="collapse" data-target="#categorySelect">그룹 카테고리</button>
-	                	<button type="button" class="btn btn-success btn-sm align-self-center" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
+	                	<button type="button" class="btn btn-success btn-sm mt-1" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
 	                </div>
                 </div>
                 
                 <div id="content">
                 	<div id="lista1" class="als-container">
-						
 						<div class="als-viewport">
 							<ul class="als-wrapper">
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/calculator.png" alt="calculator" title="calculator" style="height: 50px"/>calculator</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/light_bulb.png" alt="light bulb" title="light bulb" style="height: 50px"/>light bulb</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/card.png" alt="card" title="card" style="height: 50px"/>card</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/chess.png" alt="chess" title="chess" style="height: 50px"/>chess</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/clock.png" alt="alarm clock" title="alarm clock" style="height: 50px"/>alarm clock</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/cut.png" alt="scissors" title="scissors" style="height: 50px"/>scissors</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/heart.png" alt="heart" title="heart" style="height: 50px"/>heart</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/map.png" alt="pin" title="pin" style="height: 50px"/>pin</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/mobile_phone.png" alt="mobile phone" title="mobile phone" style="height: 50px"/>mobile phone</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/camera.png" alt="camera" title="camera" style="height: 50px"/>camera</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/music_note.png" alt="music note" title="music note" style="height: 50px"/>music note</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/protection.png" alt="umbrella" title="umbrella" style="height: 50px"/>umbrella</li>
-								<li class="als-item"><img src="${path }/resources/groupJs/images/als-images/television.png" alt="television" title="television" style="height: 50px"/>television</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=여행"><img src="${path }/resources/groupJs/images/als-images/travle.png" title="calculator" style="width:128px;height: 50px;margin-right: 0px;"/></a>여행</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=예술&문화"><img src="${path }/resources/groupJs/images/als-images/art.png" title="light bulb" style="width:128px;height: 50px;"/></a>예술&문화</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=건강"><img src="${path }/resources/groupJs/images/als-images/health.png" title="card" style="width:128px;height: 50px;"/></a>건강</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=패션&뷰티"><img src="${path }/resources/groupJs/images/als-images/beauty.png" title="chess" style="width:128px;height: 50px;"/></a>패션&뷰티</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=스포츠"><img src="${path }/resources/groupJs/images/als-images/sports.png" title="alarm clock" style="width:128px;height: 50px;"/></a>스포츠</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=푸드"><img src="${path }/resources/groupJs/images/als-images/food.png" title="scissors" style="width:128px;height: 50px;"/></a>푸드</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=리빙"><img src="${path }/resources/groupJs/images/als-images/living.png" title="heart" style="width:128px;height: 50px;"/></a>리빙</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=재테크"><img src="${path }/resources/groupJs/images/als-images/investment.png" title="pin" style="width:128px;height: 50px;"/></a>재테크</li>
+								<li class="als-item"><a href="${path }/group/groupFilter.do?category=1"><img src="${path }/resources/groupJs/images/als-images/heart.png" title="mobile phone" style="width:128px;height: 50px;"/></a>1</li>
 							</ul>
 						</div>
-						<a class="carousel-control-prev" href="#demo" data-slide="prev">
-						    <span class="carousel-control-prev-icon"><img src="${path }/resources/groupJs/images/thin_top_arrow_333.png" alt="prev" title="previous" /></span>
+						<a class="carousel-control-prev als-prev" href="#demo" data-slide="prev" style="top: 15px;">
+						    <span class="carousel-control-prev-icon"><img src="${path }/resources/groupJs/images/thin_left_arrow_333.png" alt="prev" title="previous"/></span>
 						  </a>
-						  <a class="carousel-control-next" href="#demo" data-slide="next">
-						    <span class="carousel-control-next-icon"><img src="${path }/resources/groupJs/images/thin_bottom_arrow_333.png" alt="next" title="next" /></span>
+						  <a class="carousel-control-next als-next" href="#demo" data-slide="next" style="top: 15px;">
+						    <span class="carousel-control-next-icon"><img src="${path }/resources/groupJs/images/thin_right_arrow_333.png" alt="next" title="next" /></span>
 						  </a>
 					</div>
 				</div>
+				
             </div>	
 		</div>  
     </div>
@@ -252,8 +239,8 @@
 						</div>
 						<div class="row">
 							<c:forEach var="g" items="${list}">				
-								<div class="col-md-4 col-sm-6 portfolio-item">
-									<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do">
+								<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
+									<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
 										<div class="portfolio-hover">
 							                <div class="portfolio-hover-content">
 							                  	<p>${g.g_intro}</p>
@@ -270,6 +257,11 @@
 						</div>
 					</div>
 				</div>
+				<script>
+					function fn_view(data){
+						location.href="${path }/group/groupView.do?groupNo="+data;
+					}
+				</script>
 				
 				<div class="tab-pane container" id="myGroup">
 					
@@ -281,6 +273,5 @@
        </div>
         	
     </section>  
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

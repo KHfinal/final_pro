@@ -9,4 +9,7 @@ public interface GroupService {
 
 	int groupInsert(Group g);
 	List<Map<String, String>> selectGroupList();
+	List<Map<String, String>> groupSearch(String titleSearch);
+	List<Map<String, String>> groupFilter(String category);
+	Group groupView(int groupNo);
 }

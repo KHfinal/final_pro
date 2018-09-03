@@ -38,13 +38,13 @@ $(function() {
 	<div class="container-fluid headBar header">
 		<table class="table">
 			<tr>
-				<td style="width:20%"><a href="${path }/page/social.do" style="text-decoration: none;">jarvis</a></td>
+				<td style="width:20%"><a href="${path }/post/socialHomeView.do" style="text-decoration: none;">jarvis</a></td>
 				<td>${param.title } (${memberLoggedIn.memberNickname })</td>
 				<c:if test="${param.title eq 'social'}">
 				<td style="width:10%"><a href="${path }/schedule/privateHome.do">P ></a></td>
 				</c:if>
 				<c:if test="${param.title eq 'private'}">
-				<td style="width:10%"><a href="${path }/page/social.do">S ></a></td>
+				<td style="width:10%"><a href="${path }/post/socialHomeView.do">S ></a></td>
 				</c:if>
 			</tr>
 		</table>
@@ -52,7 +52,7 @@ $(function() {
 </header>
 
 <!-- SIDE BAR -->
-<nav class="side-nav">
+<nav class="side-nav sticky-top" style="float: left; min-height: 800px;">
     <ul>
         <li>
             <a href="#">
@@ -85,6 +85,8 @@ $(function() {
         </li>
     </ul>
 </nav>
+
+
 
 <div class="main-content mt-0" style="padding-top: 0px; padding-left: 0px;">
 
