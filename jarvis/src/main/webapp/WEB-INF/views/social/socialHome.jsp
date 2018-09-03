@@ -99,7 +99,7 @@ function readURL(input) {
 	    }
 	}
 }
-
+/*
 function resetFormElement(e) { 
 	e.wrap('<form>').closest('form').get(0).reset(); // 폼으로 감싼후 지워준다.
 	e.unwrap();
@@ -108,8 +108,10 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
     
 }
+*/
 /*========소켓용 ==========*/
-function filterFunction() {
+
+/* function filterFunction() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -146,7 +148,7 @@ $(document).ready(function(){
 		
 	});
 });
-/* $(document).ready(function () {
+$(document).ready(function () {
 	alert("소켓 시작");
 	$.ajax({
 		url:'${path}/chatting.do',
@@ -314,7 +316,7 @@ $(document).ready(function(){
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span>${post.getPostDate() }</span>
+	        <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;<span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
 	    	<div id="postContentsContainer">
