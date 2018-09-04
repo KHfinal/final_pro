@@ -31,7 +31,26 @@ public class PostController {
 	@Autowired
 	private PostService service;
 	
-	// 1. 게시물 등록
+	// 1. 게시물 조회
+	@RequestMapping("/post/socialHomeView.do")
+	public String selectPost(Model model) {
+		
+		List<Post> postList = service.selectPostList();
+		List<Attachment> attachmentList = service.selectAttachList();
+		List<JarvisComment> commentList = service.selectCommentList();
+			
+		if(postList != null && attachmentList != null) {
+			model.addAttribute("postList", postList);
+			model.addAttribute("attachmentList", attachmentList);
+			model.addAttribute("commentList", commentList);
+		}
+		
+		String loc = "social/socialHome";
+		
+		return loc; 
+	}
+	
+	// 2. 게시물 등록
 	@RequestMapping("/post/insertPost.do")
 	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
 		logger.debug(post.getPostContents());
@@ -98,24 +117,6 @@ public class PostController {
 		return mv;
 	}
 	
-	// 2. 게시물 조회
-	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model) {
-		
-		List<Post> postList = service.selectPostList();
-		List<Attachment> attachmentList = service.selectAttach();
-		
-		String loc = "social/socialHome";
-		
-		if(postList != null && attachmentList != null) {
-			model.addAttribute("postList", postList);
-			model.addAttribute("attachmentList", attachmentList);
-		} else {
-			String msg = "게시물이 존재하지 않습니다.";
-			model.addAttribute("msg", msg);
-		}
-		return loc; 
-	}
 	
 	// 3. 댓글 등록
 	@RequestMapping("/post/postCommentInsert.do")
@@ -143,11 +144,4 @@ public class PostController {
 		return mv;
 		
 	}
-	
-	// 4. 댓글 조회
-	public String selectComment() {
-		
-		return "";
-	}
-	
 }

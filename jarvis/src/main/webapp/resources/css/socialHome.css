@@ -236,14 +236,9 @@
 }
 
 #inputCommentTxt {
-	margin: 1% 1% 0 1%;
-	padding: 0;
-	width: 80%;
+	margin: 1% 0 0 1%;
+	padding: 0 0 0 5px;
+	width: 88%;
 	background-color: rgb(242, 244, 247);
 	float: left;
-}
-
-#commentSubmitBtn {
-	float: left;
-	margin: 1.5% 0 0 0;
 }
