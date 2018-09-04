@@ -10,7 +10,7 @@
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=15">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1111">
 
 
 
@@ -74,8 +74,9 @@
 
 <script>
 $(function() {
+	// 게시글 등록
     $("#imgInput").on('change', function(){
-    	ext = $(this).val().split(".").pop().toLowerCase(); // 확장자 확인
+    	ext = $(this).val().split(".").pop().toLowerCase(); 
     	
     	if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
     		resetFormElement($(this)) // resetFormElement실행
@@ -83,8 +84,21 @@ $(function() {
     	} else {
     		readURL(this);	
     	}
-    	
     });
+	
+	// 로그인안하면 글, 댓글 못달아!! 근데 이거하면 이미지 미리보기가 안나와 일단 보류!
+	<%-- 
+	if(<%=session.getAttribute("memberLoggedIn") %> == null) {
+		var inputComment = $('.inputCommentTxt');
+		
+		inputComment.attr('disabled', true);
+		inputComment.attr('value', '로그인 후 이용 가능합니다.')
+		
+		$('#createPostContainer').attr('data-target', "");
+		$('#fakePostContents').attr('placeholder', '로그인 후 이용 가능합니다.')
+	}
+	--%>
+
 });
 
 function readURL(input) {
@@ -101,111 +115,17 @@ function readURL(input) {
 	    }
 	}
 }
-/*
-function resetFormElement(e) { 
-	e.wrap('<form>').closest('form').get(0).reset(); // 폼으로 감싼후 지워준다.
-	e.unwrap();
-}
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-    
-}
-*/
-/*========소켓용 ==========*/
 
-/* function filterFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("myDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
-        }
-    }
-}
-
-
-$(document).ready(function(){
-	
-	var email = '${memberLoggedIn.memberEmail}';
-	alert(email);
-	$.ajax({
-		url:"${path}/friend/selectFriendListJson.do",
-		type:"POST",
-		data:{email:email},
-		dataType:"json",
-		success : function(data){
-			var friendList;
-			
-			$.each(data.list,function(i,item){
-				friendList = "<a href='#' >"+item.F_FRIENDEMAIL+"<label > 있음</label></a>";
-				$('#myDropdown').append(friendList);
-				}); 
-			
-			
-		},
-		
-	});
+/* 댓글 input 엔터 이벤트 */
+$('#inputCommentTxt').keydown(function(e) {
+	if(e.keyCode == 13) {
+		$('#createCommentFrm').submit();
+	}
 });
-$(document).ready(function () {
-	alert("소켓 시작");
-	$.ajax({
-		url:'${path}/chatting.do',
-		type:"POST",
-		succes:function (data) {
-			
-		});
-	});
-	
-	var sock=new SockJS("<c:url value='/friendInList'/>")
-	
-	sock.onmessage=onMessage;
-	alert("sock ");
-	
-	
-	
-	function onMessage(evt)
-	{
-		var host=null;
-		var strArray=evt.data.split("|");
-		var userName=null;
-		var message=null;
-		alert(strArray); */
-		/* 데이터가 있으면 */
-	/* 	if(strArray.length>1)
-		{
-			//채팅 메세지를 구현
-			userName=strArray[0];//접속자 아이디
-			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
-			//실제아이피주소만 남기기
-			var ck_host='${host}';
-			console.log(host);
-			console.log(ck_host);
-			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
-			{
-				//자기자신 메세지
-				var printHTML="<div class='well' style='margin-left:30%'>";
-				printHTML+="<div class='alert alert-info'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$("#chatdata").append(printHTML);
-								
-				
-			}
-		}
-		
-	};
-}); */
+
 
 
 </script>
-	
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 		<div class="modal-header">
@@ -214,7 +134,7 @@ $(document).ready(function () {
 		</div>
 		
 		<div class="modal-body">
-			<textarea rows="5" id="postContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
+			<textarea rows="5" id="fakePostContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
 		</div>
 	</div>
 
@@ -286,25 +206,51 @@ $(document).ready(function () {
 	        <div style="clear: both"></div>
 	    </div>
 	    
-	    <!-- 댓글!! -->
+	    <!-- 댓글 쓰기 -->
 	    <div class="panel-footer">
 	    	<div class="commentContainer">
+	    	
 				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
 					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
 					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
 					<input type="hidden" name="commentLevel" value="1"/>
 					
 					<span><img id="commentProfil" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
-					<button id="commentSubmitBtn" class="btn btn-primary btn-sm" type="submit">전송</button>
+					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 댓글을 입력하세요..."/>
 					<div style="clear: both"></div>
+					
+					<!-- 댓글 출력 -->
+					<c:forEach items="${commentList }" var="comment" varStatus="vs">
+						<c:if test='${post.getPostNo() == comment.getPostRef() }'>
+	 						<div class="displayComment">
+								<a href="#" style="text-decoration: none;"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
+								<p class="commentContents" style="display:inline-block;">&nbsp;&nbsp;${comment.getCommentContents() }</p>
+							</div>
+						</c:if>
+					</c:forEach>
 				</form>
-				
 			</div>
 	    </div>
 	</div>
 	</c:forEach>
 	
+	<style>
+		.displayComment {
+			
+		}
+		
+		.commentWriter {
+			font-size: 1em; 
+			margin-left: 3%;
+		}
+	
+		.commentContents {
+			margin: 1% 2% 1% 0;
+			font-size: 0.9em;
+			font-weight: normal;
+			font-family: inherit; 
+		}
+	</style>
 
 
 	

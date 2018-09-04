@@ -10,11 +10,14 @@ public interface PostService {
 
 	int insertPost(Post post, List<Attachment> attList);
 
-	List<Attachment> selectAttach();
+	List<Attachment> selectAttachList();
 
 	List<Post> selectPostList();
 
 	int insertComment(JarvisComment comment);
+
+	List<JarvisComment> selectCommentList();
+
 
 
 }

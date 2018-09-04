@@ -34,7 +34,6 @@ public class PostServiceImpl implements PostService {
 				result = dao.insertAttach(sqlSession, a);
 			}
 		}
-		
 		return result;
 	}
 	
@@ -44,13 +43,18 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Attachment> selectAttach() {
-		return dao.selectAttach(sqlSession);
+	public List<Attachment> selectAttachList() {
+		return dao.selectAttachList(sqlSession);
 	}
 
 	@Override
 	public int insertComment(JarvisComment comment) {
 		int result = dao.insertComment(sqlSession, comment);
 		return result;
+	}
+
+	@Override
+	public List<JarvisComment> selectCommentList() {
+		return dao.selectCommentList(sqlSession);
 	}
 }

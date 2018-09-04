@@ -16,8 +16,10 @@ public interface PostDao {
 
 	List<Post> selectPostList(SqlSessionTemplate sqlSession);
 
-	List<Attachment> selectAttach(SqlSessionTemplate sqlSession);
+	List<Attachment> selectAttachList(SqlSessionTemplate sqlSession);
 
 	int insertComment(SqlSessionTemplate sqlSession, JarvisComment comment);
+
+	List<JarvisComment> selectCommentList(SqlSessionTemplate sqlSession);
 
 }
