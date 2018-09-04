@@ -1,5 +1,10 @@
 package kh.mark.jarvis.member.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import kh.mark.jarvis.friend.controller.FriendController;
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
-@SessionAttributes(value= {"memberLoggedIn"})
 @Controller
 public class MemberController {
 	
@@ -27,11 +29,11 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder BCPE;
 	
-	
+
 	
 	// 로그인 정보
 	@RequestMapping(value="/member/login.do",method=RequestMethod.POST)
-	public ModelAndView memberLogin(String memberEmail, String memberPw) {
+	public ModelAndView memberLogin(String memberEmail, String memberPw,HttpSession session) {
 		Member m = memberService.selectLogin(memberEmail);  //1.회원의 메일정보를 가지고 service의 selectOne으로 이동
 		//2.member.member.xml에 다녀온후 아래로 진행
 		ModelAndView mv = new ModelAndView();
@@ -42,7 +44,7 @@ public class MemberController {
 		
 		//아래는 값이 들어오는지 확인 하는것
 		logger.debug("Member : " + m);
-		System.out.println("Membercontroller : "+m);
+		
 		
 		//아이디 존재확인
 		if(m==null)
@@ -55,10 +57,12 @@ public class MemberController {
 			//비밀번호확인
 			if (BCPE.matches(memberPw, m.getMemberPw()))
 			{
-				logger.debug("로그인성공");
 				msg="로그인 성공";
 				mv.addObject("memberLoggedIn", m);
+				session.setAttribute("memberLoggedInSession",m);
+				
 				loc="/page/social.do";
+				
 				
 			} 
 			//비밀번호 오류
