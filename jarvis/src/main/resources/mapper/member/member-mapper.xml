@@ -25,7 +25,7 @@
 
 </resultMap>
 
-   <!-- 
+   
    <select id="selectOne" resultMap="memberMap" parameterType="string">
        SELECT * FROM MEMBER WHERE USERID=#{userId}    
     </select> 

@@ -13,7 +13,7 @@ public class GroupDaoImpl implements GroupDao {
 
 	@Override
 	public int groupInsert(SqlSessionTemplate Session, Group g) {
-		
+	
 		return Session.insert("group.groupInsert", g);
 	}
 
@@ -39,6 +39,12 @@ public class GroupDaoImpl implements GroupDao {
 	public Group groupView(SqlSessionTemplate Session, int groupNo) {
 		
 		return Session.selectOne("group.groupView", groupNo);
+	}
+
+	@Override
+	public int categoryInsert(SqlSessionTemplate Session, Map cat) {
+		
+		return Session.insert("group.categoryInsert", cat);
 	}
 	
 	

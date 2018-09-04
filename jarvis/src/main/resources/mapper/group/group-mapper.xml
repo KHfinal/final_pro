@@ -8,8 +8,12 @@
 		SELECT * FROM GROUP_LIST ORDER BY G_DATE DESC
 	</select>
 	
-	<insert id="groupInsert">
-		INSERT INTO GROUP_LIST VALUES(SEQ_GROUP_LIST.NEXTVAL,#{g_name},null,null,#{g_intro},#{g_category, typeHandler=strArr},DEFAULT,#{g_originalFilename},#{g_renamedFilename})
+	<insert id="groupInsert" parameterType="group">
+  		INSERT INTO GROUP_LIST VALUES(GROUP_LIST_SEQ.NEXTVAL,#{g_name},null,#{g_intro},DEFAULT,#{g_originalFilename},#{g_renamedFilename})
+  	</insert>
+	
+	<insert id="categoryInsert" parameterType="map">
+		INSERT INTO GROUP_CATEGORY VALUES(#{g_no},#{g_category})
 	</insert>
 	
 	<select id="groupSearch" parameterType="string" resultMap="groupMap">

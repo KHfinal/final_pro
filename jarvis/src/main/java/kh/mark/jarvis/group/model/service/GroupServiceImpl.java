@@ -1,5 +1,6 @@
 package kh.mark.jarvis.group.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +20,30 @@ public class GroupServiceImpl implements GroupService {
 	private SqlSessionTemplate Session;
 	
 	@Override
-	public int groupInsert(Group g) {
+	public int groupInsert(Group g, String[] g_category) {
 		
-		return dao.groupInsert(Session, g);
+		int result=0;
+		int groupNo=0;
+		Map cat=new HashMap();
+		
+		//try {
+			result=dao.groupInsert(Session, g);
+			groupNo=g.getG_no();
+			if(g_category.length>0) {
+				for(int i=0;i<g_category.length;i++) {
+					cat.put("g_no", groupNo);
+					cat.put("g_category", g_category[i]);
+					dao.categoryInsert(Session, cat);
+				}
+			}			
+		//}
+		/*catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException();
+		}*/
+		return result;
+		
+		
 	}
 
 	@Override
@@ -47,9 +69,5 @@ public class GroupServiceImpl implements GroupService {
 		
 		return dao.groupView(Session, groupNo);
 	}
-	
-	
-	
-
 	
 }
