@@ -229,7 +229,11 @@
 
 
 /* 댓글 */
-#commentProfil {
+a {
+	text-decoration: none;
+}
+
+.commentProfil {
 	width: 50px;
 	height: 50px;
 	float: left;
@@ -242,3 +246,5 @@
 	background-color: rgb(242, 244, 247);
 	float: left;
 }
+
+
