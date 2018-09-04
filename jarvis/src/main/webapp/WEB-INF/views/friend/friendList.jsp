@@ -44,7 +44,6 @@ overflow:hidden;
 
 </style>
 <script>
-	var listSock=new SockJS("<c:url value='/friendInList'/>");
 </script>
 
 <!--바디 -->

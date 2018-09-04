@@ -1,22 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="java.util.Enumeration"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*" %>
+<%@ page import="kh.mark.jarvis.member.model.vo.Member" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
 
 <c:set var="path" value="<%=request.getContextPath()%>"/>
+<%! private static List<String> sessionList = new ArrayList<>(); %>
+<%	
+	Member m = (Member)session.getAttribute("memberLoggedInSession");
+	sessionList.add(m.getMemberName());
+	System.out.println("세션리스트 수 : "+sessionList.size());
+%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
 <link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1111">
-
-
-
 <style>
 
-/*================================  */
+
 .dropbtn {
     background-color: #4CAF50;
     color: white;
@@ -293,9 +297,8 @@ $('#inputCommentTxt').keydown(function(e) {
 	
 	
 	<!--친구 현황  -->
-	<div class="container">
-  <h2>Fading Modal</h2>
-  <p>Add the "fade" class to the modal container if you want the modal to fade in on open and fade out on close.</p>
+<div class="container">
+ 
 
   <!-- Button to Open the Modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -329,13 +332,7 @@ $('#inputCommentTxt').keydown(function(e) {
   
 </div>
 
-	<form id='listFrom' class="dropdown" action='${path}/chatting.do'>
-		<div id="myDropdown" class="dropdown-content">
-			<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-			<input type="hidden" name="email" value="${memberLoggedIn.memberEmail}">
-		</div>
-		<button type="submit" class="btn btn-primary text-center">친구이동</button> 
-	</form>
+	
 	
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

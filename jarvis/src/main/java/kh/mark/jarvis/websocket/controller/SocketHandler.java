@@ -30,7 +30,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	
 	private List<WebSocketSession> sessionList=new ArrayList();
 	private Logger logger=LoggerFactory.getLogger(SocketHandler.class);
-	List<String> userName = new ArrayList();
+	List<String> userName = new ArrayList<>();
 	/*List<Member> memberList = new ArrayList();*/
 	
 //	(2) var sock= new SockJS가 생성되면서 실행
@@ -52,7 +52,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		
 		for(WebSocketSession s : sessionList) {
 			/*s.sendMessage(new TextMessage(result));*/
-			s.sendMessage(new TextMessage("1"+"|"+login.getMemberName()));
+			s.sendMessage(new TextMessage("1"+"|"+login.getMemberEmail()));
 		}
 		
 		
@@ -73,7 +73,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		logger.debug("현재 접속자 : " + sessionList);
 		for(WebSocketSession s : sessionList) {
 			
-			s.sendMessage(new TextMessage("2"+"|"+login.getMemberName()));
+			s.sendMessage(new TextMessage("2"+"|"+login.getMemberEmail()));
 		}
 		
 		
