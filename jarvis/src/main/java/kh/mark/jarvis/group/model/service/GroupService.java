@@ -7,9 +7,10 @@ import kh.mark.jarvis.group.model.vo.Group;
 
 public interface GroupService {
 
-	int groupInsert(Group g);
+	int groupInsert(Group g, String[] g_category);
 	List<Map<String, String>> selectGroupList();
 	List<Map<String, String>> groupSearch(String titleSearch);
 	List<Map<String, String>> groupFilter(String category);
 	Group groupView(int groupNo);
+	
 }

@@ -96,40 +96,42 @@
 			});
  
 </script>
-	<div class="headBar sticky-top">
-        <div style="background-color:#A9E2C5;min-height: 50px;">
+	<div class="headBar sticky-top" style="background-color:#A9E2C5;min-height: 50px;">
+        
             <div class="container">
                 <table class="table">
-	                <tr>
-	                	<td>
-	                		<ul class="nav nav-pills">
-								<li class="nav-item">
-									<a class="nav-link active" data-toggle="pill" href="#searchGroup">그룹</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="pill" href="#myGroup">내 그룹</a>
-								</li>
-		                    </ul>
-	                	</td>
-	                	<td>
-	                		<form action="${path }/group/groupSearch.do" method="post">
-								<div>
-									<div class="input-group">
-										<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
-										<div class="input-group-append">
-											<button class="btn btn-success" type="submit">Go</button> 
-										</div>	
+	                <tbody>
+		                <tr>
+		                	<td>
+		                		<ul class="nav nav-pills">
+									<li class="nav-item">
+										<a class="nav-link active" data-toggle="pill" href="#searchGroup">그룹</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" data-toggle="pill" href="#myGroup">내 그룹</a>
+									</li>
+			                    </ul>
+		                	</td>
+		                	<td>
+		                		<form action="${path }/group/groupSearch.do" method="post">
+									<div>
+										<div class="input-group">
+											<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
+											<div class="input-group-append">
+												<button class="btn btn-success" type="submit">Go</button> 
+											</div>	
+										</div>
 									</div>
-								</div>
-							</form>
-	                	</td>
-	                	<td>
-	                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
-	                	</td>
-	                	<td>
-	                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
-	                	</td>
-	                </tr>     
+								</form>
+		                	</td>
+		                	<td>
+		                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
+		                	</td>
+		                	<td>
+		                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
+		                	</td>
+		                </tr>
+	                </tbody>     
                 </table>
             </div>
 			<div id="demo" class="collapse">
@@ -165,7 +167,7 @@
 				</ul>
 							    
 			</div>
-        </div>	
+        	
 	</div>
 	<script>
 	$(function(){
@@ -187,7 +189,7 @@
                     <h4 class="modal-title">새 그룹 만들기</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form name="fmt" action="${path }/group/groupInsert.do" method="post" enctype="multipart/form-data">
+                <form name="fmt" action="${path }/group/groupInsert.do?m=${memberLoggedIn.getMemberEmail}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <label for="groupName">그룹 이름 입력</label>
                         <input type="text" class="form-control form-control-lg" id="groupName" name="g_name"/>
@@ -202,40 +204,40 @@
                     	<div class="form-control-lg mb-2">
 	                    	<div class="row">
 		                        <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category1" name="g_category" value="여행"/>
+								    <input type="checkbox" class="custom-control-input" id="category1" name="g_category" value="c1"/>
 								    <label class="custom-control-label" for="category1">여행</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category2" name="g_category" value="예술&문화"/>
+								    <input type="checkbox" class="custom-control-input" id="category2" name="g_category" value="c2"/>
 								    <label class="custom-control-label" for="category2">예술&문화</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category3" name="g_category" value="건강"/>
+								    <input type="checkbox" class="custom-control-input" id="category3" name="g_category" value="c3"/>
 								    <label class="custom-control-label" for="category3">건강</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category4" name="g_category" value="패션&뷰티"/>
+								    <input type="checkbox" class="custom-control-input" id="category4" name="g_category" value="c4"/>
 								    <label class="custom-control-label" for="category4">패션&뷰티</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category5" name="g_category" value="스포츠"/>
+								    <input type="checkbox" class="custom-control-input" id="category5" name="g_category" value="c5"/>
 								    <label class="custom-control-label" for="category5">스포츠</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category6" name="g_category" value="푸드"/>
+								    <input type="checkbox" class="custom-control-input" id="category6" name="g_category" value="c6"/>
 								    <label class="custom-control-label" for="category6">푸드</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category7" name="g_category" value="리빙"/>
+								    <input type="checkbox" class="custom-control-input" id="category7" name="g_category" value="c7"/>
 								    <label class="custom-control-label" for="category7">리빙</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category8" name="g_category" value="재테크"/>
+								    <input type="checkbox" class="custom-control-input" id="category8" name="g_category" value="c8"/>
 								    <label class="custom-control-label" for="category8">재테크</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category9" name="g_category" value="1"/>
-								    <label class="custom-control-label" for="category9">1</label>
+								    <input type="checkbox" class="custom-control-input" id="category9" name="g_category" value="c9"/>
+								    <label class="custom-control-label" for="category9">공통</label>
 							    </div>
 						    </div>
 					    </div>

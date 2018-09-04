@@ -38,18 +38,18 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/groupInsert.do")
-	public ModelAndView groupInsert(Group g, MultipartFile upFile, HttpServletRequest request) {
+	public ModelAndView groupInsert(Group g, String[] g_category, MultipartFile upFile, HttpServletRequest request) {
 		
 		System.out.println(g.getG_name());
 		System.out.println(g.getG_intro());
-		System.out.println(g.getG_category());
+		
 		logger.debug("寃뚯떆???낅줈??: "+upFile);
 		/*?곸꽭??multipartFile?뚯븘蹂닿린*/
 		logger.debug("param.group : "+g);
 		logger.debug("파일 이름 : "+upFile.getName());
 		logger.debug("기존 파일 이름: "+upFile.getOriginalFilename());
 		logger.debug("파일 크기: "+upFile.getSize());
-		
+		System.out.println(g_category[0]);
 		
 		String saveDir=request.getSession().getServletContext().getRealPath("/resources/upload/group");
 		
@@ -76,7 +76,8 @@ public class GroupController {
 		
 		
 		
-		int result=service.groupInsert(g);
+		int result=service.groupInsert(g, g_category);
+		
 		ModelAndView mv=new ModelAndView();
 		String msg="";
 		String loc="/group/groupList.do";

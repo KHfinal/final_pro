@@ -1,5 +1,6 @@
 package kh.mark.jarvis.group.model.vo;
 
+import java.sql.Date;
 import java.util.Arrays;
 
 public class Group {
@@ -7,9 +8,8 @@ public class Group {
 	private int g_no;
 	private String g_name;
 	private String g_master;
-	private String g_member;
 	private String g_intro;
-	private String[] g_category;
+	private Date g_date;
 	private String g_originalFilename;
 	private String g_renamedFilename;
 	
@@ -17,15 +17,14 @@ public class Group {
 		
 	}
 
-	public Group(int g_no, String g_name, String g_master, String g_member, String g_intro, String[] g_category,
-			String g_originalFilename, String g_renamedFilename) {
+	public Group(int g_no, String g_name, String g_master, String g_intro, Date g_date, String g_originalFilename,
+			String g_renamedFilename) {
 		super();
 		this.g_no = g_no;
 		this.g_name = g_name;
 		this.g_master = g_master;
-		this.g_member = g_member;
 		this.g_intro = g_intro;
-		this.g_category = g_category;
+		this.g_date = g_date;
 		this.g_originalFilename = g_originalFilename;
 		this.g_renamedFilename = g_renamedFilename;
 	}
@@ -54,14 +53,6 @@ public class Group {
 		this.g_master = g_master;
 	}
 
-	public String getG_member() {
-		return g_member;
-	}
-
-	public void setG_member(String g_member) {
-		this.g_member = g_member;
-	}
-
 	public String getG_intro() {
 		return g_intro;
 	}
@@ -70,12 +61,12 @@ public class Group {
 		this.g_intro = g_intro;
 	}
 
-	public String[] getG_category() {
-		return g_category;
+	public Date getG_date() {
+		return g_date;
 	}
 
-	public void setG_category(String[] g_category) {
-		this.g_category = g_category;
+	public void setG_date(Date g_date) {
+		this.g_date = g_date;
 	}
 
 	public String getG_originalFilename() {
@@ -96,11 +87,11 @@ public class Group {
 
 	@Override
 	public String toString() {
-		return "Group [g_no=" + g_no + ", g_name=" + g_name + ", g_master=" + g_master + ", g_member=" + g_member
-				+ ", g_intro=" + g_intro + ", g_category=" + Arrays.toString(g_category) + ", g_originalFilename="
-				+ g_originalFilename + ", g_renamedFilename=" + g_renamedFilename + "]";
+		return "Group [g_no=" + g_no + ", g_name=" + g_name + ", g_master=" + g_master + ", g_intro=" + g_intro
+				+ ", g_date=" + g_date + ", g_originalFilename=" + g_originalFilename + ", g_renamedFilename="
+				+ g_renamedFilename + "]";
 	}
-	
+
 	
 
 	

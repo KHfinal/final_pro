@@ -1,5 +1,6 @@
 package kh.mark.jarvis.schedule.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Map<String, Object>> eventList(String userEmail) {
 		return dao.eventList(sqlSession,userEmail);
+	}
+
+
+	@Override
+	public Schedule loadEvent(Schedule s) {
+		return dao.loadEvent(sqlSession,s);
 	}
 
 }

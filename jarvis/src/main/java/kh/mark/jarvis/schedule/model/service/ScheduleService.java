@@ -1,5 +1,6 @@
 package kh.mark.jarvis.schedule.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,5 +13,7 @@ public interface ScheduleService {
 	int addSchedule(Schedule s);
 
 	List<Map<String, Object>> eventList(String userEmail);
+
+	Schedule loadEvent(Schedule s);
 	
 }
