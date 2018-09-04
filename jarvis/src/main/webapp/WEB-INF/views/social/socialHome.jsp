@@ -97,7 +97,7 @@ $(function() {
 		$('#createPostContainer').attr('data-target', "");
 		$('#fakePostContents').attr('placeholder', '로그인 후 이용 가능합니다.')
 	}
-	--%>
+	 --%>
 
 });
 
@@ -125,6 +125,10 @@ $('#inputCommentTxt').keydown(function(e) {
 
 
 
+
+
+
+
 </script>
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
@@ -139,7 +143,7 @@ $('#inputCommentTxt').keydown(function(e) {
 	</div>
 
 	
-	<!-- postModal -->
+	<!-- 게시글 등록 -->
 	<div class="modal fade" id="postModal">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -185,7 +189,7 @@ $('#inputCommentTxt').keydown(function(e) {
 	
 	<hr>
 	
-	<!-- 게시물 패널 -->
+	<!-- 게시물 출력 -->
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
@@ -215,7 +219,7 @@ $('#inputCommentTxt').keydown(function(e) {
 					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
 					<input type="hidden" name="commentLevel" value="1"/>
 					
-					<span><img id="commentProfil" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+					<span><img class="commentProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
 					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 댓글을 입력하세요..."/>
 					<div style="clear: both"></div>
 					
@@ -223,8 +227,18 @@ $('#inputCommentTxt').keydown(function(e) {
 					<c:forEach items="${commentList }" var="comment" varStatus="vs">
 						<c:if test='${post.getPostNo() == comment.getPostRef() }'>
 	 						<div class="displayComment">
-								<a href="#" style="text-decoration: none;"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
-								<p class="commentContents" style="display:inline-block;">&nbsp;&nbsp;${comment.getCommentContents() }</p>
+								<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
+								<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
+								<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
+								<a id="inputReply"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></a>
+								<div style="clear: both"></div>
+								
+								<!-- 답글 달기 -->
+								<div class="reply-container">
+									<span><img class="replyProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+									<input type="text" id="inputReplyTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 답글을 입력하세요..."/>
+									<div style="clear: both"></div>
+								</div>
 							</div>
 						</c:if>
 					</c:forEach>
@@ -236,7 +250,26 @@ $('#inputCommentTxt').keydown(function(e) {
 	
 	<style>
 		.displayComment {
-			
+			margin: 1% 0;
+		}
+		
+		.reply-container {
+			margin: 1% 0;
+		}
+		
+		.replyProfil{
+			width: 50px;
+			height: 50px;
+			margin: 0 0 0 15%;
+			float: left;
+		}
+		
+		#inputReplyTxt {
+			margin: 1% 0 0 1%;
+			padding: 0 0 0 5px;
+			width: 70%;
+			background-color: rgb(242, 244, 247);
+			float: left;
 		}
 		
 		.commentWriter {
