@@ -1,6 +1,7 @@
 package kh.mark.jarvis.post.controller;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.post.model.service.PostService;
 import kh.mark.jarvis.post.model.vo.Attachment;
+import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Controller
@@ -29,8 +31,9 @@ public class PostController {
 	@Autowired
 	private PostService service;
 	
+	// 1. 게시물 등록
 	@RequestMapping("/post/insertPost.do")
-	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) {
+	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
 		logger.debug(post.getPostContents());
 		logger.debug(post.getPostWriter());
 		logger.debug(post.getPrivacyBound());
@@ -50,6 +53,8 @@ public class PostController {
 			if(!f.isEmpty()) {
 				String originalFileName = f.getOriginalFilename();
 				String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd_HHmmssSS");
 				
 				int rndNum = (int) (Math.random() * 1000);
@@ -93,6 +98,7 @@ public class PostController {
 		return mv;
 	}
 	
+	// 2. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
 	public String selectPost(Model model) {
 		
@@ -108,16 +114,40 @@ public class PostController {
 			String msg = "게시물이 존재하지 않습니다.";
 			model.addAttribute("msg", msg);
 		}
-		
 		return loc; 
 	}
-	@RequestMapping("/post/socialHomeView1.do")
-	public String selectPost1(Model model) {
+	
+	// 3. 댓글 등록
+	@RequestMapping("/post/postCommentInsert.do")
+	public ModelAndView insertComment(JarvisComment comment) {
+		ModelAndView mv = new ModelAndView();
 		
+		int result = service.insertComment(comment);
 		
-		String loc = "social/socialHome";
+		String msg = "";
+		String loc = "";
 		
+		if(result>0) {
+			msg = "댓글이 성공적으로 등록되었습니다.";
+			loc = "/post/socialHomeView.do";
+		} else {
+			msg = "댓글 등록이 실패하였습니다.";
+			loc = "/social/socialHome";
+		}
 		
-		return loc; 
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
+		
 	}
+	
+	// 4. 댓글 조회
+	public String selectComment() {
+		
+		return "";
+	}
+	
 }

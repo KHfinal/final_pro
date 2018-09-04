@@ -4,6 +4,7 @@ import java.sql.Date;
 
 
 public class Member {
+
 	private String memberEmail;  //이메일
 	private String memberPw;	//패스워드
 	private String memberName;	//이름
@@ -19,7 +20,9 @@ public class Member {
 	private String addr1;			//주소
 	private String addr2;			//주소
 	private String addr3;			//주소
+
 	private String addInfo;         //추가정보입력여부
+
 	
 	
 	

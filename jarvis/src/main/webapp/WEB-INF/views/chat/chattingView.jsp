@@ -64,7 +64,6 @@ var today=null;
 			
 			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
 			{
-				//자기자신 메세지
 				var printHTML="<div class='well' style='margin-left:30%;'>";
 				printHTML+="<div class='alert alert-primary' style='min-width:10px;'>";
 				printHTML+="<sub>"+printDate+"</sub><br/>";
@@ -72,6 +71,14 @@ var today=null;
 				printHTML+="</div>";
 				printHTML+="</div>";
 				$("#chatdata").append(printHTML);
+				//자기자신 메세지
+				/* var printHTML="<div class='well' style='margin-left:30%;'>";
+				printHTML+="<div class='alert alert-primary' style='min-width:10px;'>";
+				printHTML+="<sub>"+printDate+"</sub><br/>";
+				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
+				printHTML+="</div>";
+				printHTML+="</div>";
+				$("#chatdata").append(printHTML); */
 			}
 			else
 			{
@@ -87,8 +94,15 @@ var today=null;
 		}
 		else
 		{
+			message=strArray[0];
+			var printHTML="<strong>"+message+"</strong>";
+			if(message==userName+"님이 접속중입니다")
+				$("#friend_join").html(printHTML).css("color","green");
+			else
+				$("#friend_join").html(printHTML).css("color","red");
 			//나가기 들어온 사람 알리기
-			today=new Date();
+			
+			/* today=new Date();
 			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 			message=strArray[0];
 			var printHTML="<div class='well' style='margin-left:0%;margin-right:30%'>";
@@ -97,7 +111,7 @@ var today=null;
 			printHTML+="<strong>[서버관리자] : "+message+"</strong>";
 			printHTML+="</div>";
 			printHTML+="</div>";
-			$("#chatdata").append(printHTML);
+			$("#chatdata").append(printHTML); */
 		}
 	};
 	function onClose()
@@ -141,7 +155,7 @@ $(document).ready(function(){
 
 <div class="row" style="border:1px solid gray; padding:10px; height:40px;">
 	<div class="col-2"><strong>Messenger</strong></div>
-	<div class="col-10">OOO님과의 채팅입니다</div>
+	<div id="friend_join" class="col-10"></div>
 	<div class="col-2"></div>
 </div>
 <div class="row">

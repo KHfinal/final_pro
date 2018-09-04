@@ -32,7 +32,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		for(WebSocketSession s : sessionList)
 		{
 			if(s==session) continue;
-			s.sendMessage(new TextMessage(login.getMemberName()+"님이 입장하셨습니다.!")); //chattingView.jsp onmessage 실행 이거랑 연결
+			s.sendMessage(new TextMessage(login.getMemberName()+"님이 접속중입니다")); //chattingView.jsp onmessage 실행 이거랑 연결
 		}
 		
 		
@@ -52,7 +52,7 @@ public class SocketHandler extends TextWebSocketHandler {
 			//배열로 처리한 다음 페이지를 변경
 			s.sendMessage(new TextMessage(login.getMemberName()+"|"+message.getPayload()+"|"+session.getRemoteAddress())); //evt란 매개변수로 보내짐
 		}
-		
+		 
 		//super.handleTextMessage(session, message);
 	}
 
@@ -63,7 +63,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		for(WebSocketSession s : sessionList)
 		{
-			s.sendMessage(new TextMessage(login.getMemberName()+"님이 퇴장하셨습니다."));
+			s.sendMessage(new TextMessage(login.getMemberName()+"님이 로그아웃입니다"));
 		}
 		
 		

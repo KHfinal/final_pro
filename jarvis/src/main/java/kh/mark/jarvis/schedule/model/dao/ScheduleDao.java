@@ -1,5 +1,6 @@
 package kh.mark.jarvis.schedule.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,5 +13,7 @@ public interface ScheduleDao {
 	int addSchedule(SqlSessionTemplate sqlSession, Schedule s);
 
 	List<Map<String, Object>> eventList(SqlSessionTemplate sqlSession, String userEmail);
+
+	Schedule loadEvent(SqlSessionTemplate sqlSession, Schedule s);
 
 }
