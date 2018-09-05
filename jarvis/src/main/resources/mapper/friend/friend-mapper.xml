@@ -4,7 +4,7 @@
 <resultMap type="map" id="friendMap"></resultMap>
 	
 	<select id="selectFriendListJson" resultMap="friendMap" parameterType="string">
-		SELECT f_friendemail FROM FRIEND WHERE f_member_email =  #{email}
+		SELECT f_friend_email FROM FRIEND WHERE f_member_email =  #{email}
 	</select>
 	
 	<select id="requestList" resultType="map" parameterType="string">

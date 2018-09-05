@@ -1,8 +1,6 @@
 package kh.mark.jarvis.friend.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.friend.model.service.FriendService;
 import kh.mark.jarvis.friend.model.vo.Friend;
-import kh.mark.jarvis.member.model.service.MemberService;
+import kh.mark.jarvis.member.model.vo.Member;
 
 @Controller
 public class FriendController{
@@ -24,8 +22,7 @@ public class FriendController{
 	
 	@Autowired
 	private FriendService friendService;
-	@Autowired
-	private MemberService memberService;
+	
 	/*@RequestMapping("/friend/selectList.do")*/
 	/*public ModelAndView selectFriendList(ModelAndView mv,String member_email) throws Throwable{
 //		userId는 jsp에서 ${memberloggedIn.memberAddr}의 값으로 가져온다
@@ -69,49 +66,8 @@ public class FriendController{
 		return "friend/friendListView";
 	}*/
 	
-	@RequestMapping("/friend/friendView.do")
-	public ModelAndView friendView(String email) {
-		ModelAndView mv=new ModelAndView();
-		List<Map<String,String>> list=memberService.memberList();
-		List<Map<String,String>> requestList=friendService.requestList(email);
-		mv.addObject("list",list);
-		mv.addObject("requestList",requestList);
-		mv.setViewName("friend/friendSearch");
-		System.out.println("--------------------------"+requestList.get(0));
-		
-		return mv;
-	}
 	
-	@RequestMapping("/friend/friendRequest.do")
-	public ModelAndView friendRequest(String myEmail, String fEmail)
-	{
-		logger.debug("내이메일:"+myEmail);
-		logger.debug("친구이메일:"+fEmail);
-		ModelAndView mv=new ModelAndView();
-		Map<String, String> fr=new HashMap<String, String>();
-		fr.put("myEmail", myEmail);
-		fr.put("fEmail", fEmail);
-		fr.put("p", "P");
-		int result=friendService.friendRequest(fr);
-		
-		String msg="";
-	    String loc="/";
-	      
-	    if (result>0) 
-	    {
-	       msg="친구요청 메세지를 보냈습니다.";
-	       loc="/friend/friendView.do";
-	    } 
-	    else 
-	    {
-	       msg="친구요청이 실패했습니다.";
-	       loc="/friend/friendView.do";
-	    }
-	    mv.addObject("msg",msg);
-	    mv.addObject("loc",loc);
-	    mv.setViewName("common/msg");
-		return mv;
-	}
+	
 	
 	
 }
