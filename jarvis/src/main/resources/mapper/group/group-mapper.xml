@@ -9,7 +9,10 @@
 	</select>
 	
 	<insert id="groupInsert" parameterType="group">
-  		INSERT INTO GROUP_LIST VALUES(GROUP_LIST_SEQ.NEXTVAL,#{g_name},null,#{g_intro},DEFAULT,#{g_originalFilename},#{g_renamedFilename})
+  		INSERT INTO GROUP_LIST VALUES(GROUP_LIST_SEQ.NEXTVAL,#{g_name},#{g_master},#{g_intro},DEFAULT,#{g_originalFilename},#{g_renamedFilename})
+  		<selectKey keyProperty="g_no" resultType="_int" order="AFTER">
+  			select GROUP_LIST_SEQ.currval from dual
+  		</selectKey>
   	</insert>
 	
 	<insert id="categoryInsert" parameterType="map">
@@ -21,11 +24,15 @@
 	</select>
 	
 	<select id="groupFilter" parameterType="string" resultMap="groupMap">
-		SELECT * FROM GROUP_LIST WHERE G_CATEGORY LIKE '%'||#{category}||'%' ORDER BY G_DATE DESC
+		SELECT * FROM GROUP_LIST WHERE G_NO IN(SELECT G_NO FROM GROUP_CATEGORY WHERE C_KEY=#{category})
 	</select>
 	
 	<select id="groupView" parameterType="_int" resultMap="groupMap">
 		SELECT * FROM GROUP_LIST WHERE G_NO=#{groupNo}
+	</select>
+	
+	<select id="selectCategory" resultType="map">
+		SELECT * FROM GROUP_CATEGORY JOIN CATEGORY USING(C_KEY)
 	</select>
   
 </mapper>

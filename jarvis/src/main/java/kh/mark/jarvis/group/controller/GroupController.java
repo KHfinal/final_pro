@@ -30,18 +30,24 @@ public class GroupController {
 	public ModelAndView selectGroupList() {
 		ModelAndView mv=new ModelAndView();
 		List<Map<String, String>> list=service.selectGroupList();
+		List<Map<String, String>> cateList=service.selectCategory();
+		System.out.println(cateList);
 		
 		logger.debug("list"+list);
 		mv.addObject("list", list);
+		mv.addObject("cateList", cateList);
 		mv.setViewName("group/groupList");
 		return mv;
 	}
 	
 	@RequestMapping("/group/groupInsert.do")
-	public ModelAndView groupInsert(Group g, String[] g_category, MultipartFile upFile, HttpServletRequest request) {
+	public ModelAndView groupInsert(Group g, String[] g_category, String m, MultipartFile upFile, HttpServletRequest request) {
 		
 		System.out.println(g.getG_name());
 		System.out.println(g.getG_intro());
+		System.out.println(m);
+		
+		g.setG_master(m);
 		
 		logger.debug("寃뚯떆???낅줈??: "+upFile);
 		/*?곸꽭??multipartFile?뚯븘蹂닿린*/
@@ -98,8 +104,10 @@ public class GroupController {
 		ModelAndView mv=new ModelAndView();
 		logger.debug(titleSearch);
 		List<Map<String, String>> list=service.groupSearch(titleSearch);
+		List<Map<String, String>> cateList=service.selectCategory();
 		
 		mv.addObject("list", list);
+		mv.addObject("cateList", cateList);
 		mv.setViewName("group/groupList");
 		return mv;
 	}
@@ -109,8 +117,10 @@ public class GroupController {
 		ModelAndView mv=new ModelAndView();
 		logger.debug(category);
 		List<Map<String, String>> list=service.groupFilter(category);
+		List<Map<String, String>> cateList=service.selectCategory();
 		
 		mv.addObject("list", list);
+		mv.addObject("cateList", cateList);
 		mv.setViewName("group/groupList");
 		
 		return mv;

@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="kh.mark.jarvis.member.model.vo.Member"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
+
+<%-- <%
+	Member memberLoggedIn = (Member) request.getAttribute("memberLoggedIn");
+%> --%>
+
 <c:set value="${pageContext.request.contextPath}" var="path"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="social" name="title"/>	
@@ -138,36 +143,35 @@
 				
 				<ul class="nav nav-pills justify-content-center">
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="travle" value="여행">여행</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="travle" value="c1">여행</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="arts" value="예술&문화">예술&문화</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="arts" value="c2">예술&문화</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="health" value="건강">건강</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="health" value="c3">건강</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="beauty" value="패션&뷰티">패션&뷰티</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="beauty" value="c4">패션&뷰티</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="sports" value="스포츠">스포츠</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="sports" value="c5">스포츠</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="food" value="푸드">푸드</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="food" value="c6">푸드</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="living" value="리빙">리빙</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="living" value="c7">리빙</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="재테크">재테크</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="c8">재테크</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="1" value="1">1</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="com" value="c9">공통</button>
 					</li>
 				</ul>
 							    
-			</div>
-        	
+			</div> 	
 	</div>
 	<script>
 	$(function(){
@@ -189,7 +193,7 @@
                     <h4 class="modal-title">새 그룹 만들기</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form name="fmt" action="${path }/group/groupInsert.do?m=${memberLoggedIn.getMemberEmail}" method="post" enctype="multipart/form-data">
+                <form name="fmt" action="${path }/group/groupInsert.do?m=${memberLoggedIn.getMemberEmail()}" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <label for="groupName">그룹 이름 입력</label>
                         <input type="text" class="form-control form-control-lg" id="groupName" name="g_name"/>
@@ -262,22 +266,32 @@
 							<h3 class="section-subheading text-muted" style="margin-bottom: 30px;">자신에게 어울리는 그룹을 찾아보세요.</h3>
 						</div>
 						<div class="row">
-							<c:forEach var="g" items="${list}">				
-								<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
-									<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
-										<div class="portfolio-hover">
-							                <div class="portfolio-hover-content">
-							                  	<p>${g.g_intro}</p>
+							<c:if test="${list!=null }">
+								<c:forEach var="g" items="${list}">				
+									<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
+										<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
+											<div class="portfolio-hover">
+								                <div class="portfolio-hover-content">
+								                  	<p>${g.g_intro}</p>
+								                </div>
 							                </div>
-						                </div>
-										<img class="img-fluid" src="${path }/resources/upload/group/${g.g_renamedFilename}" style="width: 340px; height: 250px;"/>
-									</a>
-									<div class="portfolio-caption">
-										<h4>${g.g_name }</h4>
-										<p class="text-muted"><c:forEach var="cate" items="${g.g_category }">${cate }&nbsp;</c:forEach></p>
+											<img class="img-fluid" src="${path }/resources/upload/group/${g.g_renamedFilename}" style="width: 340px; height: 250px;"/>
+										</a>
+										<div class="portfolio-caption">
+											<h2>${g.g_name }</h2>
+											
+											<p class="text-muted">
+												<c:forEach var="cate" items="${cateList }">
+													<c:if test="${g.g_no==cate.G_NO }">
+														${cate.C_VALUE }&nbsp;
+													</c:if>
+												</c:forEach>
+											</p>
+											
+										</div>
 									</div>
-								</div>
-							</c:forEach>
+								</c:forEach>
+							</c:if>
 						</div>
 					</div>
 				</div>

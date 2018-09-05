@@ -46,6 +46,14 @@ public class GroupDaoImpl implements GroupDao {
 		
 		return Session.insert("group.categoryInsert", cat);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCategory(SqlSessionTemplate Session) {
+		
+		return Session.selectList("group.selectCategory");
+	}
+
+	
 	
 	
 

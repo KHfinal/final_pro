@@ -11,6 +11,7 @@ public interface GroupDao {
 
 	int groupInsert(SqlSessionTemplate Session, Group g);
 	List<Map<String, String>> selectGroupList(SqlSessionTemplate Session);
+	List<Map<String, String>> selectCategory(SqlSessionTemplate Session);
 	List<Map<String, String>> groupSearch(SqlSessionTemplate Session, String titleSearch);
 	List<Map<String, String>> groupFilter(SqlSessionTemplate Session, String category);
 	Group groupView(SqlSessionTemplate Session, int groupNo);
