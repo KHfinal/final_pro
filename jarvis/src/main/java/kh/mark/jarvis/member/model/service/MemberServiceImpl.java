@@ -1,5 +1,8 @@
 package kh.mark.jarvis.member.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,13 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.insertMember(sqlSession,member);
 	}
+
+	@Override
+	public List<Map<String,String>> memberList() {
+		// TODO Auto-generated method stub
+		return memberDao.memberList(sqlSession);
+	}
+	
 	
 
 }

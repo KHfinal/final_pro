@@ -8,7 +8,9 @@
 <c:set var="path" value="<%=request.getContextPath()%>"/>
 <%! private static List<String> sessionList = new ArrayList<>(); %>
 <%	
+
 	Member memberLoggedIn= (Member)session.getAttribute("memberLoggedIn");
+
 	sessionList.add(memberLoggedIn.getMemberName());
 	System.out.println("세션리스트 수 : "+sessionList.size());
 %>
