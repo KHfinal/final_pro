@@ -61,7 +61,7 @@ $(function() {
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="${path }/friend/friendView.do?email=${memberLoggedIn.getMemberEmail() }">
                 <span><i class="fas fa-user-friends"></i></span>
                 <span>friend List</span>
             </a>

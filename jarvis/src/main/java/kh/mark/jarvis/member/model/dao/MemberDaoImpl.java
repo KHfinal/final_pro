@@ -1,5 +1,8 @@
 package kh.mark.jarvis.member.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +23,13 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.insert("member.insertMember",member);
 
 	}
+
+	@Override
+	public List<Map<String,String>> memberList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("member.memberList");
+	}
 	
 
+	
 }

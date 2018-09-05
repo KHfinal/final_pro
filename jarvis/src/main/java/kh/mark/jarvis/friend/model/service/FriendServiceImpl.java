@@ -1,6 +1,7 @@
 package kh.mark.jarvis.friend.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,18 @@ public class FriendServiceImpl implements FriendService{
 	public List<Friend> selectFriendListJson(String email) {
 		// TODO Auto-generated method stub
 		return dao.selectFriendListJson(sqlSession,email);
+	}
+
+	@Override
+	public int friendRequest(Map<String, String> fr) {
+		// TODO Auto-generated method stub
+		return dao.friendRequest(sqlSession,fr);
+	}
+
+	@Override
+	public List<Map<String, String>> requestList(String email) {
+		// TODO Auto-generated method stub
+		return dao.requestList(sqlSession,email);
 	};
 
 	

@@ -1,6 +1,7 @@
 package kh.mark.jarvis.friend.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,5 +20,19 @@ public class FriendDaoImpl implements FriendDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("friend.selectFriendListJson",email);
 	}
+
+	@Override
+	public int friendRequest(SqlSessionTemplate sqlSession, Map<String, String> fr) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("friend.friendRequest",fr);
+	}
+
+	@Override
+	public List<Map<String, String>> requestList(SqlSessionTemplate sqlSession, String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("friend.requestList",email);
+	}
+	
+	
 
 }

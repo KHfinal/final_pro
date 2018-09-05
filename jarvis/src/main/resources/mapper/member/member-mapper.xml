@@ -36,5 +36,8 @@
       <!-- VO과 맞추면된다. #{approvalStatus},#{approvalKey},#{reg_date},#{log_data},#{memberPFP},#{memberConcern},#{memberGender},#{memberBirthday},#{addr1},#{addr2},#{addr3}-->
   </insert>
   
+  <select id="memberList" resultMap="memberMap">
+  	SELECT * FROM MEMBER
+  </select>
   
 </mapper>
