@@ -6,13 +6,15 @@
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
 
 <c:set var="path" value="<%=request.getContextPath()%>"/>
-<%! private static List<String> sessionList = new ArrayList<>(); %>
 <%	
-
-	Member memberLoggedIn= (Member)session.getAttribute("memberLoggedIn");
-
-	sessionList.add(memberLoggedIn.getMemberName());
-	System.out.println("세션리스트 수 : "+sessionList.size());
+	List<String> sessionList = (List)request.getAttribute("sessionList");
+	Member memberLoggedIn = (Member)session.getAttribute("memberLoggedIn");
+	
+	System.out.println("들어온 이메일 : " +memberLoggedIn.getMemberEmail() );
+	Iterator it = sessionList.iterator();
+	while(it.hasNext()){
+		System.out.println(it.next());
+	}
 %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -128,7 +130,67 @@ $('#inputCommentTxt').keydown(function(e) {
 		$('#createCommentFrm').submit();
 	}
 });
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 
+$(function () {
+	 ajax();
+})
+
+function reFresh() {
+	del();
+	
+}
+
+function del() {
+    $("#myDropdown").empty();
+	ajax();
+};
+
+function ajax() {
+	var email = '${memberLoggedIn.memberEmail}';
+	
+	alert("hiddenList : " + $('#hiddenList').val());
+	alert("email : " +email);
+	$.ajax({
+		url:"${path}/friend/selectFriendListJson.do",
+		type:"POST",
+		data:{email:email},
+		dataType:"json",
+		success : function(data){
+	    	$('#myDropdown').append('<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">');
+	    	$('#myDropdown').append('<button id="refresh" onclick="reFresh()">새로고침</button>');
+	    	
+			var friendList;
+			$.each(data.list,function(i,item){
+				var f_email = item.F_FRIEND_EMAIL;
+			    var a = '${sessionList.contains('+f_email+') }';
+				if(a==true){
+					alert("맞음");
+					friendList = "<a href='#'>"+item.F_FRIEND_EMAIL+"<span>123</span></a>";
+				}else{
+					friendList = "<a href='#'>"+item.F_FRIEND_EMAIL+"</a>";
+				}
+				$('#myDropdown').append(friendList);
+			});
+		}
+	});
+}
+function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
 
 
 
@@ -299,39 +361,16 @@ $('#inputCommentTxt').keydown(function(e) {
 	
 	
 	<!--친구 현황  -->
-<div class="container">
- 
+<div class="dropdown">
+<button onclick="myFunction()" class="dropbtn">Dropdown</button>
 
-  <!-- Button to Open the Modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Open modal
-  </button>
-
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-       <a>${memberLoggedIn.memberEmail}</a>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  
+<input type="text" name='hiddenList' id='hiddenList' value="${sessionList.contains(memberLoggedIn.getMemberEmail()) }">
+  <div id="myDropdown" class="dropdown-content">
+  <!-- <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()"> -->
+  <!-- <button id='refresh' onclick="reFresh()">새로고침</button> -->
+    
+    
+   </div>
 </div>
 
 	
