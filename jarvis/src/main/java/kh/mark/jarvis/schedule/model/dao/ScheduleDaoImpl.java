@@ -32,4 +32,14 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return sqlSession.selectOne("schedule.loadEvent", s);
 	}
 
+	@Override
+	public int updateEvent(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.update("schedule.updateEvent", s);
+	}
+
+	@Override
+	public int deleteEvent(SqlSessionTemplate sqlSession, int sNo) {
+		return sqlSession.delete("schedule.deleteEvent",sNo);
+	}
+
 }

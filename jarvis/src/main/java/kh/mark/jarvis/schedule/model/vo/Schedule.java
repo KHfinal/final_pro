@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Schedule {
 
+	private int sNo;
 	private String userEmail;
 	private String title;
 	private Date startDate;
@@ -12,15 +13,25 @@ public class Schedule {
 	private String color;
 	
 	public Schedule() {}
-	
-	public Schedule(String userEmail, String title, Date startDate, Date endDate, String content, String color) {
+
+	public Schedule(int sNo, String userEmail, String title, Date startDate, Date endDate, String content,
+			String color) {
 		super();
+		this.sNo = sNo;
 		this.userEmail = userEmail;
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.content = content;
 		this.color = color;
+	}
+
+	public int getsNo() {
+		return sNo;
+	}
+
+	public void setsNo(int sNo) {
+		this.sNo = sNo;
 	}
 
 	public String getUserEmail() {
@@ -62,6 +73,7 @@ public class Schedule {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public String getColor() {
 		return color;
 	}
@@ -72,9 +84,11 @@ public class Schedule {
 
 	@Override
 	public String toString() {
-		return "Schedule [userEmail=" + userEmail + ", title=" + title + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", content=" + content + ", color=" + color + "]";
+		return "Schedule [sNo=" + sNo + ", userEmail=" + userEmail + ", title=" + title + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", content=" + content + ", color=" + color + "]";
 	}
+	
+	
 
 	
 	

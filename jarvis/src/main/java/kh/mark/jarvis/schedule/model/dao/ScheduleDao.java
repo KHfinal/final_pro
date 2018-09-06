@@ -16,4 +16,8 @@ public interface ScheduleDao {
 
 	Schedule loadEvent(SqlSessionTemplate sqlSession, Schedule s);
 
+	int updateEvent(SqlSessionTemplate sqlSession, Schedule s);
+
+	int deleteEvent(SqlSessionTemplate sqlSession, int sNo);
+
 }

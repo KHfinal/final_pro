@@ -15,9 +15,13 @@
 <style>
     .fc-sat { color:#0000FF; }     /* 토요일 */
     .fc-sun { color:#FF0000; }    /* 일요일 */
-
+	.m9{
+		margin-left: 5%;
+	}
 </style>
-<div id="calendar"></div>
+<div class="w3-col m9">
+	<div id="calendar"></div>
+</div>
 
 
 <!-- 일정등록 Modal -->
@@ -80,13 +84,13 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">일정 등록</h4>
+        <h4 class="modal-title">일정</h4>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="${path }/schedule/updateSchedule.do" id="inputFrm">
-        	<input type="hidden" name="userEmail" value="${memberLoggedIn.memberEmail }">
+        <form action="${path }/schedule/updateSchedule.do" id="modinputFrm">
+        	<input type="hidden" name="sNo" id='sNo'>
 	        <table class="table">
 	        	<tr >
 	        		<th> 제목  </th>
@@ -118,8 +122,9 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button id="add" type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validate()">수정</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+        <button type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validateMod()">수정</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="fn_deleteEvent()">삭제</button>
+        <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
       </div>
 
     </div>
@@ -164,8 +169,10 @@
 	 					var json = JSON.parse(data);
 	 					console.log(json);
 	 					console.log(json.end);
+	 					var content = decodeURIComponent(json.content);
+	 					$("#sNo").val(json.sNo);
 	 					$("#moddate_end").val(json.end);
-	 					$("#modcontent").val(json.content);
+	 					$("#modcontent").val(content);
 	 					if(json.color == "on"){
 	 						$("#default").attr("checked",true);
 	 					}
@@ -192,7 +199,12 @@
 			      eventLimit: 6 // adjust to 6 only for agendaWeek/agendaDay
 			    }
 			 },
-			googleCalendarApiKey:"AIzaSyB8U2-71YAEPsxssN8OG5hwI-64TLORxgQ"
+			googleCalendarApiKey:"AIzaSyB8U2-71YAEPsxssN8OG5hwI-64TLORxgQ",
+			events:{
+				googleCalendarId:"ko.south_korea#holiday@group.v.calendar.google.com",
+				color:"#F5F7F8",
+				textColor:"red"
+			}
 		});
 		var e = ${events};
 		$('#calendar').fullCalendar('addEventSource',e);
@@ -211,4 +223,22 @@
 		
 		$("#inputFrm").submit(); 
 	};
+	function fn_validateMod(){
+		if($("#modtitle").val().trim()==0){
+			alert("일정 제목을 입력해주세요.");
+			return false;
+		}
+		if($("#moddate_end").val() < $("#moddate_start").val()){
+			alert("일정종료날짜가 시작날짜보다 작습니다.");
+			return false;
+		}
+		console.log($("#moddate_start").val());
+		console.log($("#moddate_end").val());
+		
+		$("#modinputFrm").submit(); 
+	};
+	function fn_deleteEvent(){
+		var sNo = $("#sNo").val();
+		location.href="${path}/schedule/deleteEvent.do?sNo="+sNo;
+	}
 </script>
