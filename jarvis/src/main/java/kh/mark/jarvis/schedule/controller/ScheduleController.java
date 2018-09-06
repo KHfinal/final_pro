@@ -99,4 +99,10 @@ public class ScheduleController {
 		
 		return json;
 	}
+	
+	@RequestMapping("/temp/home.do")
+	public String tempHome() {
+		
+		return "temp/tempHome";
+	}
 }
