@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="schedule">
 	<insert id="addSchedule" parameterType="schedule">
-		insert into schedule values(#{userEmail},#{title},#{startDate},#{endDate}+1,#{content},#{color})
+		insert into schedule values(s_seq.nextval,#{userEmail},#{title},#{startDate},#{endDate}+1,#{content},#{color})
 	</insert>
 	<resultMap type="map" id="eventMap">
 	</resultMap>
@@ -10,6 +10,12 @@
 		select * from schedule where user_email = #{userEmail}
 	</select>
 	<select id="loadEvent" parameterType="schedule" resultType="schedule">
-		select user_email as userEmail,title,start_date as startdate,end_date as enddate,content,color from schedule where user_email = #{userEmail} and title= #{title} and start_date = #{startDate}
+		select s_no as sNo,user_email as userEmail,title,start_date as startdate,end_date-1 as enddate,content,color from schedule where user_email = #{userEmail} and title= #{title} and start_date = #{startDate}
 	</select>
+	<update id="updateEvent" parameterType="schedule">
+		update schedule set title=#{title},start_date=#{startDate},end_date=#{endDate}+1,content=#{content},color=#{color} where s_no=#{sNo}
+	</update>
+	<delete id="deleteEvent" parameterType="_int">
+		delete from schedule where s_no=#{sNo}
+	</delete>
 </mapper>
