@@ -101,14 +101,15 @@ $(function() {
 	/* reply 아이콘 클릭. 답글 달기! */ 
 	$('.inputReplyIcon').click(function() {
 		
-		var replyPostRef = $('#reply_postRef').val();
+		/* var replyPostRef = $('#reply_postRef').val(); */
+		var replyPostRef = $(this).attr("title");
 		var replyCommentRef = $(this).val();
 		
 		var div1 = $("<div class='replyDisplay'></div>");
 		var div2 = $("<div class='replyInput'></div>");
 		
 		console.log(replyPostRef);
-		console.log("??" + $('#reply_postRef').val());
+		console.log(replyCommentRef);
 		
 		/* 답글 출력 */
 		var html1 = "<a href='#'><span class='replyWriterDisplay'>comment.getCommentWriter()</span></a>";
@@ -122,7 +123,7 @@ $(function() {
 		html2 += "<input type='hidden' name='postRef' value='" + replyPostRef + "'/>";
 		html2 += "<input type='hidden' name='commentLevel' value='2'/>";
 		html2 += "<input type='hidden' name='commentRef' value='" + replyCommentRef + "'/>";
-		html2 += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180831_190832689_634.jpg'></span>";
+		html2 += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180030_210021127_730.jpg'></span>";
 		html2 += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
 		html2 += "<div style='clear: both'></div></form>";
 		
@@ -246,10 +247,9 @@ function readURL(input) {
 					<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
 					<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
 					<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
-					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
-					<button class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></button>
+					<%-- <input type="hidden" name="postRef" value="${post.getPostNo() }"/> --%>
+					<button class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getPostRef() }" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></button>
 					<div style="clear: both"></div>
-					
 					
 					
 					<div class="reply-container"> <!-- 답글은 여기로 -->
@@ -267,7 +267,7 @@ function readURL(input) {
 			<!-- 댓글 쓰기 -->
 			<div id="inputComment-container">
 				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
-					<span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+					<span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180030_210021127_730.jpg"></span>
 					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
 					<input type="hidden" id="reply_postRef" name="postRef" value="${post.getPostNo() }"/>
 					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
