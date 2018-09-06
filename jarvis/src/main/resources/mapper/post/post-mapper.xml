@@ -26,8 +26,8 @@
 	
 	<!-- 댓글 -->
 	<insert id="insertComment" parameterType="comment">
-		INSERT INTO JARVIS_COMMENT(COMMENT_NO, COMMENT_WRITER, COMMENT_CONTENTS, COMMENT_LEVEL, POST_REF, COMMENT_DATE)
-		VALUES(seq_comment_no.nextval, #{commentWriter}, #{commentContents}, #{commentLevel}, #{postRef}, systimestamp)
+		INSERT INTO JARVIS_COMMENT(COMMENT_NO, COMMENT_WRITER, COMMENT_CONTENTS, COMMENT_LEVEL, POST_REF, COMMENT_REF, COMMENT_DATE)
+		VALUES(seq_comment_no.nextval, #{commentWriter}, #{commentContents}, #{commentLevel}, #{postRef}, ${commentRef}, systimestamp)
 	</insert>
 	
 	<select id="selectCommentList" resultType="comment" resultMap="selectCommentList">

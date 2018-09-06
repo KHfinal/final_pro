@@ -4,4 +4,3 @@ Built-By: user2
 Build-Jdk: 1.8.0_161
 
 Created-By: Maven Integration for Eclipse
-

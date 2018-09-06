@@ -6,22 +6,19 @@
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
 
 <c:set var="path" value="<%=request.getContextPath()%>"/>
+<%! private static List<String> sessionList = new ArrayList<>(); %>
+
 <%	
-	List<String> sessionList = (List)request.getAttribute("sessionList");
 	Member memberLoggedIn = (Member)session.getAttribute("memberLoggedIn");
-	
-	System.out.println("들어온 이메일 : " +memberLoggedIn.getMemberEmail() );
-	Iterator it = sessionList.iterator();
-	while(it.hasNext()){
-		System.out.println(it.next());
-	}
+	sessionList.add(memberLoggedIn.getMemberName());
+	System.out.println("세션리스트 수 : "+sessionList.size());
 %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1111">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=11111">
 <style>
 
 
@@ -94,19 +91,50 @@ $(function() {
     	}
     });
 	
-	// 로그인안하면 글, 댓글 못달아!! 근데 이거하면 이미지 미리보기가 안나와 일단 보류!
-	<%-- 
-	if(<%=session.getAttribute("memberLoggedIn") %> == null) {
-		var inputComment = $('.inputCommentTxt');
+	/* 댓글 input 엔터 이벤트 */
+	$('.inputCommentTxt').keydown(function(e) {
+		if(e.keyCode == 13) {
+			$('.createCommentFrm').submit();
+		}
+	});
+	
+	/* reply 아이콘 클릭. 답글 달기! */ 
+	$('.inputReplyIcon').click(function() {
 		
-		inputComment.attr('disabled', true);
-		inputComment.attr('value', '로그인 후 이용 가능합니다.')
+		var replyPostRef = $('#reply_postRef').val();
+		var replyCommentRef = $(this).val();
 		
-		$('#createPostContainer').attr('data-target', "");
-		$('#fakePostContents').attr('placeholder', '로그인 후 이용 가능합니다.')
-	}
-	 --%>
-
+		var div1 = $("<div class='replyDisplay'></div>");
+		var div2 = $("<div class='replyInput'></div>");
+		
+		console.log(replyPostRef);
+		console.log("??" + $('#reply_postRef').val());
+		
+		/* 답글 출력 */
+		var html1 = "<a href='#'><span class='replyWriterDisplay'>comment.getCommentWriter()</span></a>";
+		html1 += "<span class='replyContentsDisplay'>&nbsp;&nbsp;comment.getCommentContents()</span>";
+		html1 += "<a><i class='far fa-thumbs-up' style='font-size: 1.1em; margin-right: 1.5%'></i></a>";
+		html1 += "<div style='clear: both'></div>";
+		
+		/* 답글 입력 */
+		var html2 = "<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>";
+		html2 += "<input type='hidden' name='commentWriter' value='${memberLoggedIn.getMemberNickname() }'/>";
+		html2 += "<input type='hidden' name='postRef' value='" + replyPostRef + "'/>";
+		html2 += "<input type='hidden' name='commentLevel' value='2'/>";
+		html2 += "<input type='hidden' name='commentRef' value='" + replyCommentRef + "'/>";
+		html2 += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180831_190832689_634.jpg'></span>";
+		html2 += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
+		html2 += "<div style='clear: both'></div></form>";
+		
+		div1.html(html1); /* replyDisplay-container */
+		div1.appendTo($(this).parent().children('.reply-container').children('.replyDisplay-container'));
+		
+		div2.html(html2); /* replyInput-container */
+		div2.appendTo($(this).parent().children('.reply-container'));
+		
+		$(this).off('click');
+		
+	});
 });
 
 function readURL(input) {
@@ -124,80 +152,11 @@ function readURL(input) {
 	}
 }
 
-/* 댓글 input 엔터 이벤트 */
-$('#inputCommentTxt').keydown(function(e) {
-	if(e.keyCode == 13) {
-		$('#createCommentFrm').submit();
-	}
-});
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-$(function () {
-	 ajax();
-})
-
-function reFresh() {
-	del();
-	
-}
-
-function del() {
-    $("#myDropdown").empty();
-	ajax();
-};
-
-function ajax() {
-	var email = '${memberLoggedIn.memberEmail}';
-	
-	alert("hiddenList : " + $('#hiddenList').val());
-	alert("email : " +email);
-	$.ajax({
-		url:"${path}/friend/selectFriendListJson.do",
-		type:"POST",
-		data:{email:email},
-		dataType:"json",
-		success : function(data){
-	    	$('#myDropdown').append('<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">');
-	    	$('#myDropdown').append('<button id="refresh" onclick="reFresh()">새로고침</button>');
-	    	
-			var friendList;
-			$.each(data.list,function(i,item){
-				var f_email = item.F_FRIEND_EMAIL;
-			    var a = '${sessionList.contains('+f_email+') }';
-				if(a==true){
-					alert("맞음");
-					friendList = "<a href='#'>"+item.F_FRIEND_EMAIL+"<span>123</span></a>";
-				}else{
-					friendList = "<a href='#'>"+item.F_FRIEND_EMAIL+"</a>";
-				}
-				$('#myDropdown').append(friendList);
-			});
-		}
-	});
-}
-function filterFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("myDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
-        }
-    }
-}
-
-
-
-
 
 
 </script>
+
+
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 		<div class="modal-header">
@@ -225,7 +184,7 @@ function filterFunction() {
 				<!-- Modal body -->
 				<form id="createPostFrm" method="post" action="${path }/post/insertPost.do" enctype="multipart/form-data">
 					<div class="modal-body">
-						<input type="hidden" id="postWriter" name="postWriter" value="yong"/>
+						<input type="hidden" id="postWriter" name="postWriter" value="${memberLoggedIn.getMemberNickname() }"/>
 						<textarea class="form-control" rows="5" id="postContents" name="postContents" placeholder="문구 입력..."></textarea>
 						<hr>
 						
@@ -265,115 +224,98 @@ function filterFunction() {
 	        <span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
-	    	<div id="postContentsContainer">
-	    		<pre>${post.getPostContents() }</pre>
-			</div>
-	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
-	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
-	    			<div class="postAttachContainer">
-		        		<img class="imgSize img-thumbnail" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
-			        </div>
-	        	</c:if>
+	       <div id="postContentsContainer">
+	          <pre>${post.getPostContents() }</pre>
+	      </div>
+	       <c:forEach items="${attachmentList }" var="attach" varStatus="vs">
+	          <c:if test='${post.getPostNo() == attach.getPostNo() }'>
+	             <div class="postAttachContainer">
+	                 <img class="imgSize img-thumbnail" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+	              </div>
+	           </c:if>
 	        </c:forEach>
 	        <div style="clear: both"></div>
 	    </div>
 	    
-	    <!-- 댓글 쓰기 -->
-	    <div class="panel-footer">
-	    	<div class="commentContainer">
-	    	
-				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
-					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
+	    
+		<div class="panel-footer">
+			<!-- 댓글 출력 -->
+			<c:forEach items="${commentList }" var="comment">
+				<c:if test='${post.getPostNo() eq comment.getPostRef()}'>
+				<div class="commentDisplay-container">
+					<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
+					<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
+					<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
 					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
-					<input type="hidden" name="commentLevel" value="1"/>
-					
-					<span><img class="commentProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 댓글을 입력하세요..."/>
+					<button class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></button>
 					<div style="clear: both"></div>
 					
-					<!-- 댓글 출력 -->
-					<c:forEach items="${commentList }" var="comment" varStatus="vs">
-						<c:if test='${post.getPostNo() == comment.getPostRef() }'>
-	 						<div class="displayComment">
-								<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
-								<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
-								<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
-								<a id="inputReply"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></a>
-								<div style="clear: both"></div>
-								
-								<!-- 답글 달기 -->
-								<div class="reply-container">
-									<span><img class="replyProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-									<input type="text" id="inputReplyTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 답글을 입력하세요..."/>
-									<div style="clear: both"></div>
-								</div>
-							</div>
-						</c:if>
-					</c:forEach>
+					
+					
+					<div class="reply-container"> <!-- 답글은 여기로 -->
+						<div class="replyDisplay-container"> <!-- 답글 출력 -->
+							
+						</div>	
+						<!-- 이곳에 답글 입력 -->
+						
+					</div>
+				</div>
+				</c:if>
+			</c:forEach>
+			
+
+			<!-- 댓글 쓰기 -->
+			<div id="inputComment-container">
+				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
+					<span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
+					<input type="hidden" id="reply_postRef" name="postRef" value="${post.getPostNo() }"/>
+					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
+					<input type="hidden" name="commentLevel" value="1"/>
+					<div style="clear: both"></div>
 				</form>
-			</div>
-	    </div>
-	</div>
+			</div> <!-- inputComment-container -->
+			
+			
+		</div> <!-- panel-footer -->
+	</div> <!-- panel -->
+	
 	</c:forEach>
 	
 	<style>
-		.displayComment {
-			margin: 1% 0;
-		}
-		
-		.reply-container {
-			margin: 1% 0;
-		}
-		
-		.replyProfil{
-			width: 50px;
-			height: 50px;
-			margin: 0 0 0 15%;
-			float: left;
-		}
-		
-		#inputReplyTxt {
-			margin: 1% 0 0 1%;
-			padding: 0 0 0 5px;
-			width: 70%;
-			background-color: rgb(242, 244, 247);
-			float: left;
-		}
-		
-		.commentWriter {
-			font-size: 1em; 
-			margin-left: 3%;
+		#inputComment-container {
+			margin-top: 2%;
 		}
 	
-		.commentContents {
-			margin: 1% 2% 1% 0;
-			font-size: 0.9em;
-			font-weight: normal;
-			font-family: inherit; 
+		#commentProfile {
+			max-width: 50px;
+			height: 50px;
+		}
+		
+		#inputCommentTxt {
+			max-width: 85%;
+			display: inline-block; 
+		}
+		
+		.replyInput {
+			margin-left: 10%;
+		}
+		
+		.replyProfile {
+			max-width: 50px;
+			height: 50px;
+		}
+		
+		.inputReplyTxt {
+			max-width: 84%;
+			display: inline-block;
+		}
+		
+		.replyDisplay {
+			margin-top: 0.5%;
+			margin-left: 10%;
 		}
 	</style>
 
 
-	
-	
-	
-	
-	
-	
-	<!--친구 현황  -->
-<div class="dropdown">
-<button onclick="myFunction()" class="dropbtn">Dropdown</button>
-
-<input type="text" name='hiddenList' id='hiddenList' value="${sessionList.contains(memberLoggedIn.getMemberEmail()) }">
-  <div id="myDropdown" class="dropdown-content">
-  <!-- <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()"> -->
-  <!-- <button id='refresh' onclick="reFresh()">새로고침</button> -->
-    
-    
-   </div>
-</div>
-
-	
-	
-	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
