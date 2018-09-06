@@ -1,6 +1,8 @@
 package kh.mark.jarvis.schedule.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,16 +86,17 @@ public class ScheduleController {
 	
 	@RequestMapping("/schedule/selectOneEvent.do")
 	@ResponseBody
-	public String loadEvent(Schedule s,ModelAndView mv) throws JsonProcessingException {
+	public String loadEvent(Schedule s,ModelAndView mv) throws JsonProcessingException, UnsupportedEncodingException {
 		logger.debug(s.toString());
 		Schedule event = service.loadEvent(s);
 		logger.debug(event.toString());
-		Map<String,String> eventMap = new HashMap<>();
+		Map<String,Object> eventMap = new HashMap<>();
+		eventMap.put("sNo", event.getsNo());
 		eventMap.put("userEmail", event.getUserEmail());
-		eventMap.put("title",event.getTitle());
+		eventMap.put("title",URLEncoder.encode(event.getTitle(), "UTF-8"));
 		eventMap.put("start", event.getStartDate().toString());
 		eventMap.put("end", event.getEndDate().toString());
-		eventMap.put("content", event.getContent());
+		eventMap.put("content",URLEncoder.encode(event.getContent(), "UTF-8"));
 		eventMap.put("color",event.getColor());
 		String json = new ObjectMapper().writeValueAsString(eventMap);
 		logger.debug(json);
@@ -104,5 +108,40 @@ public class ScheduleController {
 	public String tempHome() {
 		
 		return "temp/tempHome";
+	}
+	
+	@RequestMapping("/schedule/updateSchedule.do")
+	public ModelAndView updateEvent(Schedule s,ModelAndView mv) {
+		logger.debug(s.toString());
+		int result = service.updateEvent(s);
+		
+		String msg = "일정수정에 성공하였습니다.";
+		String loc = "/schedule/privateHome.do";
+		if(result<=0) {
+			msg = "일정수정에 실패하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/schedule/deleteEvent.do")
+	public ModelAndView deleteEvent(int sNo,ModelAndView mv) {
+		int result = service.deleteEvent(sNo);
+		
+		String msg = "일정삭제에 성공하였습니다.";
+		String loc = "/schedule/privateHome.do";
+		if(result<=0) {
+			msg = "일정삭제에 실패하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
 	}
 }

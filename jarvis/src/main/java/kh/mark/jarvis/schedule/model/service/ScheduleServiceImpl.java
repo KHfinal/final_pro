@@ -44,4 +44,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return dao.loadEvent(sqlSession,s);
 	}
 
+
+	@Override
+	public int updateEvent(Schedule s) {
+		return dao.updateEvent(sqlSession,s);
+	}
+
+
+	@Override
+	public int deleteEvent(int sNo) {
+		return dao.deleteEvent(sqlSession,sNo);
+	}
+
 }

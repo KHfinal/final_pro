@@ -15,5 +15,9 @@ public interface ScheduleService {
 	List<Map<String, Object>> eventList(String userEmail);
 
 	Schedule loadEvent(Schedule s);
+
+	int updateEvent(Schedule s);
+
+	int deleteEvent(int sNo);
 	
 }
