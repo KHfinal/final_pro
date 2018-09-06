@@ -63,6 +63,7 @@
 	</div>
 </header>
 
+
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
   <!-- The Grid -->
@@ -153,6 +154,7 @@
     
     <!-- 사이드 메뉴 부분 종료 DIV -->
     </div>
+
 <div class="main-content mt-0" style="padding-top: 0px; padding-left: 0px;">
 <script>
 	function goCalendar(){

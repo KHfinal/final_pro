@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="friend">
-<resultMap type="map" id="friendMap"></resultMap>
+<resultMap type="map" id="friendMap">
+	<result column="f_member_email" property="f_member_email"/>
+	<result column="f_friend_email" property="f_friend_email"/>
+	<result column="f_status" property="f_status"/>
+</resultMap>
 	
 	<select id="selectFriendListJson" resultMap="friendMap" parameterType="string">
 		SELECT f_friend_email FROM FRIEND WHERE f_member_email =  #{email}
 	</select>
 	
-	<select id="requestList" resultType="map" parameterType="string">
+	<select id="requestList" resultMap="friendMap" parameterType="string">
 		SELECT * FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_STATUS='P'
 	</select>
 
 	<insert id="friendRequest" parameterType="map">
 		INSERT INTO FRIEND VALUES(#{myEmail},#{fEmail},#{p})
 	</insert>
+	
+	<update id="friendAgree" parameterType="map">
+		UPDATE FRIEND SET F_STATUS=#{y} WHERE F_MEMBER_EMAIL=#{email} AND F_FRIEND_EMAIL=#{fEmail}
+	</update>
+	
+	<delete id="friendRefuse" parameterType="map">
+		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_FRIEND_EMAIL=#{fEmail}
+	</delete>
 </mapper>
