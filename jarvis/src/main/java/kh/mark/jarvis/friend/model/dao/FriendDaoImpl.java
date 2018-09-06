@@ -32,6 +32,17 @@ public class FriendDaoImpl implements FriendDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("friend.requestList",email);
 	}
+
+	@Override
+	public int friendAgree(SqlSessionTemplate sqlSession, Map<String, String> fr) {
+		return sqlSession.update("friend.friendAgree",fr);
+	}
+
+	@Override
+	public int friendRefuse(SqlSessionTemplate sqlSession, Map<String, String> fr) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("friend.friendRefuse",fr);
+	}
 	
 	
 

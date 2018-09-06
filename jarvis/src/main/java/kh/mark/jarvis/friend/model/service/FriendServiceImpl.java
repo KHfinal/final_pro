@@ -39,7 +39,19 @@ public class FriendServiceImpl implements FriendService{
 	@Override
 	public List<Map<String, String>> requestList(String email) {
 		// TODO Auto-generated method stub
-		return dao.requestList(sqlSession,email);
+		return dao.requestList(sqlSession, email);
+	}
+
+	@Override
+	public int friendAgree(Map<String, String> fr) {
+		// TODO Auto-generated method stub
+		return dao.friendAgree(sqlSession, fr);
+	}
+
+	@Override
+	public int friendRefuse(Map<String, String> fr) {
+		// TODO Auto-generated method stub
+		return dao.friendRefuse(sqlSession, fr);
 	};
 
 	
