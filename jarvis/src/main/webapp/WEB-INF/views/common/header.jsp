@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="${path }/resources/css/common.css?ver=1">
 <link href="https://fonts.googleapis.com/css?family=Audiowide|Cabin+Sketch|Monoton|Orbitron" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -26,6 +26,130 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<script >
+var userIdList=[] ;
+var sock=new SockJS("<c:url value='/friendInList'/>")  /* (0) */
+	/* sock.메소드 는 컨트롤러(핸들러)로 감 */
+sock.onmessage = onMessage;
+sock.onclose = onClose;
+
+$(function() {
+    $('.dropdown-toggle').click(function() {
+        this.attr("border", none);
+    })
+});
+function ajax() {
+	var email = '${memberLoggedIn.memberEmail}';    /* (0) */
+	
+	$.ajax({
+		url:"${path}/friend/selectFriendListJson.do",
+		type:"POST",
+		data:{email:email},
+		dataType:"json",
+		success : function(data){
+	    	$('#myDropdown').append('<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">');
+	    	$('#myDropdown').append('<button id="refresh" onclick="reFresh()">새로고침</button><br>');
+	    	
+			var friendList;
+			$.each(data.list,function(i,item){
+				
+				var f_email = item.f_friend_email; 
+				var size =userIdList.length;
+				
+				
+				console.log("현재 userIdList : " +userIdList );
+				for(var k =0; k<size;k++){
+					console.log("f_email : "+f_email);
+					console.log("userIdList[k] : "+userIdList[k]);
+				    if(f_email==userIdList[k]){
+						friendList = "<a href='#' class='w3-bar-item w3-button'>"+item.f_friend_email+"<i class='fa fa-cloud'/></a><br>";
+						break;
+				    }else{
+				    	friendList = "<a href='#' class='w3-bar-item w3-button'>"+item.f_friend_email+"</a><br>";
+				    }
+				} 
+				$('#myDropdown').append(friendList);
+			});
+		}
+	
+	});
+};
+
+
+
+function onMessage(evt){
+	var userId = evt.data;
+	var flag=evt.data.split("|");
+	console.log("구분 : " +userId[0]);
+	
+	
+	if(flag[0]=="1"){
+		console.log("스크립트 추가한 유저 : " + flag[1]);
+		
+		if(!(userIdList.indexOf(flag[1])>=0)){
+			userIdList.push(flag[1]);
+		}
+		
+		
+		console.log("스크립트 접속후 접속자 : "+userIdList);
+		/* alert("포함?"+userIdList.contains(flag[1])); */
+			
+	}
+	if(flag[0]=="2"){
+		console.log("스크립트 나간 유저 : " + flag[1]);
+		
+		
+		userIdList.splice(userIdList.indexOf(flag[1]),1);	
+		
+		console.log("스크립트 나간후 접속자 : "+userIdList);
+		
+	}
+};
+function onClose() {
+	/* 이동하고 close */
+	location.href="${pageContext.request.contextPath}";
+	self.close();
+};	
+/* function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    ajax();
+}; */
+
+ 
+
+$(document).ready(function () {
+	$('#fr').hover(
+			function(){
+				ajax();
+			},
+			function() {
+				dell();
+			});
+});
+function reFresh() {
+	dell();
+};
+function dell() {
+    $("#myDropdown").empty();
+};
+function del() {
+    $("#myDropdown").empty();
+};
+function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}	
+</script>
 <style>
 	html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 </style>
@@ -38,7 +162,16 @@
 	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
 	  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>JARVIS</a>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
+	  <div id='fr' class="w3-dropdown-hover w3-hide-small">
+	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-user"></i><span class="w3-badge w3-right w3-small w3-green">4</span></button>     
+	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+		    <div class="dropdown"  id="myDropdown" >
+	    
+			    
+	   
+			</div>
+	    </div>
+	  </div>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
 	  <div class="w3-dropdown-hover w3-hide-small">
 	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">4</span></button>     
