@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -119,7 +120,7 @@ public class PostController {
 	
 	
 	// 3. 댓글 등록
-	@RequestMapping("/post/postCommentInsert.do")
+	@RequestMapping(value="/post/postCommentInsert.do", method=RequestMethod.POST)
 	public ModelAndView insertComment(JarvisComment comment) {
 		ModelAndView mv = new ModelAndView();
 		
@@ -142,6 +143,5 @@ public class PostController {
 		mv.setViewName("common/msg");
 		
 		return mv;
-		
 	}
 }

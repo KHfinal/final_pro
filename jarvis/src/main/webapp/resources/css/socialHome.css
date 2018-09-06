@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
+/* Post게시물 출력 */
 #createPostContainer {
+	width: 42%;
+    margin-left: 14%;
     -webkit-transform:scale(1);
     -moz-transform:scale(1);
     -ms-transform:scale(1); 
@@ -84,10 +87,7 @@
 
 
 
-
-
-
-/* post 리스트 출력  */
+/* post 게시물 출력  */
 .panel {
 	margin-left: 15%;
     border: 1px solid rgb(7, 48, 110); 
@@ -166,85 +166,12 @@
     height: auto;
 }
 
-.panel-footer .btn:hover {
-    border: 1px solid rgb(7, 48, 110);
-    background-color: #fff;
-    color: rgb(7, 48, 110);
-} 
-
-/* 
-.panel-footer .btn {
-    margin: 15px 0;
-    background-color: rgb(7, 48, 110);
-    color: #fff;
-}
-*/
-
-#createPostContainer {
-	width: 42%;
-    margin-left: 14%;
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-#createPostContainer:hover {
-    -webkit-transform:scale(1.03);
-    -moz-transform:scale(1.03);
-    -ms-transform:scale(1.03);   
-    -o-transform:scale(1.03);
-    transform:scale(1.03);
-    z-index: 100 !important;
-}
-
-.postAttachContainer img {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.2s;
-    -moz-transition:.2s;
-    -ms-transition:.2s;
-    -o-transition:.2s;
-    transition:.2s;
-}
-
-.postAttachContainer:hover img {
-    -webkit-transform:scale(1.05);
-    -moz-transform:scale(1.05);
-    -ms-transform:scale(1.05);   
-    -o-transform:scale(1.05);
-    transform:scale(1.05);
-}
 
 
 
 
-/* 댓글 */
-a {
-	text-decoration: none;
-}
 
-.commentProfil {
-	width: 50px;
-	height: 50px;
-	float: left;
-}
+/* 댓글 입력 */
 
-#inputCommentTxt {
-	margin: 1% 0 0 1%;
-	padding: 0 0 0 5px;
-	width: 88%;
-	background-color: rgb(242, 244, 247);
-	float: left;
-}
 
 

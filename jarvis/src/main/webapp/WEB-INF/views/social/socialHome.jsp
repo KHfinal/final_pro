@@ -7,9 +7,10 @@
 
 <c:set var="path" value="<%=request.getContextPath()%>"/>
 <%! private static List<String> sessionList = new ArrayList<>(); %>
+
 <%	
-	Member m = (Member)session.getAttribute("memberLoggedInSession");
-	sessionList.add(m.getMemberName());
+	Member memberLoggedIn = (Member)session.getAttribute("memberLoggedIn");
+	sessionList.add(memberLoggedIn.getMemberName());
 	System.out.println("세션리스트 수 : "+sessionList.size());
 %>
 
@@ -90,19 +91,48 @@ $(function() {
     	}
     });
 	
-	// 로그인안하면 글, 댓글 못달아!! 근데 이거하면 이미지 미리보기가 안나와 일단 보류!
-	<%-- 
-	if(<%=session.getAttribute("memberLoggedIn") %> == null) {
-		var inputComment = $('.inputCommentTxt');
+	/* 댓글 input 엔터 이벤트 */
+	$('.inputCommentTxt').keydown(function(e) {
+		if(e.keyCode == 13) {
+			$('.createCommentFrm').submit();
+		}
+	});
+	
+	/* reply 아이콘 클릭. 답글 달기! */ 
+	$('.inputReplyIcon').click(function() {
 		
-		inputComment.attr('disabled', true);
-		inputComment.attr('value', '로그인 후 이용 가능합니다.')
+		var postRef = $('#reply_postRef').val();
+		var commentRef = $('#reply_commentNo').val();
 		
-		$('#createPostContainer').attr('data-target', "");
-		$('#fakePostContents').attr('placeholder', '로그인 후 이용 가능합니다.')
-	}
-	 --%>
-
+		console.log("답글 postRef(postNo) = " + postRef);
+		console.log("답글 comment Ref(commentNo) = " + commentRef);
+		
+		var div1 = $("<div class='replyDisplay-container'></div>");
+		var div2 = $("<div class='reply-container'></div>");
+		
+		var html1 = "<a href='#'><span class='replyWriterDisplay'>${comment.getCommentWriter() }</span></a>";
+		html1 += "<span class='replyContentsDisplay'>&nbsp;&nbsp;${comment.getCommentContents() }</span>";
+		html1 += "<a><i class='far fa-thumbs-up' style='font-size: 1.1em; margin-right: 1.5%'></i></a>";
+		html1 += "<div style='clear: both'></div>";
+		
+		var html2 = "<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>";
+		html2 += "<input type='hidden' name='commentWriter' value='${memberLoggedIn.getMemberNickname() }'/>";
+		html2 += "<input type='hidden' name='postRef' value='" + postRef + "'/>";
+		html2 += "<input type='hidden' name='commentLevel' value='2'/>";
+		html2 += "<input type='hidden' name='commentRef' value='" + commentRef + "'/>";
+		html2 += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180831_190832689_634.jpg'></span>";
+		html2 += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
+		html2 += "<div style='clear: both'></div></form>";
+		
+		div1.html(html1); /* replyDisplay-container */
+		div1.appendTo($(this).parent());
+		
+		div2.html(html2); /* reply-container */
+		div2.appendTo($(this).parent()); /* commentDisplay-container */
+		
+		$(this).off('click');
+		
+	});
 });
 
 function readURL(input) {
@@ -120,20 +150,11 @@ function readURL(input) {
 	}
 }
 
-/* 댓글 input 엔터 이벤트 */
-$('#inputCommentTxt').keydown(function(e) {
-	if(e.keyCode == 13) {
-		$('#createCommentFrm').submit();
-	}
-});
-
-
-
-
-
 
 
 </script>
+
+
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 		<div class="modal-header">
@@ -161,7 +182,7 @@ $('#inputCommentTxt').keydown(function(e) {
 				<!-- Modal body -->
 				<form id="createPostFrm" method="post" action="${path }/post/insertPost.do" enctype="multipart/form-data">
 					<div class="modal-body">
-						<input type="hidden" id="postWriter" name="postWriter" value="yong"/>
+						<input type="hidden" id="postWriter" name="postWriter" value="${memberLoggedIn.getMemberNickname() }"/>
 						<textarea class="form-control" rows="5" id="postContents" name="postContents" placeholder="문구 입력..."></textarea>
 						<hr>
 						
@@ -201,91 +222,111 @@ $('#inputCommentTxt').keydown(function(e) {
 	        <span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
 	    </div>
 	    <div class="panel-body">
-	    	<div id="postContentsContainer">
-	    		<pre>${post.getPostContents() }</pre>
-			</div>
-	    	<c:forEach items="${attachmentList }" var="attach" varStatus="vs">
-	    		<c:if test='${post.getPostNo() == attach.getPostNo() }'>
-	    			<div class="postAttachContainer">
-		        		<img class="imgSize img-thumbnail" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
-			        </div>
-	        	</c:if>
+	       <div id="postContentsContainer">
+	          <pre>${post.getPostContents() }</pre>
+	      </div>
+	       <c:forEach items="${attachmentList }" var="attach" varStatus="vs">
+	          <c:if test='${post.getPostNo() == attach.getPostNo() }'>
+	             <div class="postAttachContainer">
+	                 <img class="imgSize img-thumbnail" src="${path }/resources/upload/post/${attach.getRenamedFileName() }">
+	              </div>
+	           </c:if>
 	        </c:forEach>
 	        <div style="clear: both"></div>
 	    </div>
 	    
-	    <!-- 댓글 쓰기 -->
-	    <div class="panel-footer">
-	    	<div class="commentContainer">
-	    	
+	    
+		<div class="panel-footer">
+			<!-- 댓글 출력 -->
+			<c:forEach items="${commentList }" var="comment">
+				<input type="hidden" id="reply_commentNo" value="${comment.getCommentNo() }"/> <!-- reply 시 commentNo 잠조값 -->
+				<input type="hidden" id="reply_postRef" name="postRef" value="${post.getPostNo() }"/> <!-- reply 시 postRef 잠조값 -->
+				<c:if test='${post.getPostNo() eq comment.getPostRef() and comment.getCommentLevel() eq 1}'>
+					<div class="commentDisplay-container">
+						<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
+						<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
+						<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
+						<a href="#reply-container" class="inputReplyIcon"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></a>
+						<div style="clear: both"></div>
+					</div>
+				</c:if>
+					<!--  답글 출력
+					<div class="replyDisplay-container"> 
+						<a href="#"><span class="replyWriterDisplay">${comment.getCommentWriter() }</span></a>
+						<span class="replyContentsDisplay">&nbsp;&nbsp;${comment.getCommentContents() }</span>
+						<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
+						<div style="clear: both"></div>
+					</div>
+					
+					 	  답글 입력
+					<div class='reply-container'> 
+						<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>
+						<input type='hidden' name='commentWriter' value='${memberLoggedIn.getMemberNickname() }'/>
+						<input type='hidden' name='postRef' value='" + postRef + "'/>
+						<input type='hidden' name='commentLevel' value='2'/>
+						<input type='hidden' name='commentRef' value='" + commentRef + "'/>
+						<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180831_190832689_634.jpg'></span>
+						<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>
+						<div style='clear: both'></div>
+						</form>
+					</div>
+					-->
+					
+			</c:forEach>
+			
+			
+
+			<!-- 댓글 쓰기 -->
+			<div id="inputComment-container">
 				<form id="createCommentFrm" method="post" action="${path }/post/postCommentInsert.do">
+					<span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
+					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
+					
 					<input type="hidden" name="commentWriter" value="${memberLoggedIn.getMemberNickname() }"/>
-					<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
+					<input type="hidden" name="postRef" value="${post.getPostNo() }"/> <!-- reply 시 postRef 잠조값 -->
 					<input type="hidden" name="commentLevel" value="1"/>
-					
-					<span><img class="commentProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-					<input type="text" id="inputCommentTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 댓글을 입력하세요..."/>
 					<div style="clear: both"></div>
-					
-					<!-- 댓글 출력 -->
-					<c:forEach items="${commentList }" var="comment" varStatus="vs">
-						<c:if test='${post.getPostNo() == comment.getPostRef() }'>
-	 						<div class="displayComment">
-								<a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
-								<span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
-								<a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
-								<a id="inputReply"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></a>
-								<div style="clear: both"></div>
-								
-								<!-- 답글 달기 -->
-								<div class="reply-container">
-									<span><img class="replyProfil rounded-circle" src="${path }/resources/upload/post/20180831_190832689_634.jpg"></span>
-									<input type="text" id="inputReplyTxt" name="commentContents" class="form-control inputCommentTxt" placeholder=" 답글을 입력하세요..."/>
-									<div style="clear: both"></div>
-								</div>
-							</div>
-						</c:if>
-					</c:forEach>
 				</form>
-			</div>
-	    </div>
-	</div>
+			</div> <!-- inputComment-container -->
+			
+			
+		</div> <!-- panel-footer -->
+	</div> <!-- panel -->
+	
 	</c:forEach>
 	
 	<style>
-		.displayComment {
-			margin: 1% 0;
+		#inputComment-container {
+			margin-top: 2%;
+		}
+	
+		#commentProfile {
+			max-width: 50px;
+			height: 50px;
+		}
+		
+		#inputCommentTxt {
+			max-width: 88%;
+			display: inline-block; 
 		}
 		
 		.reply-container {
-			margin: 1% 0;
+			margin-left: 10%;
 		}
 		
-		.replyProfil{
-			width: 50px;
+		.replyProfile {
+			max-width: 50px;
 			height: 50px;
-			margin: 0 0 0 15%;
-			float: left;
 		}
 		
-		#inputReplyTxt {
-			margin: 1% 0 0 1%;
-			padding: 0 0 0 5px;
-			width: 70%;
-			background-color: rgb(242, 244, 247);
-			float: left;
+		.inputReplyTxt {
+			max-width: 65%;
+			display: inline-block;
 		}
 		
-		.commentWriter {
-			font-size: 1em; 
-			margin-left: 3%;
-		}
-	
-		.commentContents {
-			margin: 1% 2% 1% 0;
-			font-size: 0.9em;
-			font-weight: normal;
-			font-family: inherit; 
+		.replyDisplay-container {
+			margin-top: 0.5%;
+			margin-left: 10%;
 		}
 	</style>
 
