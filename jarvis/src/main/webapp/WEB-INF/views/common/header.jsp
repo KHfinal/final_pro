@@ -97,9 +97,15 @@ function onMessage(evt){
 	}
 	if(flag[0]=="2"){
 		console.log("스크립트 나간 유저 : " + flag[1]);
-		
-		
-		userIdList.splice(userIdList.indexOf(flag[1]),1);	
+		console.log("나간후 리스트 받아오기 전 사이즈"+userIdList.length);
+		if(userIdList.length !=null){
+			userIdList=[];	
+		}
+		userIdList.push(flag[1]);
+		/* if(userIdList ==userIdList.indexOf(flag[1])0){
+			userIdList.splice(userIdList.indexOf(flag[1]),1);	
+		} */
+			
 		
 		console.log("스크립트 나간후 접속자 : "+userIdList);
 		
