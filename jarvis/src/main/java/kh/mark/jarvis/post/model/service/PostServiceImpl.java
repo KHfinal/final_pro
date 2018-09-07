@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kh.mark.jarvis.post.model.dao.PostDao;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
+import kh.mark.jarvis.post.model.vo.JarvisLike;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Service
@@ -56,5 +57,22 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<JarvisComment> selectCommentList() {
 		return dao.selectCommentList(sqlSession);
+	}
+
+	@Override
+	public int insertPostLike(JarvisLike like) {
+		int result = dao.insertPostLike(sqlSession, like);
+		return result;
+	}
+	
+	@Override
+	public int insertCommentLike(JarvisLike like) {
+		int result = dao.insertCommentLike(sqlSession, like);
+		return result;
+	}
+
+	@Override
+	public List<JarvisLike> selectLikeList() {
+		return dao.selectLikeList(sqlSession);
 	}
 }

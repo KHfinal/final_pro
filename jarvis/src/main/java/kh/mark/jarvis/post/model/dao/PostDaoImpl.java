@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
+import kh.mark.jarvis.post.model.vo.JarvisLike;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Repository
@@ -44,6 +45,23 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public List<JarvisComment> selectCommentList(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("post.selectCommentList");
+	}
+
+	/* Like 등록 */
+	@Override
+	public int insertPostLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.insert("post.insertPostLike", like);
+	}
+	
+	@Override
+	public int insertCommentLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.insert("post.insertCommentLike", like);
+	}
+
+	/* Like 조회 */
+	@Override
+	public List<JarvisLike> selectLikeList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("post.selectLikeList");
 	}
 
 }

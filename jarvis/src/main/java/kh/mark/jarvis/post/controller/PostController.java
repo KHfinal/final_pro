@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.mark.jarvis.post.model.service.PostService;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
+import kh.mark.jarvis.post.model.vo.JarvisLike;
 import kh.mark.jarvis.post.model.vo.Post;
 
 @Controller
@@ -39,12 +40,15 @@ public class PostController {
 		List<Post> postList = service.selectPostList();
 		List<Attachment> attachmentList = service.selectAttachList();
 		List<JarvisComment> commentList = service.selectCommentList();
+		List<JarvisLike> likeList = service.selectLikeList();
 			
 		if(postList != null && attachmentList != null) {
 			model.addAttribute("postList", postList);
 			model.addAttribute("attachmentList", attachmentList);
-			model.addAttribute("commentList", commentList);
 		}
+		
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("likeList", likeList);
 		
 		String loc = "social/socialHome";
 		
@@ -142,6 +146,31 @@ public class PostController {
 		
 		mv.setViewName("common/msg");
 		
+		return mv;
+	}
+	
+	// 좋아요 등록
+	@RequestMapping(value="/post/likeInsert.do", method=RequestMethod.POST)
+	public ModelAndView insertLike(JarvisLike like) {
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug("likeInsert.do 입장");
+		logger.debug(like.getLikeMember());
+		
+		
+		if(like.getPostRef() != 0) {
+			int result = service.insertPostLike(like);
+		}
+		
+		if(like.getCommentRef() != 0) {
+			int result = service.insertCommentLike(like);
+		}
+		
+		mv.addObject("msg", "좋아요!");
+		mv.addObject("loc", "/post/socialHomeView.do");
+		
+		mv.setViewName("common/msg");
+	
 		return mv;
 	}
 }
