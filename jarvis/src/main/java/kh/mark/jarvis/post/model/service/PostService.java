@@ -4,6 +4,7 @@ import java.util.List;
 
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
+import kh.mark.jarvis.post.model.vo.JarvisLike;
 import kh.mark.jarvis.post.model.vo.Post;
 
 public interface PostService {
@@ -17,6 +18,13 @@ public interface PostService {
 	int insertComment(JarvisComment comment);
 
 	List<JarvisComment> selectCommentList();
+
+	int insertPostLike(JarvisLike like);
+	
+	int insertCommentLike(JarvisLike like);
+
+	List<JarvisLike> selectLikeList();
+
 
 
 

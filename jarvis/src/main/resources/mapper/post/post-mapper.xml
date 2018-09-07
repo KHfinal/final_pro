@@ -14,8 +14,6 @@
 		VALUES(seq_attachment_no.nextval, #{postNo}, #{originalFileName}, #{renamedFileName}, systimestamp)
 	</insert>
 	
-	
-	
 	<select id="selectPostList" resultType="post" resultMap="selectPostList">
 		SELECT * FROM POST ORDER BY POST_DATE DESC
 	</select>
@@ -32,6 +30,21 @@
 	
 	<select id="selectCommentList" resultType="comment" resultMap="selectCommentList">
 		SELECT * FROM JARVIS_COMMENT ORDER BY COMMENT_DATE ASC
+	</select>
+	
+	<!-- 좋아요 -->
+	<insert id="insertPostLike" parameterType="like">
+		INSERT INTO JARVIS_LIKE(LIKE_NO, LIKE_MEMBER, POST_REF, LIKE_CHECK)
+		VALUES(seq_like_no.nextval, #{likeMember}, #{postRef}, #{likeCheck})
+	</insert>
+	
+	<insert id="insertCommentLike" parameterType="like">
+		INSERT INTO JARVIS_LIKE(LIKE_NO, LIKE_MEMBER, COMMENT_REF, LIKE_CHECK)
+		VALUES(seq_like_no.nextval, #{likeMember}, #{commentRef}, #{likeCheck})
+	</insert>
+	
+	<select id="selectLikeList" resultType="like" resultMap="selectLikeList">
+		SELECT * FROM JARVIS_LIKE
 	</select>
 	
 	
@@ -60,4 +73,13 @@
 		<result column="comment_ref" property="commentRef"/>
 		<result column="comment_date" property="commentDate"/>
 	</resultMap>
+	
+	<resultMap type="like" id="selectLikeList">
+		<result column="like_no" property="likeNo"/>
+		<result column="like_member" property="likeMember"/>
+		<result column="post_ref" property="postRef"/>
+		<result column="comment_ref" property="commentRef"/>
+		<result column="like_check" property="likeCheck"/>
+	</resultMap> 
+	
 </mapper>
