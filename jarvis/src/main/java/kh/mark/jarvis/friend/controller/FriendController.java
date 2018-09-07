@@ -79,22 +79,24 @@ public class FriendController{
 		ModelAndView mv=new ModelAndView();
 		List<Map<String,String>> list=memberService.memberList();
 		List<Map<String,String>> requestList=friendService.requestList(email);
+		List<Map<String,String>> friendList=friendService.friendList(email);
 		System.out.println("asdfasdfa"+requestList);
 		mv.addObject("list",list);
 		mv.addObject("requestList",requestList);
+		mv.addObject("friendList",friendList);
 		mv.setViewName("friend/friendSearch");
 		
 		return mv;
 	}
 	
 	@RequestMapping("/friend/friendRequest.do")
-	public ModelAndView friendRequest(String myEmail, String fEmail)
+	public ModelAndView friendRequest(String fEmail, HttpSession hs)
 	{
-		logger.debug("내이메일:"+myEmail);
-		logger.debug("친구이메일:"+fEmail);
+		Member m=(Member)hs.getAttribute("memberLoggedIn");
+		String email = m.getMemberEmail();
 		ModelAndView mv=new ModelAndView();
 		Map<String, String> fr=new HashMap<String, String>();
-		fr.put("myEmail", myEmail);
+		fr.put("email", email);
 		fr.put("fEmail", fEmail);
 		fr.put("p", "P");
 		int result=friendService.friendRequest(fr);
@@ -112,6 +114,7 @@ public class FriendController{
 	       msg="친구요청이 실패했습니다.";
 	       loc="/friend/friendView.do";
 	    }
+	    mv.addObject("email",email);
 	    mv.addObject("msg",msg);
 	    mv.addObject("loc",loc);
 	    mv.setViewName("common/msg");

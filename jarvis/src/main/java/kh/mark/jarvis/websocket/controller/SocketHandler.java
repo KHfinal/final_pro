@@ -57,8 +57,8 @@ public class SocketHandler extends TextWebSocketHandler {
 		System.out.println("나간후 접속자" + userName);
 		for(WebSocketSession s : sessionList) {
 			for(int i =0; i<userName.size();i++) {
-				System.out.println("userName.get(i) : " + userName.get(i));
-				s.sendMessage(new TextMessage("2"+"|"+login.getMemberEmail()));
+				System.out.println("보내는 값: " + userName.get(i));
+				s.sendMessage(new TextMessage("2"+"|"+userName.get(i)));
 			}
 			
 		}

@@ -97,9 +97,15 @@ function onMessage(evt){
 	}
 	if(flag[0]=="2"){
 		console.log("스크립트 나간 유저 : " + flag[1]);
-		
-		
-		userIdList.splice(userIdList.indexOf(flag[1]),1);	
+		console.log("나간후 리스트 받아오기 전 사이즈"+userIdList.length);
+		if(userIdList.length !=null){
+			userIdList=[];	
+		}
+		userIdList.push(flag[1]);
+		/* if(userIdList ==userIdList.indexOf(flag[1])0){
+			userIdList.splice(userIdList.indexOf(flag[1]),1);	
+		} */
+			
 		
 		console.log("스크립트 나간후 접속자 : "+userIdList);
 		
@@ -162,17 +168,9 @@ function filterFunction() {
 	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
 	  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>JARVIS</a>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-	  <div id='fr' class="w3-dropdown-hover w3-hide-small">
-	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-user"></i><span class="w3-badge w3-right w3-small w3-green">4</span></button>     
-	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-		    <div class="dropdown"  id="myDropdown" >
-	    
-			    
-	   
-			</div>
-	    </div>
-	  </div>
-	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
+	  <a href="${path }/chat/chattingView.do" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+
 	  <div class="w3-dropdown-hover w3-hide-small">
 	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">4</span></button>     
 	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -182,7 +180,7 @@ function filterFunction() {
 	    </div>
 	  </div>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-	    <img src="/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+	    <img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
 	  </a>
 	 </div>
 	</div>
@@ -206,8 +204,8 @@ function filterFunction() {
       <!-- Profile div-->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <h4 class="w3-center">${memberLoggedIn.memberName }님의 Profile</h4>
+         <p class="w3-center"><img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> ${memberLoggedIn.memberName }</p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
@@ -228,6 +226,7 @@ function filterFunction() {
             <p>Some other text..</p>
           </div>
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
+          <button onclick="goFriend()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Friends</button>
           <div id="Demo3" class="w3-hide w3-container">
          <div class="w3-row-padding">
          <br>
@@ -293,6 +292,8 @@ function filterFunction() {
 	function goCalendar(){
 		location.href="${path}/schedule/privateHome.do";
 	}
-
+	function goFriend(){
+		location.href="${path}/friend/friendView.do";
+	}
 </script>
 

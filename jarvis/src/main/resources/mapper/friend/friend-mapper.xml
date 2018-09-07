@@ -15,15 +15,26 @@
 		SELECT * FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_STATUS='P'
 	</select>
 
+	<select id="friendList" resultMap="friendMap" parameterType="string">
+		SELECT * FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_STATUS='Y'
+	</select>
+
 	<insert id="friendRequest" parameterType="map">
-		INSERT INTO FRIEND VALUES(#{myEmail},#{fEmail},#{p})
+		INSERT INTO FRIEND VALUES(#{email},#{fEmail},#{p})
 	</insert>
 	
 	<update id="friendAgree" parameterType="map">
-		UPDATE FRIEND SET F_STATUS=#{y} WHERE F_MEMBER_EMAIL=#{email} AND F_FRIEND_EMAIL=#{fEmail}
+		UPDATE FRIEND SET F_STATUS=#{y} WHERE F_MEMBER_EMAIL=#{fEmail} AND F_FRIEND_EMAIL=#{email}
 	</update>
+	<insert id="friendAgreetwo" parameterType="map">
+		INSERT INTO FRIEND VALUES(#{email}, #{fEmail}, 'Y')
+	</insert>
 	
 	<delete id="friendRefuse" parameterType="map">
 		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_FRIEND_EMAIL=#{fEmail}
 	</delete>
+	<delete id="friendRefusetwo" parameterType="map">
+		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{fEmail} AND F_FRIEND_EMAIL=#{email}
+	</delete>
+		
 </mapper>
