@@ -62,7 +62,7 @@ public class MemberController {
 				msg="로그인 성공";
 				mv.addObject("memberLoggedIn", m);
 				sessionList.add(m.getMemberEmail());
-				loc="/page/social.do";
+				loc="/post/socialHomeView.do";
 				
 			} 
 			//비밀번호 오류
