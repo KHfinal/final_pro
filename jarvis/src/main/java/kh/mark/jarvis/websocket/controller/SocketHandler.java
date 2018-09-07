@@ -10,6 +10,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import kh.mark.jarvis.member.model.vo.Member;
 
@@ -17,47 +18,30 @@ import kh.mark.jarvis.member.model.vo.Member;
 
 public class SocketHandler extends TextWebSocketHandler {
 
-	
-	/*1:1*/
-	/*private Map<String, WebSocketSession> sessions = new HashMap<String, WebSocketSession>();*/
-
-	
-	
-	
-	
-	//사용자 연결이 되면 실행되는 메소드
-	//채팅방에 입장을 하면 session을 부여하는 곳이라고 보면 됨 
-	
 	private List<WebSocketSession> sessionList=new ArrayList();
 	private Logger logger=LoggerFactory.getLogger(SocketHandler.class);
-	List<String> userName = new ArrayList<>();
-	/*List<Member> memberList = new ArrayList();*/
+	private List<String> userName = new ArrayList<>();
 	
-//	(2) var sock= new SockJS가 생성되면서 실행
+	
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		/*Gson gson = new Gson();*/
 		sessionList.add(session);
 		
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		
+		userName.add(login.getMemberEmail());
 		
-		
-		/*memberList.add(login);*/
-		
-
-		//json으로 변경
-		/*String result = gson.toJson(memberList);
-		System.out.println(result);*/
-		
+		System.out.println("소켓 들어온사람 : " + login.getMemberEmail());
+		System.out.println("소켓 입장후 접속자" + userName);
 		for(WebSocketSession s : sessionList) {
-			/*s.sendMessage(new TextMessage(result));*/
-			s.sendMessage(new TextMessage("1"+"|"+login.getMemberEmail()));
+			for(int i =0; i<userName.size();i++) {
+				System.out.println("userName.get(i) : " + userName.get(i));
+				s.sendMessage(new TextMessage("1"+"|"+userName.get(i)));
+				
+			}
+			
 		}
-		
-		
-		
-		
 		
 	}
 
@@ -67,13 +51,16 @@ public class SocketHandler extends TextWebSocketHandler {
 		sessionList.remove(session);
 		
 		
-		
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
-		logger.debug("closed : " + login.getMemberName());
-		logger.debug("현재 접속자 : " + sessionList);
+		System.out.println("나간사람 : " + login.getMemberEmail());
+		userName.remove(login.getMemberEmail());
+		System.out.println("나간후 접속자" + userName);
 		for(WebSocketSession s : sessionList) {
+			for(int i =0; i<userName.size();i++) {
+				System.out.println("보내는 값: " + userName.get(i));
+				s.sendMessage(new TextMessage("2"+"|"+userName.get(i)));
+			}
 			
-			s.sendMessage(new TextMessage("2"+"|"+login.getMemberEmail()));
 		}
 		
 		

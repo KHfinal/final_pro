@@ -61,8 +61,7 @@ public class MemberController {
 				logger.debug("로그인성공");
 				msg="로그인 성공";
 				mv.addObject("memberLoggedIn", m);
-				sessionList.add(m.getMemberEmail());
-				loc="/page/social.do";
+				loc="/post/socialHomeView.do";
 				
 			} 
 			//비밀번호 오류
@@ -80,14 +79,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/page/social.do")
-	public ModelAndView socialPage(Model model) {
-		ModelAndView mv = new ModelAndView();
+	public String socialPage(Model model) {
 		
-		System.out.println("컨트롤러");
-		mv.addObject("sessionList", sessionList);
-		
-		mv.setViewName("social/socialHome");
-		return mv;
+		return "social/socialHome";
 	}
 
 	//로그인화면에서 회원가입 페이지로
