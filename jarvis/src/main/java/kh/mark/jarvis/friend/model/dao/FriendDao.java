@@ -14,4 +14,5 @@ public interface FriendDao {
 	List<Map<String,String>> requestList(SqlSessionTemplate sqlSession, String email);
 	int friendAgree(SqlSessionTemplate sqlSession, Map<String,String> fr);
 	int friendRefuse(SqlSessionTemplate sqlSession, Map<String,String> fr);
+	List<Map<String,String>> friendList(SqlSessionTemplate sqlSession, String email);
 }

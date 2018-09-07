@@ -29,19 +29,27 @@ public class FriendDaoImpl implements FriendDao{
 
 	@Override
 	public List<Map<String, String>> requestList(SqlSessionTemplate sqlSession, String email) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("friend.requestList",email);
+		List<Map<String, String>> list=sqlSession.selectList("friend.requestList",email);
+		System.out.println("dao"+list);
+		return list;
 	}
 
 	@Override
 	public int friendAgree(SqlSessionTemplate sqlSession, Map<String, String> fr) {
+		sqlSession.insert("friend.friendAgreetwo",fr);
 		return sqlSession.update("friend.friendAgree",fr);
 	}
 
 	@Override
 	public int friendRefuse(SqlSessionTemplate sqlSession, Map<String, String> fr) {
-		// TODO Auto-generated method stub
+		sqlSession.delete("friend.friendRefusetwo",fr);
 		return sqlSession.delete("friend.friendRefuse",fr);
+	}
+
+	@Override
+	public List<Map<String, String>> friendList(SqlSessionTemplate sqlSession, String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("friend.friendList", email);
 	}
 	
 	
