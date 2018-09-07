@@ -13,7 +13,7 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=11111">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=112">
 
 
 <script>
@@ -65,14 +65,6 @@ $(function() {
       console.log(replyPostRef);
       console.log(replyCommentRef);
       
-      /* 답글 출력 */
-      /*
-      var html1 = "<a href='#'><span class='replyWriterDisplay'>comment.getCommentWriter()</span></a>";
-      html1 += "<span class='replyContentsDisplay'>&nbsp;&nbsp;comment.getCommentContents()</span>";
-      html1 += "<a><i class='far fa-thumbs-up' style='font-size: 1.1em; margin-right: 1.5%'></i></a>";
-      html1 += "<div style='clear: both'></div>";
-      */
-      
       /* 답글 입력 */
       var html = "<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>";
       html += "<input type='hidden' name='commentWriter' value='${memberLoggedIn.getMemberNickname() }'/>";
@@ -82,11 +74,6 @@ $(function() {
       html += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180030_210021127_730.jpg'></span>";
       html += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
       html += "<div style='clear: both'></div></form>";
-      
-      /*
-      div1.html(html1);
-      div1.appendTo($(this).parent().children('.reply-container').children('.replyDisplay-container'));
-      */
       
       div.html(html);
       
@@ -183,8 +170,10 @@ $(function() {
    <c:forEach items="${postList}" var="post" varStatus="vs">
    <div class="panel panel-default" >
        <div class="panel-heading">
-           <span class="userName" style="font-size: 1.5em">${post.getPostWriter() }</span>&nbsp;&nbsp;
-           <span><fmt:formatDate value="${post.getPostDate()}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+           <span class="userName" style="font-size: 2em">${post.getPostWriter() }</span>&nbsp;&nbsp;
+           <span><fmt:formatDate value="${post.getPostDate()}" pattern="yy-MM-dd HH:mm"/></span>
+           <a><i class="far fa-heart" style="font-size: 2.3em; margin-left: 60%;"></i></a>
+           <a><i class="fas fa-ellipsis-v" style="font-size: 2.3em; margin-left: 3%"></i></a>
        </div>
        <div class="panel-body">
           <div id="postContentsContainer">
@@ -208,7 +197,10 @@ $(function() {
             <div class="commentDisplay-container">
                <a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
                <span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
-               <a><i class="far fa-thumbs-up" style="font-size: 1.1em; margin-right: 1.5%"></i></a>
+               <a><i class="far fa-heart" style="font-size: 1.1em; margin-left: 1.5%;"></i></a>
+               <a><i class="fas fa-heart" style="font-size: 1.1em; margin-left: 1.5%;"></i></a>
+
+               
                <%-- <input type="hidden" name="postRef" value="${post.getPostNo() }"/> --%>
                <button class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getPostRef() }" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em"></i></button>
                <div style="clear: both"></div>
@@ -218,7 +210,7 @@ $(function() {
                   <div id='${comment.getCommentNo() }' class="replyDisplay-container"> <!-- 답글 출력 -->
 
                   </div>   
-                  <!-- 이곳에 답글 입력 -->
+                  <!-- 답글 버튼 클릭 시  답글 입력 DIV 삽입 -->
                   
                </div>
                
@@ -230,7 +222,8 @@ $(function() {
                <div title='${comment.getCommentRef() }' class='replyDisplay'>
                   <a href='#'><span class='replyWriterDisplay'>${comment.getCommentWriter()}</span></a>
                   <span>&nbsp;&nbsp;${comment.getCommentContents() }</span>
-                  <a><i class='far fa-thumbs-up' style='font-size: 1.1em; margin-left: 1.5%; margin-right: 1.5%'></i></a>
+                  <a><i class='far fa-heart' style='font-size: 1.1em; margin-left: 1.5%;'></i></a>
+                  <a><i class="fas fa-heart" style="font-size: 1.1em; margin-left: 1.5%;"></i></a>
                   <div style='clear: both'></div>
                </div>
                </c:if>
@@ -254,41 +247,6 @@ $(function() {
    </div> <!-- panel -->
    
    </c:forEach>
-   
-   <style>
-      #inputComment-container {
-         margin-top: 2%;
-      }
-   
-      #commentProfile {
-         max-width: 50px;
-         height: 50px;
-      }
-      
-      #inputCommentTxt {
-         max-width: 85%;
-         display: inline-block; 
-      }
-      
-      .replyInput {
-         margin-left: 10%;
-      }
-      
-      .replyProfile {
-         max-width: 50px;
-         height: 50px;
-      }
-      
-      .inputReplyTxt {
-         max-width: 84%;
-         display: inline-block;
-      }
-      
-      .replyDisplay {
-         margin-top: 0.5%;
-         margin-left: 10%;
-      }
-   </style>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
