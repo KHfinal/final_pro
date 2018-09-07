@@ -18,6 +18,9 @@
 	.m9{
 		margin-left: 5%;
 	}
+	.ani{
+		display:none;
+	}
 </style>
 <div class="w3-col m9">
 	<div id="calendar"></div>
@@ -56,11 +59,11 @@
 	        		<td> <textarea rows="5" name="content" id="content" class="form-control"></textarea></td>
 	        	</tr>
 	        	<tr>
-	        		<th>색상</th>
+	        		<th>분류</th>
 	        		<td>
-	        			<input type="radio" name="color" checked>일정
-	        			<input type="radio" name="color" value="hotpink">할 일
-							        		
+	        			<input type="radio" name="color" class="color" checked>일정
+	        			<input type="radio" name="color" value="hotpink" class="color">할 일
+	        			        		
 	        		</td>
 	        	</tr>
 	        </table>
@@ -109,11 +112,10 @@
 	        		<td> <textarea rows="5" name="content" id="modcontent" class="form-control"></textarea></td>
 	        	</tr>
 	        	<tr>
-	        		<th>색상</th>
+	        		<th>분류</th>
 	        		<td>
 	        			<input type="radio" name="color" id="default" checked>일정
 	        			<input type="radio" name="color" id="color1" value="hotpink">할 일
-							        		
 	        		</td>
 	        	</tr>
 	        </table>
@@ -156,6 +158,7 @@
 			},
 			//일정 클릭이벤트 일정을 클릭하면 내가 등록한 일정을 확인 할 수있고, 해당 일정을 삭제 할 수 있다.
 			eventClick:function(event) {
+				$(".btn-danger").show();
 				var userEmail = '${memberLoggedIn.memberEmail}';
 				var title = event.title;
 				var start = event.start._i;
@@ -176,15 +179,18 @@
 	 					if(json.color == "on"){
 	 						$("#default").attr("checked",true);
 	 					}
-	 					else{
+	 					else if(json.color == "hotpink"){
 	 						$("#color1").attr("checked",true);
+	 					}
+	 					else{
+	 						$("#color2").arrt("checked",true);
 	 					}
 	 				},
 	 				error : function(xhr,status,errormsg){
 	 					console.log(xhr);
 	 					console.log(status);
 	 					console.log(errormsg);
-	 					console.log("ajax통신실패")
+	 					console.log("ajax통신실패");
 	 				}
 				});
 				$("#modtitle").val(event.title);
@@ -241,4 +247,14 @@
 		var sNo = $("#sNo").val();
 		location.href="${path}/schedule/deleteEvent.do?sNo="+sNo;
 	}
+	$(function(){
+		$("#modtitle").change(function(){
+			console.log("제목이바뀌었습니다.")
+			$(".btn-danger").hide();
+		})
+		$("#moddate_start").change(function(){
+			console.log("시작날짜가바뀌었습니다.")
+			$(".btn-danger").hide();
+		})
+	})
 </script>

@@ -13,4 +13,8 @@ public interface MemberService {
 	
 	
 	List<Map<String,String>> memberList();			//회원리스트
+
+	Object selectOne(String userEmail);
+
+	int memberVerify(String memberEmail);
 }

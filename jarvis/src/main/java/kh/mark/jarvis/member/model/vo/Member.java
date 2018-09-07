@@ -10,8 +10,6 @@ public class Member {
 	private String memberName;	//이름
 	private String memberNickname;	//닉네임
 	private String phone;			//연락처
-	private String approvalStatus;	//이메일인증관련
-	private String approvalKey;		//이메일인증관련
 	private Date reg_date;			//가입일
 	private String memberPFP; //프로필사진
 	private String memberConcern; //관심분야
@@ -20,9 +18,8 @@ public class Member {
 	private String addr1;			//주소
 	private String addr2;			//주소
 	private String addr3;			//주소
-
 	private String addInfo;         //추가정보입력여부
-
+	private String verify;	//이메일인증여부
 	
 	
 	
@@ -31,16 +28,14 @@ public class Member {
 
 
 	public Member(String memberEmail, String memberPw, String memberName, String memberNickname, String phone,
-			String approvalStatus, String approvalKey, Date reg_date, String memberPFP, String memberConcern,
-			String memberGender, Date memberBirthday, String addr1, String addr2, String addr3, String addInfo) {
+			Date reg_date, String memberPFP, String memberConcern, String memberGender, Date memberBirthday,
+			String addr1, String addr2, String addr3, String addInfo, String verify) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberPw = memberPw;
 		this.memberName = memberName;
 		this.memberNickname = memberNickname;
 		this.phone = phone;
-		this.approvalStatus = approvalStatus;
-		this.approvalKey = approvalKey;
 		this.reg_date = reg_date;
 		this.memberPFP = memberPFP;
 		this.memberConcern = memberConcern;
@@ -50,6 +45,7 @@ public class Member {
 		this.addr2 = addr2;
 		this.addr3 = addr3;
 		this.addInfo = addInfo;
+		this.verify = verify;
 	}
 
 
@@ -110,30 +106,6 @@ public class Member {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-
-
-	public String getApprovalStatus() {
-		return approvalStatus;
-	}
-
-
-
-	public void setApprovalStatus(String approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
-
-
-
-	public String getApprovalKey() {
-		return approvalKey;
-	}
-
-
-
-	public void setApprovalKey(String approvalKey) {
-		this.approvalKey = approvalKey;
 	}
 
 
@@ -246,16 +218,28 @@ public class Member {
 
 
 
+	public String getVerify() {
+		return verify;
+	}
+
+
+
+	public void setVerify(String verify) {
+		this.verify = verify;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Member [memberEmail=" + memberEmail + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberNickname=" + memberNickname + ", phone=" + phone + ", approvalStatus=" + approvalStatus
-				+ ", approvalKey=" + approvalKey + ", reg_date=" + reg_date + ", memberPFP=" + memberPFP
-				+ ", memberConcern=" + memberConcern + ", memberGender=" + memberGender + ", memberBirthday="
-				+ memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3 + ", addInfo=" + addInfo
-				+ "]";
+				+ ", memberNickname=" + memberNickname + ", phone=" + phone + ", reg_date=" + reg_date + ", memberPFP="
+				+ memberPFP + ", memberConcern=" + memberConcern + ", memberGender=" + memberGender
+				+ ", memberBirthday=" + memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3
+				+ ", addInfo=" + addInfo + ", verify=" + verify + "]";
 	}
-
+	
+	
 	
 
 	

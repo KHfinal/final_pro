@@ -17,4 +17,13 @@ public interface MemberDao {
 	
 	
 	List<Map<String,String>> memberList(SqlSessionTemplate sqlSession);		//회원리스트
+
+
+	Object memberSelectOne(SqlSessionTemplate sqlSession, String userEmail);
+
+
+	int memberVerify(SqlSessionTemplate sqlSession, String memberEmail);
+
+
+
 }

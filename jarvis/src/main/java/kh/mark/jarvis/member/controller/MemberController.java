@@ -1,11 +1,18 @@
 package kh.mark.jarvis.member.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.sun.mail.util.logging.MailHandler;
 
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
@@ -25,6 +34,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private JavaMailSender mailSender;
 	//암호화
 	@Autowired
 	BCryptPasswordEncoder BCPE;
@@ -115,7 +126,8 @@ public class MemberController {
 		
 		if (result>0) 
 		{
-			msg="회원가입을 성공하였습니다.";
+			msg="회원가입을 성공하였습니다.이메일 인증 후 로그인 해주세요";
+			new MemberController().sendMail(member);
 		} 
 		else 
 		{
@@ -129,7 +141,54 @@ public class MemberController {
 		
 		return "common/msg";
 	}
-		
 	
+	public void sendMail(Member member) {
+		String setfrom = "kkh9180@gmail.com";         
+	    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
+	    String title   = "Jarvis 이메일인증";      // 제목
+	    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+	    content += "<h2>jarvis 계정 인증 메일입니다.링크를 눌러 인증해주세요<h2>";    // 내용
+	    content += "<a href='http://localhost:9090/jarvis/member/memberVerify?memberEmail="+member.getMemberEmail()+
+	    		"'>jarvis 계정 인증하기</a>";
+	    try {
+	    	
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	 
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	      messageHelper.setText(content,true);  // 메일 내용,true하면 html형식으로 보내진다.
+	     
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+	    
+	}
 	
+	// mailForm
+	  @RequestMapping(value = "/member/memberVerify")
+	  public ModelAndView mailForm(String memberEmail,ModelAndView mv) {
+		  int result = memberService.memberVerify(memberEmail);
+		  String msg = "메일인증 완료";
+		  String loc = "/";
+		  if(result<=0) {
+			  msg="메일인증 실패 재시도해주세요";
+			 
+		  }
+		  mv.addObject("msg", msg);
+		  mv.addObject("loc", loc);
+		  mv.setViewName("common/msg");
+		  
+		  return mv;
+	  }
+	  
+	  @RequestMapping("/member/checkDuplicate.do")
+		public void duplicateId(String userEmail, HttpServletResponse response) throws IOException { // Ajax에서 data{key, value}방식으로 전송.
+			boolean flag = memberService.selectOne(userEmail) != null ? true : false; // id중복의 true
+			
+			response.getWriter().println(flag); // 요청 페이지에 flag값 던져주기
+		}
 }
