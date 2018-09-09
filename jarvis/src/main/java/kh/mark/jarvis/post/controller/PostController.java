@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,10 +39,9 @@ public class PostController {
 	@RequestMapping("/post/socialHomeView.do")
 	public String selectPost(Model model) {
 		
-		List<Post> postList = service.selectPostList();
-		List<Attachment> attachmentList = service.selectAttachList();
+		List<Post> postList = service.selectPostList(); // 전체 Post
+		List<Attachment> attachmentList = service.selectAttachList(); 
 		List<JarvisComment> commentList = service.selectCommentList();
-		List<JarvisLike> likeList = service.selectLikeList();
 			
 		if(postList != null && attachmentList != null) {
 			model.addAttribute("postList", postList);
@@ -48,7 +49,6 @@ public class PostController {
 		}
 		
 		model.addAttribute("commentList", commentList);
-		model.addAttribute("likeList", likeList);
 		
 		String loc = "social/socialHome";
 		
@@ -149,9 +149,10 @@ public class PostController {
 		return mv;
 	}
 	
-	// 좋아요 등록
-	@RequestMapping(value="/post/likeInsert.do", method=RequestMethod.POST)
-	public ModelAndView insertLike(JarvisLike like) {
+	// 4. 좋아요 등록 및 조회
+	@RequestMapping(value="/post/likeInsertAndSelect.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView likeInsertAndSelect(@ModelAttribute JarvisLike like) {
 		ModelAndView mv = new ModelAndView();
 		
 		logger.debug("likeInsert.do 입장");
@@ -159,18 +160,60 @@ public class PostController {
 		
 		
 		if(like.getPostRef() != 0) {
-			int result = service.insertPostLike(like);
+			service.insertPostLike(like);
 		}
 		
 		if(like.getCommentRef() != 0) {
-			int result = service.insertCommentLike(like);
+			service.insertCommentLike(like);
 		}
 		
-		mv.addObject("msg", "좋아요!");
 		mv.addObject("loc", "/post/socialHomeView.do");
 		
-		mv.setViewName("common/msg");
-	
+		mv.setViewName("common/loc");
 		return mv;
 	}
+	
+	// 4. 좋아요 등록 및 조회
+//	@RequestMapping(value="/post/likeInsertAndSelect.do", method=RequestMethod.POST)
+//	@ResponseBody
+//	public ModelAndView likeInsertAndSelect(JarvisLike like) {
+//		ModelAndView mv = new ModelAndView();
+//		
+//		logger.debug("likeInsert.do 입장");
+//		logger.debug(like.getLikeMember());
+//		
+//		
+//		if(like.getPostRef() != 0) {
+//			service.insertPostLike(like);
+//		}
+//		
+//		if(like.getCommentRef() != 0) {
+//			service.insertCommentLike(like);
+//		}
+//		
+//		mv.addObject("loc", "/post/socialHomeView.do");
+//		
+//		mv.setViewName("common/loc");
+//	
+//		return mv;
+//	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
