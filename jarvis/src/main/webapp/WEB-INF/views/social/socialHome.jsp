@@ -13,7 +13,7 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=5">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=15">
 
 
 <script>
@@ -97,23 +97,60 @@ $(function() {
        });
     });
    
-    /* 좋아요 클릭 이벤트 */
+    /* 좋아요 클릭 이벤트 
     $('.like').click(function() {
-   		if($(this).hasClass('far fa-heart like')) {
+    	if($(this).hasClass('far fa-heart like')) {
    	    	$(this).removeClass();
    	    	$(this).addClass('fas fa-heart like');
        	} else {
        		$(this).removeClass();
    	    	$(this).addClass('far fa-heart like');
        	}
-   		
-    	$(this).parent().parent().submit();
-
     });
+    */
 });
 
-function fn_postLike() {
-	$(this).parent().submit();
+function fn_postLike(e) { /* 좋아요 전송 */
+	/*
+	if($(e).children().hasClass('far fa-heart like')) {
+		$(e).parent().submit();
+    	$(e).children().removeClass();
+    	$(e).children().addClass('fas fa-heart like');
+   	} else {
+   		$(e).parent().submit();
+   		$(e).children().removeClass();
+    	$(e).children().addClass('far fa-heart like');
+   	}
+	*/
+	
+	console.log($(e).attr('title'));
+	console.log($('.likeMember').val());
+	
+	$.ajaxSettings.traditional = true;
+	$.ajax({
+		type: "POST",
+		url: "${pageContext.request.contextPath}/post/likeInsertAndSelect.do",
+		data: {
+			likeMember : $('.likeMember').val(),
+			postRef : $('.postRef').val(),
+			commentRef : $('.commentRef').val(),
+			likeCheck : $('.likeCheck').val()
+		},
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	    dataType : "json",
+		success: function(data) {
+
+		},
+		
+		error: function(xhr, status, errormsg) {
+			console.log(xhr);
+			console.log(status);
+			console.log(errormsg);
+		}
+	})
+	
+	
+	/* $(e).parent().submit(); */
 }
 
 </script>
@@ -174,6 +211,7 @@ function fn_postLike() {
 	   </div>
 	</div>
 	<hr>
+	
 	<!-- 게시물 출력 -->
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
@@ -181,16 +219,21 @@ function fn_postLike() {
 	        <span class="userName" style="font-size: 2em">${post.getPostWriter() }</span>&nbsp;&nbsp;
 	        <span><fmt:formatDate value="${post.getPostDate()}" pattern="yy-MM-dd HH:mm"/></span>
 	        
-	        <!-- 좋아요를 위한 form -->
-	        <form class="likeFrm" style="display: inline;" method="post" action="${path }/post/likeInsert.do">
-	        	<%-- <a href="javascript:void(0);" onclick="fn_postLike();"><i class="far fa-heart like" title="${post.getPostNo() }" style="font-size: 2.3em;"></i></a> --%>
-	        	<a href="#nothing"><i class="far fa-heart like" title="${post.getPostNo() }" style="font-size: 2.3em;"></i></a>
-	        	<input type="hidden" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
-	        	<input type="hidden" name="postRef" value="${post.getPostNo() }"/>
-	        	<input type="hidden" name="likeCheck" value="1"/>
+	        <!-- 게시글 좋아요를 위한 form -->
+	        <form class="likeFrm" style="display: inline-block;" method="post" action="${path }/post/likeInsertAndSelect.do">
+	        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="far fa-heart like no" style="font-size: 2.3em;"></i></a>
+	        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="fas fa-heart like ok" style="font-size: 2.3em;"></i></a>
+	        	<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
+	        	<input type="hidden" class="postRef" name="postRef" value="${post.getPostNo() }"/>
+	        	<input type="hidden" class="likeCheck" name="likeCheck" value="1"/>
 	        </form>
 	        
-	        <a href="#nothing" style="margin-left: 55%"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
+	        <!-- 좋아요 갯수 출력 -->
+	        <div class="likeCount-container" style="display: inline-block">
+	        	<span>12</span>
+	        </div>
+	        
+	        <a href="#nothing" style="margin-left: 50%"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
 	    </div>
 	    
 	    <div class="panel-body">
@@ -216,12 +259,13 @@ function fn_postLike() {
 	            <a href="#"><span class="commentWriter">${comment.getCommentWriter() }</span></a>
 	            <span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
 	            
-	            <!-- 좋아요를 위한 form -->
-	        	<form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsert.do">
-	            	<a href="#nothing"><i class="far fa-heart like" title="${comment.getCommentNo() }" style="font-size: 1.1em;"></i></a>
-	            	<input type="hidden" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
-		        	<input type="hidden" name="commentRef" value="${comment.getCommentNo() }"/>
-		        	<input type="hidden" name="likeCheck" value="2"/>
+	            <!-- 댓글 좋아요를 위한 form -->
+	        	<form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsertAndSelect.do">
+	            	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="far fa-heart like no" style="font-size: 1.1em;"></i></a>
+	            	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a>
+	            	<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
+		        	<input type="hidden" class="commentRef" name="commentRef" value="${comment.getCommentNo() }"/>
+		        	<input type="hidden" class="likeCheck" name="likeCheck" value="2"/>
 	            </form>
 	            
 	            <button style="margin-left: 1%" class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getPostRef() }" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em;"></i></button>
@@ -245,12 +289,13 @@ function fn_postLike() {
 	               <a href='#'><span class='replyWriterDisplay'>${comment.getCommentWriter()}</span></a>
 	               <span>&nbsp;&nbsp;${comment.getCommentContents() }</span>
 	               
-	               <!-- 좋아요를 위한 form -->
-	        	   <form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsert.do">
-						<a href="#nothing"><i class='far fa-heart like' title="${comment.getCommentNo() }" style="font-size: 1.1em;"></i></a>
-						<input type="hidden" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
-			        	<input type="hidden" name="commentRef" value="${comment.getCommentNo() }"/>
-			        	<input type="hidden" name="likeCheck" value="2"/>
+	               <!-- 답글 좋아요를 위한 form -->
+	        	   <form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsertAndSelect.do">
+						<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="far fa-heart like no" style="font-size: 1.1em;"></i></a>
+						<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a>
+						<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
+			        	<input type="hidden" class="commentRef" name="commentRef" value="${comment.getCommentNo() }"/>
+			        	<input type="hidden" class="likeCheck" name="likeCheck" value="2"/>
 	               </form>
 	               
 	               <div style='clear: both'></div>
