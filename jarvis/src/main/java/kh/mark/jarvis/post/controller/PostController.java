@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.service.PostService;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
@@ -34,7 +36,12 @@ public class PostController {
 	
 	// 1. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model) {
+	public String selectPost(Model model,HttpSession s) {
+		Member m = (Member)s.getAttribute("memberLoggedIn");
+		logger.debug(m.toString());
+		if(m.getAddInfo().equals("N")) {
+			return "member/memberInfoAdd";
+		}
 		
 		List<Post> postList = service.selectPostList();
 		List<Attachment> attachmentList = service.selectAttachList();

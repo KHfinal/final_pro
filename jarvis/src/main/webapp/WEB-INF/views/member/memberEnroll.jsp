@@ -116,8 +116,9 @@ $(function(){
 	            			<input type="tel" required placeholder="(-없이)01012345678" name="phone" id="phone" maxlength="11" class="form-control" pattern=".{11,}" />
 	            		</div>
 	            		<button class="btn btn-info mt-2" type="submit">가입하기</button>
-          				<button class="btn btn-info mt-2" type="submit">취소</button>
+          				
           			</form>
+          			<button class="btn btn-info mt-2" onclick="cancel()">취소</button>
    				</div>
 			</div>
             <div class="col-lg-6 d-flex align-items-end" id="bg-block" style="background-image:url(&quot;${path }/resources/img/aldain-austria-316143-unsplash.jpg&quot;);background-size:cover;background-position:center center;">
@@ -125,7 +126,12 @@ $(function(){
             </div>
         </div>
     </div>
+<script>
+	function cancel(){
+		location.href="${path}";
+	}
 
+</script>
 
 </body>
 </html>

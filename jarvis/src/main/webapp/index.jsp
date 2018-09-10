@@ -43,7 +43,6 @@
        				
        				<p class="mt-3 mb-0"><a href="${path }/member/memberEnroll.do" class="text-info small">아이디가 없으신가요?</a></p>
        				<p class="mt-3 mb-0"><a href="${path }/post/socialHomeView.do" class="text-info small">Forgot your email or password?</a></p>
-       				<p class="mt-3 mb-0"><a href="${path }/mail/mailForm" class="text-info small">메일전송 테스트</a></p>
    				</div>
 			</div>
             <div class="col-lg-6 d-flex align-items-end" id="bg-block" style="background-image:url(&quot;resources/img/aldain-austria-316143-unsplash.jpg&quot;);background-size:cover;background-position:center center;">

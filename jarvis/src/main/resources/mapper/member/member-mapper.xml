@@ -16,7 +16,7 @@
    <result column="addr1" property="addr1" />
    <result column="addr2" property="addr2" />
    <result column="addr3" property="addr3" />
-   <result column="add_info" property="addInfo" />
+   <result column="addinfo" property="addInfo"/>
    <result column="verify" property="verify"/>   
 
 </resultMap>

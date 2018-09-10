@@ -69,11 +69,17 @@ public class MemberController {
 			//비밀번호확인
 			if (BCPE.matches(memberPw, m.getMemberPw()))
 			{
-				logger.debug("로그인성공");
-				msg="로그인 성공";
-				mv.addObject("memberLoggedIn", m);
-				sessionList.add(m.getMemberEmail());
-				loc="/page/social.do";
+				if(m.getVerify().equals("Y")) {//인증확인 인증이 된 멤버만 로그인가능
+					logger.debug("로그인성공");
+					msg="로그인 성공";
+					mv.addObject("memberLoggedIn", m);
+					sessionList.add(m.getMemberEmail());
+					loc="/post/socialHomeView.do";
+				}
+				else {//인증되지 않은 회원은 인증을 부탁하는 메세지를 띄어주고 로그인 불가
+					msg="이메일 인증 후 로그인해주세요";
+					loc="/";
+				}
 				
 			} 
 			//비밀번호 오류
@@ -87,17 +93,6 @@ public class MemberController {
 		mv.addObject("msg",msg);
 		mv.addObject("loc",loc);
 		mv.setViewName("common/msg"); //원래 common/header
-		return mv;
-	}
-	
-	@RequestMapping("/page/social.do")
-	public ModelAndView socialPage(Model model) {
-		ModelAndView mv = new ModelAndView();
-		
-		System.out.println("컨트롤러");
-		mv.addObject("sessionList", sessionList);
-		
-		mv.setViewName("social/socialHome");
 		return mv;
 	}
 
@@ -127,7 +122,7 @@ public class MemberController {
 		if (result>0) 
 		{
 			msg="회원가입을 성공하였습니다.이메일 인증 후 로그인 해주세요";
-			new MemberController().sendMail(member);
+			sendMail(member);
 		} 
 		else 
 		{
@@ -143,6 +138,7 @@ public class MemberController {
 	}
 	
 	public void sendMail(Member member) {
+		logger.debug(member.getMemberEmail());
 		String setfrom = "kkh9180@gmail.com";         
 	    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
 	    String title   = "Jarvis 이메일인증";      // 제목
