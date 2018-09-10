@@ -70,9 +70,20 @@ public class PostServiceImpl implements PostService {
 		int result = dao.insertCommentLike(sqlSession, like);
 		return result;
 	}
+	
+	@Override
+	public List<JarvisLike> selectPostLike(int postRef) {
+		return dao.selectPostLike(sqlSession, postRef);
+	}
 
 	@Override
-	public List<JarvisLike> selectLikeList() {
-		return dao.selectLikeList(sqlSession);
+	public int selectPostLikeCount(int postRef) {
+		return dao.selectPostLikeCount(sqlSession, postRef);
 	}
+	
+	@Override
+	public List<JarvisLike> selectCommentLike(int commentRef) {
+		return dao.selectCommentLike(sqlSession, commentRef);
+	}
+	
 }
