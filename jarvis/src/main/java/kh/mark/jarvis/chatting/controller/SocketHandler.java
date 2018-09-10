@@ -22,6 +22,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	//사용자 연결이 되면 실행되는 메소드
 	//채팅방에 입장을 하면 session을 부여하는 곳이라고 보면 됨 
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		
 		//server접속했을때 부여하는 sessionId값이랑 다름
 		//logger.info("접속한 사용자 : "+session);
 		sessionList.add(session);

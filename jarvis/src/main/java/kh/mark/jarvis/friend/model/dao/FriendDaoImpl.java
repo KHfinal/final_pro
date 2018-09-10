@@ -51,6 +51,12 @@ public class FriendDaoImpl implements FriendDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("friend.friendList", email);
 	}
+
+	@Override
+	public String friendOne(SqlSessionTemplate sqlSession, String fEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("friend.friendOne",fEmail);
+	}
 	
 	
 

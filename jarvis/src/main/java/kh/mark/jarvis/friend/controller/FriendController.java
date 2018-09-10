@@ -89,6 +89,17 @@ public class FriendController{
 		return mv;
 	}
 	
+	@RequestMapping("/friend/chattingFriend.do")
+	public ModelAndView chattingFriend(HttpSession hs) {
+		Member m = (Member)hs.getAttribute("memberLoggedIn");
+		String email = m.getMemberEmail();
+		ModelAndView mv=new ModelAndView();
+		List<Map<String,String>> friendList=friendService.friendList(email);
+		mv.addObject("friendList",friendList);
+		mv.setViewName("chat/chattingView");
+		
+		return mv;
+	}	
 	@RequestMapping("/friend/friendRequest.do")
 	public ModelAndView friendRequest(String fEmail, HttpSession hs)
 	{
@@ -181,4 +192,5 @@ public class FriendController{
 	    mv.setViewName("common/msg");
 		return mv;
 	}
+	
 }

@@ -55,7 +55,8 @@ var today=null;
 			message=strArray[1];//전송내용
 			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);//실제아이피주소만 남기기
 			today=new Date();
-			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
+			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate();
+			printHour=today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 			console.log(printDate);
 			
 			var ck_host='${host}';
@@ -64,12 +65,14 @@ var today=null;
 			
 			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
 			{
+				var printDate="<div class='messageDate'><sub>"+printDate+"</sub></div>";
 				var printHTML="<div class='well' style='margin-left:30%;'>";
-				printHTML+="<div class='alert alert-primary' style='min-width:10px;'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
+				printHTML+="<div class='alert alert-primary'>";
+				printHTML+="<sub>"+printHour+"</sub><br/>";
+				printHTML+="<strong>"+message+"</strong>";
 				printHTML+="</div>";
 				printHTML+="</div>";
+				$("#chat_panel").append(printDate);
 				$("#chatdata").append(printHTML);
 				//자기자신 메세지
 				/* var printHTML="<div class='well' style='margin-left:30%;'>";
@@ -159,17 +162,8 @@ $(document).ready(function(){
 	<div class="col-2"></div>
 </div>
 <div class="row">
-	<!-- 대화목록 -->
-	<div class="chatting-cintainer col-2 pl-4 pr-4 pt-3">
-		<input type="text" id="friendSearch" class="form-control form-control-sm" placeholder="친구검색">
-		<div class="list-group">
-			<a href="#" class="list-group-item list-group-item-action">대화방1</a>
-			<a href="#" class="list-group-item list-group-item-action">대화방2</a>
-			<a href="#" class="list-group-item list-group-item-action">대화방3</a>
-		</div>
-	</div>
 	<!-- 채팅창 -->
-	<div class="chatting-cintainer col-8">
+	<div class="chatting-cintainer col-9">
 		<input id="m_search" class="ml-5 mt-3" type="text" placeholder="메세지 검색" style="width:80%;">
 		<button id="searchBtn" style="padding:0;">
 			<img src="${path }/resources/img/searchIcon.PNG" style="width:30px;height:30px;">
@@ -190,7 +184,34 @@ $(document).ready(function(){
 			</div>
 
 	</div>
-	<!-- 친구목록 -->
+	<!-- 대화목록 -->
+	<div class="chatting-cintainer col-3 pl-2 pr-2 pt-3">
+		<form action="${path}/friend/selectOneFriend.do">
+			<input type="text" id="friendSearch" class="form-control form-control-sm mb-2" placeholder="친구검색">
+			<input type="submit" value="검색" />
+		</form>
+		<div class="list-group">
+			<c:forEach items="${friendList}" var="f">
+			<a href="${path}/chat/chattingView?fEmail=${f.f_friend_email}" class="list-group-item list-group-item-action">
+            	<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar">&nbsp;
+            	${f.f_friend_email}
+           	</a>
+           	</c:forEach>
+			<%-- <table id="tbl-board" class="table table-striped table-hover">
+            <tr>
+                <th colspan="2">친구목록</th>
+            </tr>
+            <c:forEach items="${friendList}" var="f"> 
+            <tr>
+            	<td><img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar"></td>
+                <td>${f.f_friend_email}</td>
+                <!-- <td><button type="button"></button></td> -->
+            </tr>
+            </c:forEach>
+        	</table> --%>
+		</div>
+	</div>
+	<!-- 친구목록
 	<div class="chatting-cintainer col-2">
 		<div class="form-group">
 			<input type="text" id="friendSearch" placeholder="친구검색">
@@ -200,7 +221,7 @@ $(document).ready(function(){
 				<a href="#" class="list-group-item list-group-item-action">친구3</a>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	
 	
 </div>
