@@ -27,6 +27,11 @@ public interface PostDao {
 	
 	int insertCommentLike(SqlSessionTemplate sqlSession, JarvisLike like);
 
-	List<JarvisLike> selectLikeList(SqlSessionTemplate sqlSession);
+	List<JarvisLike> selectPostLike(SqlSessionTemplate sqlSession, int postRef);
+
+	int selectPostLikeCount(SqlSessionTemplate sqlSession, int postRef);
+
+	List<JarvisLike> selectCommentLike(SqlSessionTemplate sqlSession, int commentRef);
+
 
 }

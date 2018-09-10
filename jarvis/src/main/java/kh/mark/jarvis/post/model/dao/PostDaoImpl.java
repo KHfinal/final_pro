@@ -58,10 +58,21 @@ public class PostDaoImpl implements PostDao {
 		return sqlSession.insert("post.insertCommentLike", like);
 	}
 
-	/* Like 조회 */
 	@Override
-	public List<JarvisLike> selectLikeList(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectList("post.selectLikeList");
+	public List<JarvisLike> selectPostLike(SqlSessionTemplate sqlSession, int postRef) {
+		return sqlSession.selectList("post.selectPostLike", postRef);
+	}
+
+	@Override
+	public int selectPostLikeCount(SqlSessionTemplate sqlSession, int postRef) {
+		int count = sqlSession.selectOne("post.selectPostLikeCount", postRef);
+		System.out.println("dao" + count);
+		return count;
+	}
+	
+	@Override
+	public List<JarvisLike> selectCommentLike(SqlSessionTemplate sqlSession, int commentRef) {
+		return sqlSession.selectList("post.selectCommentLike", commentRef);
 	}
 
 }

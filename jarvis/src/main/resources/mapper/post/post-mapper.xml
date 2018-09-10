@@ -39,12 +39,20 @@
 	</insert>
 	
 	<insert id="insertCommentLike" parameterType="like">
-		INSERT INTO JARVIS_LIKE(LIKE_NO, LIKE_MEMBER, COMMENT_REF, LIKE_CHECK)
-		VALUES(seq_like_no.nextval, #{likeMember}, #{commentRef}, #{likeCheck})
+		INSERT INTO JARVIS_LIKE(LIKE_NO, LIKE_MEMBER, POST_REF, COMMENT_REF, LIKE_CHECK)
+		VALUES(seq_like_no.nextval, #{likeMember}, #{postRef}, #{commentRef}, #{likeCheck})
 	</insert>
 	
-	<select id="selectLikeList" resultType="like" resultMap="selectLikeList">
-		SELECT * FROM JARVIS_LIKE
+	<select id="selectPostLike" resultType="like" resultMap="selectLikeList" parameterType="_int">
+		SELECT * FROM JARVIS_LIKE WHERE POST_REF = #{postRef}
+	</select>
+	
+	<select id="selectPostLikeCount" resultType="_int" resultMap="selectLikeList" parameterType="_int">
+		SELECT COUNT(*) as cnt FROM JARVIS_LIKE WHERE POST_REF = #{postRef}
+	</select>
+	
+	<select id="selectCommentLike" resultType="like" resultMap="selectLikeList" parameterType="_int">
+		SELECT * FROM JARVIS_LIKE WHERE COMMENT_REF = #{commentRef}
 	</select>
 	
 	
