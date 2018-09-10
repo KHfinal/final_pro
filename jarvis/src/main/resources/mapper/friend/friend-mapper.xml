@@ -12,7 +12,7 @@
 	</select>
 	
 	<select id="requestList" resultMap="friendMap" parameterType="string">
-		SELECT * FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_STATUS='P'
+		SELECT * FROM FRIEND WHERE F_FRIEND_EMAIL=#{email} AND F_STATUS='P'
 	</select>
 
 	<select id="friendList" resultMap="friendMap" parameterType="string">
@@ -36,5 +36,9 @@
 	<delete id="friendRefusetwo" parameterType="map">
 		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{fEmail} AND F_FRIEND_EMAIL=#{email}
 	</delete>
+	
+	<select id="friendOne" resultMap="friendMap" parameterType="string">
+		SELECT * FROM FRIEND WHERE F_FRIEND_EMAIL=#{fEmail} AND F_STATUS='Y'
+	</select>
 		
 </mapper>

@@ -13,4 +13,5 @@ public interface FriendService {
 	int friendAgree(Map<String, String> fr);
 	int friendRefuse(Map<String, String> fr);
 	List<Map<String,String>> friendList(String email);
+	String friendOne(String fEmail);
 }
