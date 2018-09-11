@@ -8,20 +8,17 @@
    <result column="member_name" property="memberName" />
    <result column="member_nickname" property="memberNickname" />
    <result column="member_phone" property="phone" />
-   <result column="approval_status" property="approvalStatus" />
-   <result column="approval_key" property="approvalKey" />
    <result column="reg_date" property="reg_date" />
    <result column="member_pfp" property="memberPFP" />
-   <result column="member_concern" property="memberConcern" />
+   <result column="member_concern" property="memberConcern" typeHandler="strArr"/>
    <result column="member_gender" property="memberGender" />
-   <result column="member_birthday" property="memberBirthday" />
+   <result column="member_birth" property="memberBirthday" />
    <result column="addr1" property="addr1" />
    <result column="addr2" property="addr2" />
    <result column="addr3" property="addr3" />
-   <result column="add_info" property="addInfo" />   
-
+   <result column="addinfo" property="addInfo"/>
+   <result column="verify" property="verify"/>  
 </resultMap>
-
    
    <select id="selectOne" resultMap="memberMap" parameterType="string">
        SELECT * FROM MEMBER WHERE USERID=#{userId}    
@@ -32,12 +29,20 @@
    </select>
     
     <insert id="insertMember">
-     INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},null,null,default,null,null,null,null,null,null,null,default)
+     INSERT INTO MEMBER VALUES(#{memberEmail},#{memberPw},#{memberName},#{memberNickname},#{phone},default,null,null,null,null,null,null,null,default,default)
       <!-- VO과 맞추면된다. #{approvalStatus},#{approvalKey},#{reg_date},#{log_data},#{memberPFP},#{memberConcern},#{memberGender},#{memberBirthday},#{addr1},#{addr2},#{addr3}-->
   </insert>
   
   <select id="memberList" resultMap="memberMap">
   	SELECT * FROM MEMBER
   </select>
-  
+  <select id="memberSelectOne" parameterType="string" resultType="string">
+  	select member_email from member where member_email=#{userEmail}
+  </select>
+  <update id="memberVerify" parameterType="string">
+  	update member set verify='Y', reg_date=sysdate where member_email = #{memberEmail}
+  </update>
+    <update id="addInfoUpdate" parameterType="member">
+  	update member set member_pfp=#{memberPFP},member_concern=#{memberConcern,typeHandler=strArr},member_gender=#{memberGender},member_birth=#{memberBirthday},addr1=#{addr1},addr2=#{addr2},addr3=#{addr3},addinfo='Y' where member_email=#{memberEmail}
+  </update>
 </mapper>

@@ -1,18 +1,32 @@
 package kh.mark.jarvis.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.sun.mail.util.logging.MailHandler;
 
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
@@ -25,6 +39,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private JavaMailSender mailSender;
 	//암호화
 	@Autowired
 	BCryptPasswordEncoder BCPE;
@@ -58,10 +74,17 @@ public class MemberController {
 			//비밀번호확인
 			if (BCPE.matches(memberPw, m.getMemberPw()))
 			{
-				logger.debug("로그인성공");
-				msg="로그인 성공";
-				mv.addObject("memberLoggedIn", m);
-				loc="/post/socialHomeView.do";
+				if(m.getVerify().equals("Y")) {//인증확인 인증이 된 멤버만 로그인가능
+					logger.debug("로그인성공");
+					msg="로그인 성공";
+					mv.addObject("memberLoggedIn", m);
+					sessionList.add(m.getMemberEmail());
+					loc="/post/socialHomeView.do";
+				}
+				else {//인증되지 않은 회원은 인증을 부탁하는 메세지를 띄어주고 로그인 불가
+					msg="이메일 인증 후 로그인해주세요";
+					loc="/";
+				}
 				
 			} 
 			//비밀번호 오류
@@ -76,12 +99,6 @@ public class MemberController {
 		mv.addObject("loc",loc);
 		mv.setViewName("common/msg"); //원래 common/header
 		return mv;
-	}
-	
-	@RequestMapping("/page/social.do")
-	public String socialPage(Model model) {
-		
-		return "social/socialHome";
 	}
 
 	//로그인화면에서 회원가입 페이지로
@@ -109,7 +126,8 @@ public class MemberController {
 		
 		if (result>0) 
 		{
-			msg="회원가입을 성공하였습니다.";
+			msg="회원가입을 성공하였습니다.이메일 인증 후 로그인 해주세요";
+			sendMail(member);
 		} 
 		else 
 		{
@@ -123,7 +141,107 @@ public class MemberController {
 		
 		return "common/msg";
 	}
-		
 	
+	public void sendMail(Member member) {
+		logger.debug(member.getMemberEmail());
+		String setfrom = "kkh9180@gmail.com";         
+	    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
+	    String title   = "Jarvis 이메일인증";      // 제목
+	    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+	    content += "<h2>jarvis 계정 인증 메일입니다.링크를 눌러 인증해주세요<h2>";    // 내용
+	    content += "<a href='http://localhost:9090/jarvis/member/memberVerify?memberEmail="+member.getMemberEmail()+
+	    		"'>jarvis 계정 인증하기</a>";
+	    try {
+	    	
+	      MimeMessage message = mailSender.createMimeMessage();
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, true, "UTF-8");
+	 
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	      messageHelper.setTo(tomail);     // 받는사람 이메일
+	      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	      messageHelper.setText(content,true);  // 메일 내용,true하면 html형식으로 보내진다.
+	     
+	      mailSender.send(message);
+	    } catch(Exception e){
+	      System.out.println(e);
+	    }
+	    
+	}
 	
+	// mailForm
+	  @RequestMapping(value = "/member/memberVerify")
+	  public ModelAndView mailForm(String memberEmail,ModelAndView mv) {
+		  int result=0;
+		  String msg = "메일인증 완료. 해당 계정으로 로그인 해주세요";
+		  String loc = "/";
+		  
+		  Member m = memberService.selectLogin(memberEmail);
+		  if(m.getVerify().equals("N")) {
+			  result = memberService.memberVerify(memberEmail);
+			  if(result<=0) {
+				  msg="메일인증 실패 재시도해주세요";
+			  }
+		  }
+		  else {
+			msg="이미 인증된 회원입니다. 해당 계정으로 로그인 해주세요.";  
+		  }
+		  
+		  mv.addObject("msg", msg);
+		  mv.addObject("loc", loc);
+		  mv.setViewName("common/msg");
+		  
+		  return mv;
+	  }
+	  
+	  @RequestMapping("/member/checkDuplicate.do")
+		public void duplicateId(String userEmail, HttpServletResponse response) throws IOException { // Ajax에서 data{key, value}방식으로 전송.
+			boolean flag = memberService.selectOne(userEmail) != null ? true : false; // id중복의 true
+			response.getWriter().println(flag); // 요청 페이지에 flag값 던져주기
+		}
+	  
+	  @RequestMapping("/member/addInfoUpdate.do")
+	  public ModelAndView addInfoUpdate(Member m,ModelAndView mv,MultipartFile profileFile1,HttpServletRequest request) {
+		  logger.debug(m.toString());
+		  logger.debug(profileFile1.getOriginalFilename());
+		  String saveDir=request.getSession().getServletContext().getRealPath("/resources/profileImg");
+		  String reNamedFilename=null;
+		  File dir = new File(saveDir);
+		  if(dir.exists()==false) dir.mkdirs();
+		  if(!profileFile1.isEmpty()) {
+			  String originalFilename=profileFile1.getOriginalFilename();
+			  String ext=originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+			  reNamedFilename = m.getMemberEmail()+"_profileImg"+"."+ext;
+			  
+		  }else {//이미지를 선택 안한다면 기본 이미지를 띄어줘야한다.
+			  reNamedFilename="profileDefault.png";
+		  }
+		  m.setMemberPFP(reNamedFilename);
+		  int result = memberService.addInfoUpdate(m);
+		  logger.debug("rename 후 멤버객체:"+m.toString());
+		  String msg = "추가정보 입력 완료";
+		  String loc="/post/socialHomeView.do";
+		  if(result>0) {//디비에 업데이트가 되면 파일을 저장한다.
+			  try {
+				if(!reNamedFilename.equals("profileDefault.png"))//단 프로필이미지를 선택하지 않았을 때는 파일을 저장하지 않는다.
+					profileFile1.transferTo(new File(saveDir+"/"+reNamedFilename));
+				}catch(Exception e) {
+					e.printStackTrace();
+				}//파일업로드 끝!
+			  
+		  }
+		  else { 
+			  msg="추가정보 입력 오류";
+			  //loc로 가서 만약 addinfo가 Y가 아니면 어차피 다시 입력 창으로 돌아온다.
+		  }
+		  Member member = memberService.selectLogin(m.getMemberEmail());
+		  mv.addObject("memberLoggedIn",member);
+		  mv.addObject("msg", msg);
+		  mv.addObject("loc",loc);
+		  mv.setViewName("common/msg");
+		  
+		  return mv;
+		  
+		  
+	  }
 }
