@@ -47,7 +47,7 @@ public class PostDaoImpl implements PostDao {
 		return sqlSession.selectList("post.selectCommentList");
 	}
 
-	/* Like 등록 */
+	/* Like 등록 및 조회 */
 	@Override
 	public int insertPostLike(SqlSessionTemplate sqlSession, JarvisLike like) {
 		return sqlSession.insert("post.insertPostLike", like);
@@ -59,20 +59,43 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public List<JarvisLike> selectPostLike(SqlSessionTemplate sqlSession, int postRef) {
-		return sqlSession.selectList("post.selectPostLike", postRef);
-	}
-
-	@Override
-	public int selectPostLikeCount(SqlSessionTemplate sqlSession, int postRef) {
-		int count = sqlSession.selectOne("post.selectPostLikeCount", postRef);
-		System.out.println("dao" + count);
-		return count;
+	public List<JarvisLike> selectPostLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectList("post.selectPostLike", like);
 	}
 	
 	@Override
-	public List<JarvisLike> selectCommentLike(SqlSessionTemplate sqlSession, int commentRef) {
-		return sqlSession.selectList("post.selectCommentLike", commentRef);
+	public List<JarvisLike> selectCommentLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectList("post.selectCommentLike", like);
 	}
+
+	@Override
+	public int selectPostLikeCount(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectOne("post.selectPostLikeCount", like);
+	}
+	
+	@Override
+	public int selectCommentLikeCount(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectOne("post.selectCommentLikeCount", like);
+	}
+	
+	// Like 삭제
+	@Override
+	public int deletePostLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.delete("post.deletePostLike", like);
+	}
+
+	@Override
+	public int deleteCommentLike(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.delete("post.deleteCommentLike", like);
+	}
+	
+	// 최초 로그인시 count값 받기 위한 select
+	@Override
+	public List<JarvisLike> startSelectLike(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("post.startSelectLike");
+	}
+
+
+
 
 }

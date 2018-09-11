@@ -29,6 +29,23 @@ public class MemberDaoImpl implements MemberDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("member.memberList");
 	}
+
+	@Override
+	public Object memberSelectOne(SqlSessionTemplate sqlSession, String userEmail) {
+		return sqlSession.selectOne("member.memberSelectOne", userEmail);
+	}
+
+	@Override
+	public int memberVerify(SqlSessionTemplate sqlSession, String memberEmail) {
+		return sqlSession.update("member.memberVerify", memberEmail);
+	}
+
+	@Override
+	public int addInfoUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("member.addInfoUpdate",m);
+	}
+
+
 	
 
 	
