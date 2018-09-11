@@ -23,33 +23,31 @@ public class FriendDaoImpl implements FriendDao{
 
 	@Override
 	public int friendRequest(SqlSessionTemplate sqlSession, Map<String, String> fr) {
-		// TODO Auto-generated method stub
+		System.out.println("asdasd---------------------------"+fr);
 		return sqlSession.insert("friend.friendRequest",fr);
 	}
 
 	@Override
-	public List<Map<String, String>> requestList(SqlSessionTemplate sqlSession, String email) {
-		List<Map<String, String>> list=sqlSession.selectList("friend.requestList",email);
+	public List<String> requestList(SqlSessionTemplate sqlSession, Map<String,String> map) {
+		List<String> list=sqlSession.selectList("friend.requestList",map);
 		System.out.println("dao"+list);
 		return list;
 	}
 
 	@Override
 	public int friendAgree(SqlSessionTemplate sqlSession, Map<String, String> fr) {
-		sqlSession.insert("friend.friendAgreetwo",fr);
 		return sqlSession.update("friend.friendAgree",fr);
 	}
 
 	@Override
 	public int friendRefuse(SqlSessionTemplate sqlSession, Map<String, String> fr) {
-		sqlSession.delete("friend.friendRefusetwo",fr);
 		return sqlSession.delete("friend.friendRefuse",fr);
 	}
 
 	@Override
-	public List<Map<String, String>> friendList(SqlSessionTemplate sqlSession, String email) {
+	public List<String> friendList(SqlSessionTemplate sqlSession, Map map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("friend.friendList", email);
+		return sqlSession.selectList("friend.friendList", map);
 	}
 
 	@Override

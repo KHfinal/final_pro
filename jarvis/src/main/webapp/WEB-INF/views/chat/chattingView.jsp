@@ -131,7 +131,7 @@ var today=null;
 	}
 	div.chatting-cintainer{
 		height:770px;
-		border:1px solid gray;
+		border:1px solid lightgray;
 		padding:0px;
 	}
 	div.chatContents{
@@ -154,77 +154,62 @@ $(document).ready(function(){
     });
 });
 </script>
-
-
-<div class="row" style="border:1px solid gray; padding:10px; height:40px;">
-	<div class="col-2"><strong>Messenger</strong></div>
-	<div id="friend_join" class="col-10"></div>
-	<div class="col-2"></div>
-</div>
-<div class="row">
-	<!-- 채팅창 -->
-	<div class="chatting-cintainer col-9">
-		<input id="m_search" class="ml-5 mt-3" type="text" placeholder="메세지 검색" style="width:80%;">
-		<button id="searchBtn" style="padding:0;">
-			<img src="${path }/resources/img/searchIcon.PNG" style="width:30px;height:30px;">
-		</button>
-			<div class="chatInput-container">
-				<div class="panel panel-default" id="chat_panel">
-					<div id="chatdata" class="panel-body"></div>
-				</div>
-				<div class="input-group">
-					<textarea name="message" id="message" class="chatInput form-control" placeholder="메세지를 입력하세요.."></textarea>
-					<div class="input-group-append">
-						<button class="btn" style="background-color:white;" type="button">
-							<img class="btn-img" src="${path }/resources/img/camera.png" style="width:50px;height:50px;">
-						</button>  
-						<button class="btn btn-primary" type="button" id='sendBtn'>보내기</button>  
+<div class="w3-col m10">
+<div class="w3-card w3-round w3-white">
+	<div class="w3-container">
+		<div class="row"
+			style="border: 1px solid lightgray; padding: 10px; height: 40px;">
+			<div class="col-2">
+				<strong>Messenger</strong>
+			</div>
+			<div id="friend_join" class="col-10"></div>
+			<div class="col-2"></div>
+		</div>
+		<div class="row">
+			<!-- 채팅창 -->
+			<div class="chatting-cintainer col-9">
+				<input id="m_search" class="ml-5 mt-3" type="text" placeholder="메세지 검색" style="width: 80%;">
+				<button id="searchBtn" style="padding: 0;">
+					<img src="${path }/resources/img/searchIcon.PNG" style="width: 30px; height: 30px;">
+				</button>
+				<div class="chatInput-container">
+					<div class="panel panel-default" id="chat_panel">
+						<div id="chatdata" class="panel-body"></div>
+					</div>
+					<div class="input-group">
+						<textarea name="message" id="message" class="chatInput form-control" placeholder="메세지를 입력하세요.."></textarea>
+						<div class="input-group-append">
+							<button class="btn" style="background-color: white;" type="button">
+								<img class="btn-img" src="${path }/resources/img/camera.png" style="width: 50px; height: 50px;">
+							</button>
+							<button class="btn btn-primary" type="button" id='sendBtn'>보내기</button>
+						</div>
 					</div>
 				</div>
+
+			</div>
+			<!-- 대화목록 -->
+			<div class="chatting-cintainer col-3 pl-2 pr-2 pt-3">
+				<form action="${path}/friend/selectOneFriend.do">
+					<input type="text" id="friendSearch"
+						class="form-control form-control-sm mb-2" placeholder="친구검색">
+					<input type="submit" value="검색" />
+				</form>
+				<div class="list-group">
+					<c:forEach items="${friendList}" var="f">
+						<a href="${path}/chat/chattingView?fEmail=${f.f_friend_email}" class="list-group-item list-group-item-action">
+							<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height: 23px; width: 23px" alt="Avatar">&nbsp;
+							${f.f_friend_email}
+						</a>
+					</c:forEach>
+				</div>
 			</div>
 
-	</div>
-	<!-- 대화목록 -->
-	<div class="chatting-cintainer col-3 pl-2 pr-2 pt-3">
-		<form action="${path}/friend/selectOneFriend.do">
-			<input type="text" id="friendSearch" class="form-control form-control-sm mb-2" placeholder="친구검색">
-			<input type="submit" value="검색" />
-		</form>
-		<div class="list-group">
-			<c:forEach items="${friendList}" var="f">
-			<a href="${path}/chat/chattingView?fEmail=${f.f_friend_email}" class="list-group-item list-group-item-action">
-            	<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar">&nbsp;
-            	${f.f_friend_email}
-           	</a>
-           	</c:forEach>
-			<%-- <table id="tbl-board" class="table table-striped table-hover">
-            <tr>
-                <th colspan="2">친구목록</th>
-            </tr>
-            <c:forEach items="${friendList}" var="f"> 
-            <tr>
-            	<td><img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar"></td>
-                <td>${f.f_friend_email}</td>
-                <!-- <td><button type="button"></button></td> -->
-            </tr>
-            </c:forEach>
-        	</table> --%>
 		</div>
 	</div>
-	<!-- 친구목록
-	<div class="chatting-cintainer col-2">
-		<div class="form-group">
-			<input type="text" id="friendSearch" placeholder="친구검색">
-			<div class="list-group">
-				<a href="#" class="list-group-item list-group-item-action">친구1</a>
-				<a href="#" class="list-group-item list-group-item-action">친구2</a>
-				<a href="#" class="list-group-item list-group-item-action">친구3</a>
-			</div>
-		</div>
-	</div> -->
-	
-	
 </div>
+</div>
+
 
 </body>
 </html>
