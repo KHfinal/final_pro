@@ -7,14 +7,11 @@
 
 <c:set var="path" value="<%=request.getContextPath()%>"/>
 
-
-
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=15">
-
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1511">
 
 <script>
 
@@ -54,18 +51,13 @@ $(function() {
 	});
 	
 	/* reply 아이콘 클릭. 답글 달기! */ 
-	$('.replyDisplay').hide();
 	$('.inputReplyIcon').click(function() {
-	 $('.replyDisplay').show();
 	   
 	   /* var replyPostRef = $('#reply_postRef').val(); */
 	   var replyPostRef = $(this).attr("title");
 	   var replyCommentRef = $(this).val();
 	   
 	   var div = $("<div class='replyInput'></div>");
-	   
-	   console.log(replyPostRef);
-	   console.log(replyCommentRef);
 	   
 	   /* 답글 입력 */
 	   var html = "<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>";
@@ -100,21 +92,30 @@ $(function() {
 
 function fn_postLike(e) { /* 좋아요 전송 */
 	
-	var likeFrm = $(e).next($('.likeFrm'));
 	var btn = $(e)
+	var likeFrm = btn.next($('.likeFrm'));
+	var likeUrl;
 	
-	console.log("무슨 넘버?? : " + btn.attr('title'));
-	console.log("떠라 ~~ " + likeFrm.children('.postRef').val());
+	if(btn.children().attr('class').includes('far')){
+		btn.children().removeClass();
+		btn.children().addClass('fas fa-heart like');
+		likeUrl = "${pageContext.request.contextPath}/post/likeInsertAndSelect.do";
+	}
+	else{
+		btn.children().removeClass();
+		btn.children().addClass('far fa-heart like');
+		likeUrl="${pageContext.request.contextPath}/post/likeDeleteAndSelect.do";
+	}
 	
 	$.ajaxSettings.traditional = true;
 	$.ajax({
 		type: "POST",
-		url: "${pageContext.request.contextPath}/post/likeInsertAndSelect.do",
+		url: likeUrl,
 		data: {
 			likeMember : likeFrm.children('.likeMember').val(),
 			postRef : likeFrm.children('.postRef').val(),
 			commentRef : likeFrm.children('.commentRef').val(),
-			likeCheck : likeFrm.children('.likeCheck').val()
+			likeCheck : likeFrm.children('.likeCheck').val(),
 		},
 		contentType : "application/x-www-form-urlencoded; charset=utf-8",
 	    dataType : "json",
@@ -130,21 +131,23 @@ function fn_postLike(e) { /* 좋아요 전송 */
 				postRef = item.postRef;
 				commentRef = item.commentRef;
 				likeCheck = item.likeCheck;
-			})
+			});
+			alert("postRef = " + postRef);
+			alert("likeFrm.children('.postRef').val() = " + likeFrm.children('.postRef').val());
+			alert("likeCheck = " + likeCheck);
 			
-			console.log("member"+likeMember);
-			console.log("post"+postRef);
-			console.log("comment"+commentRef);
-			console.log("like"+likeCheck);
+			if(data.count == 0 || likeFrm.children('.postRef').val() == postRef && likeFrm.children('.likeCheck').val() == 1) {
+				var html = "<p class='likePostCount'>" + data.count + "</p>";
+				likeFrm.next($('.likePostCount-container')).html(html);
+			}
 			
-			btn.children().removeClass();
-			btn.children().addClass('fas fa-heart like full');
-			var html = "<span></span>";
-			
-			/* 
-			btn.children().removeClass();
-			btn.children().addClass('far fa-heart like empty');
-			*/
+			if(data.count == 0 || likeFrm.children('.commentRef').val() == commentRef && likeFrm.children('.likeCheck').val() == 2) {
+				var html = "<p class='likeCount'>" + data.count + "</p>";
+				likeFrm.next($('.likeCommentCount-container')).html(html);
+				
+				var html = "<p class='likeCount'>" + data.count + "</p>";
+				likeFrm.next($('.likeReplyCount-container')).html(html);
+			} 
 		},
 		
 		error: function(xhr, status, errormsg) {
@@ -152,15 +155,10 @@ function fn_postLike(e) { /* 좋아요 전송 */
 			console.log(status);
 			console.log(errormsg);
 		}
-	})
-	/* $(e).parent().submit(); */
+	});
 }
-
-function fn_postLikeDelete(e) {
-	console.log($(e).attr('title'));
-}
-
 </script>
+
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 	   <div class="modal-header">
@@ -172,7 +170,6 @@ function fn_postLikeDelete(e) {
 	      <textarea rows="5" id="fakePostContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
 	   </div>
 	</div>
-	
 	
 	<!-- 게시글 등록 -->
 	<div class="modal fade" id="postModal">
@@ -235,12 +232,16 @@ function fn_postLikeDelete(e) {
 	        	<input type="hidden" class="likeCheck" name="likeCheck" value="1"/>
 	        </form>
 	        
-	        <!-- 좋아요 갯수 출력 -->
-	        <div class="likeCount-container" style="display: inline-block">
-
+	        <!-- 게시물 좋아요 갯수 출력 -->
+	        <div class="likePostCount-container" style="display: inline-block">
+	        	<c:forEach items="${likeList }" var="like" varStatus="vs">
+	        		<c:if test="${post.getPostNo() == like.getPostRef() }">
+						<p class='likePostCount'>data.count</p>
+					</c:if>
+				</c:forEach>
 	        </div>
 	        
-	        <a href="#nothing" style="margin-left: 45%"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
+	        <a href="#nothing" style="float: right"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
 	    </div>
 	    
 	    <div class="panel-body">
@@ -267,7 +268,6 @@ function fn_postLikeDelete(e) {
 	            <span class="commentContents">&nbsp;&nbsp;${comment.getCommentContents() }</span>
 	            
 	            <!-- 댓글 좋아요를 위한 form -->
-            	<%-- <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a> --%>
             	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="far fa-heart like" style="font-size: 1.1em;"></i></a>
 	        	<form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsertAndSelect.do">
 	            	<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
@@ -275,6 +275,11 @@ function fn_postLikeDelete(e) {
 		        	<input type="hidden" class="commentRef" name="commentRef" value="${comment.getCommentNo() }"/>
 		        	<input type="hidden" class="likeCheck" name="likeCheck" value="2"/>
 	            </form>
+	            
+	            <!-- 댓글 좋아요 갯수 출력 -->
+		        <div class="likeCommentCount-container" style="display: inline-block">
+					<p class='likeCount'>data.count</p>
+		        </div>
 	            
 	            <button style="margin-left: 1%" class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getPostRef() }" value="${comment.getCommentNo() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em;"></i></button>
 	            <div style="clear: both"></div>
@@ -298,14 +303,18 @@ function fn_postLikeDelete(e) {
 	               <span>&nbsp;&nbsp;${comment.getCommentContents() }</span>
 	               
 	               <!-- 답글 좋아요를 위한 form -->
-				   <%-- <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a> --%>
 				   <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="far fa-heart like" style="font-size: 1.1em;"></i></a>
 	        	   <form class="likeFrm" style="display:inline-block" method="post" action="${path }/post/likeInsertAndSelect.do">
 						<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
-			        	<input type="hidden" class="postRef" name="postRef" value="${post.getPostNo() }"/>
-			        	<input type="hidden" class="commentRef" name="commentRef" value="${comment.getCommentNo() }"/>
-			        	<input type="hidden" class="likeCheck" name="likeCheck" value="2"/>
+						<input type="hidden" class="postRef" name="postRef" value="${post.getPostNo() }"/>
+						<input type="hidden" class="commentRef" name="commentRef" value="${comment.getCommentNo() }"/>
+						<input type="hidden" class="likeCheck" name="likeCheck" value="2"/>
 	               </form>
+	               
+	               <!-- 답글 좋아요 갯수 출력 -->
+				   <div class="likeReplyCount-container" style="display: inline-block">
+						<p class='likeCount'>data.count</p>
+				   </div>
 	               
 	               <div style='clear: both'></div>
 	            </div>

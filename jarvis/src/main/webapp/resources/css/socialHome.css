@@ -227,3 +227,17 @@
 	transition:.2s;
 }
 
+.likePostCount {
+	color: gold;/*#EE4035*/
+	margin-bottom: 0;
+	font-size: 1em;
+	margin-left: -5px;
+}
+
+.likeCount {
+	color: gold;/*#EE4035*/
+	margin-bottom: 0;
+	font-size: 0.8em;
+	margin-left: -5px;
+}
+

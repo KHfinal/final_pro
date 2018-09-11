@@ -23,11 +23,23 @@ public interface PostService {
 	
 	int insertCommentLike(JarvisLike like);
 
-	List<JarvisLike> selectPostLike(int postRef);
+	List<JarvisLike> selectPostLike(JarvisLike like);
+	
+	List<JarvisLike> selectCommentLike(JarvisLike like);
 
-	int selectPostLikeCount(int postRef);
+	int selectPostLikeCount(JarvisLike like);
+	
+	int selectCommentLikeCount(JarvisLike like);
 
-	List<JarvisLike> selectCommentLike(int commentRef);
+	int deletePostLike(JarvisLike like);
+
+	int deleteCommentLike(JarvisLike like);
+
+	List<JarvisLike> startSelectLike();
+
+
+
+	
 
 
 
