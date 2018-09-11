@@ -45,6 +45,12 @@ public class MemberServiceImpl implements MemberService{
 	public int memberVerify(String memberEmail) {
 		return memberDao.memberVerify(sqlSession,memberEmail);
 	}
+
+	@Override
+	public int addInfoUpdate(Member m) {
+
+		return memberDao.addInfoUpdate(sqlSession,m);
+	}
 	
 	
 

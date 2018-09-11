@@ -40,6 +40,11 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.update("member.memberVerify", memberEmail);
 	}
 
+	@Override
+	public int addInfoUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("member.addInfoUpdate",m);
+	}
+
 
 	
 

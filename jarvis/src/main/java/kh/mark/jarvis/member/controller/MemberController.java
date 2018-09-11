@@ -1,12 +1,16 @@
 package kh.mark.jarvis.member.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sun.mail.util.logging.MailHandler;
@@ -184,7 +189,51 @@ public class MemberController {
 	  @RequestMapping("/member/checkDuplicate.do")
 		public void duplicateId(String userEmail, HttpServletResponse response) throws IOException { // Ajax에서 data{key, value}방식으로 전송.
 			boolean flag = memberService.selectOne(userEmail) != null ? true : false; // id중복의 true
-			
 			response.getWriter().println(flag); // 요청 페이지에 flag값 던져주기
 		}
+	  
+	  @RequestMapping("/member/addInfoUpdate.do")
+	  public ModelAndView addInfoUpdate(Member m,ModelAndView mv,MultipartFile profileFile1,HttpServletRequest request) {
+		  logger.debug(m.toString());
+		  logger.debug(profileFile1.getOriginalFilename());
+		  String saveDir=request.getSession().getServletContext().getRealPath("/resources/profileImg");
+		  String reNamedFilename=null;
+		  File dir = new File(saveDir);
+		  if(dir.exists()==false) dir.mkdirs();
+		  if(!profileFile1.isEmpty()) {
+			  String originalFilename=profileFile1.getOriginalFilename();
+			  String ext=originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+			  reNamedFilename = m.getMemberEmail()+"_profileImg"+"."+ext;
+			  
+		  }else {//이미지를 선택 안한다면 기본 이미지를 띄어줘야한다.
+			  reNamedFilename="profileDefault.png";
+		  }
+		  m.setMemberPFP(reNamedFilename);
+		  int result = memberService.addInfoUpdate(m);
+		  logger.debug("rename 후 멤버객체:"+m.toString());
+		  String msg = "추가정보 입력 완료";
+		  String loc="/post/socialHomeView.do";
+		  if(result>0) {//디비에 업데이트가 되면 파일을 저장한다.
+			  try {
+				if(!reNamedFilename.equals("profileDefault.png"))//단 프로필이미지를 선택하지 않았을 때는 파일을 저장하지 않는다.
+					profileFile1.transferTo(new File(saveDir+"/"+reNamedFilename));
+				}catch(Exception e) {
+					e.printStackTrace();
+				}//파일업로드 끝!
+			  
+		  }
+		  else { 
+			  msg="추가정보 입력 오류";
+			  //loc로 가서 만약 addinfo가 Y가 아니면 어차피 다시 입력 창으로 돌아온다.
+		  }
+		  Member member = memberService.selectLogin(m.getMemberEmail());
+		  mv.addObject("memberLoggedIn",member);
+		  mv.addObject("msg", msg);
+		  mv.addObject("loc",loc);
+		  mv.setViewName("common/msg");
+		  
+		  return mv;
+		  
+		  
+	  }
 }

@@ -34,7 +34,8 @@ function previewFile() {
 	  var reader  = new FileReader();
 	  var ext = file.name.split(".").pop().toLowerCase();
 	  if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-		  $('#proImg').val("");
+		  $('#profileFile').val("");
+		  $('#profile').attr("src","${path }/resources/profileImg/profileDefault.png");
           alert('이미지 파일이 아닙니다.');
       }
 	  else{
@@ -53,13 +54,15 @@ function previewFile() {
         <div class="row mh-100vh">
            <div class="col-10 col-sm-8 col-md-6 col-lg-6 offset-1 offset-sm-2 offset-md-3 offset-lg-0 align-self-center d-lg-flex align-items-lg-center align-self-lg-stretch bg-white p-5 rounded rounded-lg-0 my-5 my-lg-0" id="login-block">
              <div class="m-auto">
-             <form action="${path }/member/addInfoUpdate.do" method="POST">
+             <form action="${path }/member/addInfoUpdate.do" method="POST" enctype="multipart/form-data">
+             <input type="hidden" name="memberEmail" value="${memberLoggedIn.memberEmail }">
                  <h2 class="text-info font-weight-light mb-5"><i class="fa fa-diamond"></i>추가정보</h2>
                  
                   <div class="form-row profile-row">
                 <div class="col-md-8">
                 	<h3>프로필 사진</h3>
-                	<img src="${path }/resources/profileImg/profileDefault.png" height="200" alt="이미지 미리보기..." id="profile"><input type="file" onchange="previewFile()" class="form-control" id="proImg" >
+                	<img src="${path }/resources/profileImg/profileDefault.png" height="200" alt="이미지 미리보기..." id="profile">
+                	<input type="file" onchange="previewFile()" class="form-control" id="profileFile" name="profileFile1">
 					
                 </div>
                 <div class="col-md-8">
@@ -68,52 +71,52 @@ function previewFile() {
                        <h3>관심분야</h3>
                     <div class="form-row">
                        <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck" name="memberConcern" value="여행">
                         <label class="custom-control-label" for="customCheck">여행</label>
                    </div>
                    &nbsp;&nbsp;
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" name="memberConcern" value="예술">>
                         <label class="custom-control-label" for="customCheck1">예술</label>
                    </div>
                    &nbsp;&nbsp;
                    <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck2" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck2" name="memberConcern" value="문화">>
                         <label class="custom-control-label" for="customCheck2">문화</label>
                    </div>
                    &nbsp;&nbsp;
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck3" name="memberConcern" value="건강">>
                         <label class="custom-control-label" for="customCheck3">건강</label>
                    </div>
                    &nbsp;&nbsp;
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck4" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck4" name="memberConcern" value="패션">>
                         <label class="custom-control-label" for="customCheck4">패션</label>
                    </div>
                    &nbsp;&nbsp;
                    <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck5" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck5" name="memberConcern" value="뷰티">>
                         <label class="custom-control-label" for="customCheck5">뷰티</label>
                    </div>
                    &nbsp;&nbsp;
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck6" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck6" name="memberConcern" value="스포츠">>
                         <label class="custom-control-label" for="customCheck6">스포츠</label>
                    </div>
                    &nbsp;&nbsp;
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck7" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck7" name="memberConcern" value="푸드">>
                         <label class="custom-control-label" for="customCheck7">푸드</label>
                    </div> <br>
                         &nbsp;&nbsp; 
                    <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck8" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck8" name="memberConcern" value="리빙">>
                         <label class="custom-control-label" for="customCheck8">리빙</label>
                    </div> <br>
                         &nbsp;&nbsp;
                    <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck9" name="interest">
+                        <input type="checkbox" class="custom-control-input" id="customCheck9" name="memberConcern" value="재태크">>
                         <label class="custom-control-label" for="customCheck9">재태크</label>
                    </div> <br>
                         &nbsp;&nbsp;     
@@ -122,13 +125,13 @@ function previewFile() {
                    <div class="form-row">
 	                   <label>성별:</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	                   <div class="custom-control custom-radio">
-	                              <input type="radio" class="custom-control-input" id="customRadio" name="gender">
-	                        <label class="custom-control-label" for="customRadio">남</label>
+	                              <input type="radio" class="custom-control-input" id="gender0" name="memberGender" value="남">>
+	                        <label class="custom-control-label" for="gender0">남</label>
 	                   </div>    
 	                   &nbsp;&nbsp;
 	                    <div class="custom-control custom-radio">
-	                              <input type="radio" class="custom-control-input" id="customRadio1" name="gender">
-	                        <label class="custom-control-label" for="customRadio1">여</label>
+	                              <input type="radio" class="custom-control-input" id="gender1" name="memberGender" value="여">>
+	                        <label class="custom-control-label" for="gender1">여</label>
 	                   </div>    
                   
                    	</div> <!-- 성별 위 form-row -->
@@ -136,7 +139,7 @@ function previewFile() {
                      &nbsp;&nbsp;
                     <div class="form-row">
                        <label>생년월일 </label>
-                       <input class="form-control" type="date" max="2020-12-31" min="1900-01-01" autocomplete="off" required="" name="date">
+                       <input class="form-control" type="date" max="2020-12-31" min="1900-01-01" autocomplete="off" required="" name="memberBirthday">
                     </div>
                     
                     <br><br>
@@ -153,14 +156,12 @@ function previewFile() {
 <div class="form-group">
     <input class="form-control" placeholder="상세주소" name="addr3" id="addr3" type="text"  />
 </div>
-                    
-                    
-                    
+
                     <hr>
                     <div class="form-row">
                        <!--  <div class="col-md-12 content-right">    -->
                      <button class="btn btn-info mt-2" type="submit">등록</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <button class="btn btn-info mt-2" type="submit">취소</button>
+                      <button class="btn btn-info mt-2" onclick="checkModal()">건너뛰기</button>
                    </div>
                    </form>
                     <!-- </div> -->      
@@ -173,8 +174,37 @@ function previewFile() {
             </div>
         </div>
     </div>
+<!-- 건너뛰기 확인 Modal -->
+<div class="modal" id="checkMessage">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Warning!</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="${path }/member/notDoAddInfo.do" id="inputFrm">
+        	<p>추가 정보를 입력하지 않으시면 사용자에게 맞는 추천서비스를 이용하실 수 없습니다.<br>
+        	이후 내용은 개인정보수정 메뉴에서 작성이 가능합니다.<br> 건너뛰시겠습니까?
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" data-dismiss="modal">네,다음에할게요</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">지금 하고갈게요</button>
+      </div>
+
+    </div>
+  </div>
+</div>
    <script>
+   function checkModal(){
+	   $("#checkMessage").modal('show');
+   }
     //다음 API
    function execPostCode() {
          new daum.Postcode({

@@ -25,5 +25,8 @@ public interface MemberDao {
 	int memberVerify(SqlSessionTemplate sqlSession, String memberEmail);
 
 
+	int addInfoUpdate(SqlSessionTemplate sqlSession, Member m);
+
+
 
 }
