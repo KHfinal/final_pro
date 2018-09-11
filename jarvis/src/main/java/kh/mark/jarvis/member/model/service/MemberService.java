@@ -9,8 +9,12 @@ public interface MemberService {
 	Member selectLogin(String memberEmail); //로그인
 
 	int insertMember(Member member);	//회원가입
-	
-	
-	
+
 	List<Map<String,String>> memberList();			//회원리스트
+
+	Object selectOne(String userEmail);
+
+	int memberVerify(String memberEmail);
+
+	int addInfoUpdate(Member m);
 }

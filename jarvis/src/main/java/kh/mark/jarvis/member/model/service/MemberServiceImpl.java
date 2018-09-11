@@ -35,6 +35,22 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.memberList(sqlSession);
 	}
+
+	@Override
+	public Object selectOne(String userEmail) {
+		return memberDao.memberSelectOne(sqlSession,userEmail);
+	}
+
+	@Override
+	public int memberVerify(String memberEmail) {
+		return memberDao.memberVerify(sqlSession,memberEmail);
+	}
+
+	@Override
+	public int addInfoUpdate(Member m) {
+
+		return memberDao.addInfoUpdate(sqlSession,m);
+	}
 	
 	
 
