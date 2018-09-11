@@ -217,9 +217,10 @@ function filterFunction() {
       <!--  -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
-          <div id="Demo1" class="w3-hide w3-container">
-            <p>Some text..</p>
+          <button onclick="selectGroup('selectGroup');" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Groups</button>
+          <div id="selectGroup" class="w3-hide w3-container">
+            <button onclick="goGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Group List</button>
+            <button onclick="goGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Group</button>
           </div>
           <button onclick="goCalendar()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
           <div id="Demo2" class="w3-hide w3-container">
@@ -294,6 +295,20 @@ function filterFunction() {
 	}
 	function goFriend(){
 		location.href="${path}/friend/friendView.do";
+	}
+	function goGroup(){
+		location.href="${path}/group/groupList.do";
+	}
+	function selectGroup(id) {
+	    var x = document.getElementById(id);
+	    if (x.className.indexOf("w3-show") == -1) {
+	        x.className += " w3-show";
+	        x.previousElementSibling.className += " w3-theme-d1";
+	    } else { 
+	        x.className = x.className.replace("w3-show", "");
+	        x.previousElementSibling.className = 
+	        x.previousElementSibling.className.replace(" w3-theme-d1", "");
+	    }
 	}
 </script>
 

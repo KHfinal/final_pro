@@ -12,8 +12,14 @@
 		<typeAlias type="kh.mark.jarvis.post.model.vo.JarvisLike" alias="like"/>
 
 		<typeAlias type="kh.mark.jarvis.schedule.model.vo.Schedule" alias="schedule"/>
+		
  		<typeAlias type="kh.mark.jarvis.group.model.vo.Group" alias="group"/>
  		<typeAlias type="kh.mark.jarvis.common.StringArrayType" alias="strArr"/>
+ 		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupPost" alias="groupPost"/>
+		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupAttachment" alias="groupAttach"/>
+		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupComment" alias="groupAomment"/>
+		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupLike" alias="groupLike"/>
+ 		
 
 	</typeAliases>
 </configuration>
