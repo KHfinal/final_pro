@@ -3,6 +3,7 @@ package kh.mark.jarvis.group.controller;
 import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.group.model.service.GroupService;
 import kh.mark.jarvis.group.model.vo.Group;
+import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupPost;
 
 @Controller
 public class GroupController {
@@ -131,12 +135,87 @@ public class GroupController {
 		ModelAndView mv=new ModelAndView();
 		System.out.println(groupNo);
 		
-		Group g=service.groupView(groupNo);
 		
-		System.out.println(g);
+		List<GroupPost> postList = service.groupView(groupNo); // 전체 Post
+		List<GroupAttachment> attachmentList = service.selectAttachList(groupNo); 
+		/*List<GroupComment> commentList = service.selectCommentList();*/
+			
+		if(postList != null && attachmentList != null) {
+			mv.addObject("postList", postList);
+			mv.addObject("attachmentList", attachmentList);
+		}
 		
-		mv.addObject("group", g);
+		/*model.addAttribute("commentList", commentList);*/
+		
+		mv.addObject("groupNo", groupNo);
 		mv.setViewName("group/groupView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/group/insertGroupPost.do")
+	public ModelAndView insertGroupPost(GroupPost post, MultipartFile[] upFile, HttpServletRequest request) {
+		logger.debug(post.getG_post_writer());
+		logger.debug(post.getG_post_bound());
+		logger.debug(post.getG_post_contents());
+		logger.debug(post.getG_no());
+
+		for(int i=0; i<upFile.length; i++) {
+			logger.debug(upFile[i].getOriginalFilename());
+		}
+		
+		// postDate를 미리 지정해줘야한다.
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/group");
+		List<GroupAttachment> attList = new ArrayList<GroupAttachment>();
+		
+		File dir = new File(saveDir);
+		if(dir.exists() == false) dir.mkdirs();
+		
+		for(MultipartFile f : upFile) {
+			if(!f.isEmpty()) {
+				String originalFileName = f.getOriginalFilename();
+				String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd_HHmmssSS");
+				
+				int rndNum = (int) (Math.random() * 1000);
+				String renamedFileName = sdf.format(new Date(System.currentTimeMillis()));
+				renamedFileName += "_" + rndNum + "." + ext; 
+				
+				try {
+					f.transferTo(new File(saveDir + "/" + renamedFileName));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				GroupAttachment attach = new GroupAttachment();
+				attach.setG_original_filename(originalFileName);
+				attach.setG_renamed_filename(renamedFileName);
+				attList.add(attach);
+				
+			}
+		}
+		
+		int result = service.insertGroupPost(post, attList);
+		
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg = "POST를 성공적으로 등록하였습니다.";
+			loc = "/group/groupView.do?groupNo="+post.getG_no();
+		} else {
+			msg = "POST 등록이 실패하였습니다.";
+			loc = "/group/groupView.do?groupNo="+post.getG_no();
+		}
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
 		
 		return mv;
 	}

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import kh.mark.jarvis.group.model.dao.GroupDao;
 import kh.mark.jarvis.group.model.vo.Group;
+import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupPost;
+import kh.mark.jarvis.post.model.vo.Attachment;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -55,9 +58,16 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group groupView(int groupNo) {
+	public List<GroupPost> groupView(int groupNo) {
 		
 		return dao.groupView(Session, groupNo);
+	}
+	
+
+	@Override
+	public List<GroupAttachment> selectAttachList(int groupNo) {
+		
+		return dao.selectAttachList(Session, groupNo);
 	}
 
 	@Override
@@ -65,5 +75,26 @@ public class GroupServiceImpl implements GroupService {
 		
 		return dao.selectCategory(Session);
 	}
+
+	@Override
+	public int insertGroupPost(GroupPost post, List<GroupAttachment> attList) {
+		
+		int result = 0;
+		int postNo = 0;
+		
+		result = dao.insertGroupPost(Session, post);
+		postNo = post.getG_post_no();
+		
+		if(attList.size() > 0) {
+			for(GroupAttachment a : attList) {
+				a.setG_post_no(postNo);
+				result = dao.insertAttach(Session, a);
+			}
+		}
+		return result;
+		
+	}
+	
+	
 	
 }

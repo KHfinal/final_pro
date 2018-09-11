@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import kh.mark.jarvis.group.model.vo.Group;
+import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupPost;
 
 @Repository
 public class GroupDaoImpl implements GroupDao {
@@ -36,9 +38,16 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public Group groupView(SqlSessionTemplate Session, int groupNo) {
+	public List<GroupPost> groupView(SqlSessionTemplate Session, int groupNo) {
 		
-		return Session.selectOne("group.groupView", groupNo);
+		return Session.selectList("group.groupView", groupNo);
+	}
+	
+
+	@Override
+	public List<GroupAttachment> selectAttachList(SqlSessionTemplate Session, int groupNo) {
+		
+		return Session.selectList("group.selectAttachList", groupNo);
 	}
 
 	@Override
@@ -52,6 +61,20 @@ public class GroupDaoImpl implements GroupDao {
 		
 		return Session.selectList("group.selectCategory");
 	}
+
+	@Override
+	public int insertGroupPost(SqlSessionTemplate Session, GroupPost post) {
+		
+		return Session.insert("group.insertGroupPost", post);
+	}
+
+	@Override
+	public int insertAttach(SqlSessionTemplate Session, GroupAttachment a) {
+		
+		return Session.insert("group.insertAttach", a);
+	}
+	
+	
 
 	
 	
