@@ -76,8 +76,8 @@
             </tr>
             <c:forEach items="${friendList}" var="f"> 
             <tr>
-                <td>${f.f_friend_email}</td>
-                <td><button type="button" id="friend_delete" onclick="friend_refuse('${f.f_friend_email}');">친구삭제</button></td>
+                <td>${f}</td>
+                <td><button type="button" id="friend_delete" onclick="friend_refuse('${f}');">친구삭제</button></td>
             </tr>
             </c:forEach>
         	</table>
@@ -92,21 +92,23 @@
                 <th></th>
                 <th></th>
             </tr>
-            <c:forEach items="${requestList}" var="r"> 
-            <c:if test="${r.f_friend_email==memberLoggedIn.memberEmail }">
+            <c:if test="${requestList1!=null }">
+            <c:forEach items="${requestList1}" var="r1">
 	            <tr>
-	                <td>${r.f_friend_email}</td>
-	                <td><button type="button" id="friend_agree" onclick="friend_agree('${r.f_member_email}');">수락</button></td>
-	                <td><button type="button" id="friend_refuse1" onclick="friend_refuse('${r.f_friend_email}');">거절</button></td>
+	                <td>${r1.f_member_email}</td>
+	                <td><button type="button" id="friend_agree" onclick="friend_agree('${r1.f_member_email}');">수락</button></td>
+	                <td><button type="button" id="friend_refuse1" onclick="friend_refuse('${r1.f_friend_email}');">거절</button></td>
 	            </tr>
+            </c:forEach>
             </c:if>
-            <c:if test="${r.f_member_email==memberLoggedIn.memberEmail }">
+            <c:if test="${requestList!=null }">
+            <c:forEach items="${requestList}" var="r"> 
 	            <tr>
 	                <td>${r.f_friend_email}</td>
 	                <td><button type="button" id="friend_refuse2" onclick="friend_refuse('${r.f_friend_email}');">요청취소</button></td>
 	            </tr>
-            </c:if>
             </c:forEach>
+            </c:if>
         	</table>
 		</div>
 	</c:if>
