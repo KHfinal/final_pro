@@ -37,7 +37,13 @@
   </insert>
   
   <select id="memberList" resultMap="memberMap">
-  	SELECT * FROM MEMBER
+  	SELECT * FROM MEMBER 
   </select>
+  
+   
+  <select id="emailSearch" resultMap="memberMap" parameterType="string">
+  		select member_email from member where member_name=#{memberName} and member_phone=#{phone}
+  </select>
+  
   
 </mapper>

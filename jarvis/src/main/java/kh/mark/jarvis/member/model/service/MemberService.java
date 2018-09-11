@@ -13,4 +13,6 @@ public interface MemberService {
 	
 	
 	List<Map<String,String>> memberList();			//회원리스트
+
+	Member emailSearch(String memberName, String phone);	//아이디 비밀번호 찾기
 }

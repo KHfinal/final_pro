@@ -29,6 +29,17 @@ public class MemberDaoImpl implements MemberDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("member.memberList");
 	}
+
+	@Override
+	public Member emailSearch(SqlSessionTemplate sqlSession, String memberName, String phone) {
+		// TODO Auto-generated method stub
+		System.out.println(memberName);
+		System.out.println(phone);
+		return sqlSession.selectOne("member.emailSearch");
+	}
+
+	
+	
 	
 
 	

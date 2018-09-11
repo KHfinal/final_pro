@@ -39,7 +39,6 @@ public class MemberController {
 		//2.member.member.xml에 다녀온후 아래로 진행
 		ModelAndView mv = new ModelAndView();
 		
-		
 		String msg="";
 		String loc="";
 		
@@ -124,6 +123,43 @@ public class MemberController {
 		return "common/msg";
 	}
 		
-	
+		//이메일 찾기 페이지로 이동
+		@RequestMapping("/member/forgotEmail.do")
+		public String forget() 
+		{
+				return "member/forgotEmail";
+		}
+		
+		//이메일 찾기 시작 emailSearch.do //
+		@RequestMapping(value="/emailSearch.do",method=RequestMethod.POST)
+		public String emailSearch(String memberName, String phone ) 
+		{
+			System.out.println("뷰에서 전달된 이름: "+ memberName);
+			System.out.println("뷰에서 전달된 전화번호: "+phone);
+			
+			Member emailSearch = memberService.emailSearch(memberName,phone);  //1.회원의 메일정보를 가지고 service의 selectOne으로 이동
+			System.out.println(": "+emailSearch.getMemberEmail());
+			System.out.println(emailSearch);
+			return "";
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		//패스워드 찾기 페이지로 이동
+		@RequestMapping("/member/forgotPw.do")
+		public String forgetPw() 
+		{
+				return "member/forgotPw";
+		}
 	
 }

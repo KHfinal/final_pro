@@ -35,6 +35,14 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.memberList(sqlSession);
 	}
+
+	@Override
+	public Member emailSearch(String memberName, String phone) {
+		// TODO Auto-generated method stub
+		System.out.println(memberName);
+		System.out.println(phone);
+		return memberDao.emailSearch(sqlSession,memberName,phone);
+	}
 	
 	
 

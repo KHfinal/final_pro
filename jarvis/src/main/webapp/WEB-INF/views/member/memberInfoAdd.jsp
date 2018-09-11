@@ -41,34 +41,49 @@
                     <div class="form-row">
                        <div class="custom-control custom-checkbox mb-3">
     						  <input type="checkbox" class="custom-control-input" id="customCheck" name="">
-     						 <label class="custom-control-label" for="customCheck">관심사1</label>
+     						 <label class="custom-control-label" for="customCheck">여행</label>
     					</div>
     					&nbsp;&nbsp;
     					 <div class="custom-control custom-checkbox mb-3">
     						  <input type="checkbox" class="custom-control-input" id="customCheck1" name="">
-     						 <label class="custom-control-label" for="customCheck1">관심사2</label>
+     						 <label class="custom-control-label" for="customCheck1">예술&문화</label>
     					</div>
     					&nbsp;&nbsp;
     					 <div class="custom-control custom-checkbox mb-3">
     						  <input type="checkbox" class="custom-control-input" id="customCheck2" name="">
-     						 <label class="custom-control-label" for="customCheck2">관심사3</label>
+     						 <label class="custom-control-label" for="customCheck2">건강</label>
     					</div>
     					&nbsp;&nbsp;
     					 <div class="custom-control custom-checkbox mb-3">
     						  <input type="checkbox" class="custom-control-input" id="customCheck3" name="">
-     						 <label class="custom-control-label" for="customCheck3">관심사4</label>
+     						 <label class="custom-control-label" for="customCheck3">스포츠</label>
     					</div>
     					&nbsp;&nbsp;
     					 <div class="custom-control custom-checkbox mb-3">
     						  <input type="checkbox" class="custom-control-input" id="customCheck4" name="">
-     						 <label class="custom-control-label" for="customCheck4">관심사5</label>
+     						 <label class="custom-control-label" for="customCheck4">푸드</label>
     					</div>
     					&nbsp;&nbsp;
     					 <div class="custom-control custom-checkbox mb-3">
-    						  <input type="checkbox" class="custom-control-input" id="customCheck5" name="">
-     						 <label class="custom-control-label" for="customCheck5">관심사6</label>
+    						  <input type="checkbox" class="custom-control-input" id="customCheck6" name="">
+     						 <label class="custom-control-label" for="customCheck6">리빙</label>
     					</div> <br>
                         &nbsp;&nbsp; 
+                        
+                        <div class="custom-control custom-checkbox mb-3">
+    						  <input type="checkbox" class="custom-control-input" id="customCheck7" name="">
+     						 <label class="custom-control-label" for="customCheck7">제태크</label>
+    					</div> <br>
+                        &nbsp;&nbsp; 
+                        
+                        <div class="custom-control custom-checkbox mb-3">
+    						  <input type="checkbox" class="custom-control-input" id="customCheck8" name="">
+     						 <label class="custom-control-label" for="customCheck8">공통</label>
+    					</div> <br>
+                        &nbsp;&nbsp; 
+                        
+                        
+                        
                         
                          </div> 
                          

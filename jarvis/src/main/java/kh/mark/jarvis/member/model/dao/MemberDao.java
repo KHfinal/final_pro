@@ -17,4 +17,12 @@ public interface MemberDao {
 	
 	
 	List<Map<String,String>> memberList(SqlSessionTemplate sqlSession);		//회원리스트
+
+
+	Member emailSearch(SqlSessionTemplate sqlSession, String memberName, String phone);  //아이디 찾기
+
+
+	
+	
+	
 }
