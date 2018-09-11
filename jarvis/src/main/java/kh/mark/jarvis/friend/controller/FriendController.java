@@ -78,11 +78,49 @@ public class FriendController{
 		String email = m.getMemberEmail();
 		ModelAndView mv=new ModelAndView();
 		List<Map<String,String>> list=memberService.memberList();
-		List<Map<String,String>> requestList=friendService.requestList(email);
-		List<Map<String,String>> friendList=friendService.friendList(email);
-		System.out.println("asdfasdfa"+requestList);
-		mv.addObject("list",list);
+		
+		Map<String,String> map=new HashMap();
+		map.put("title", "F_MEMBER_EMAIL");
+		map.put("email", email);
+		List<String> requestList=friendService.requestList(map);
+		List<String> friendList=friendService.friendList(map);
+		map.put("title", "F_FRIEND_EMAIL");
+		List<String> requestList1=friendService.requestList(map);
+		List<String> friendList1=friendService.friendList(map);
+		
 		mv.addObject("requestList",requestList);
+		mv.addObject("requestList1",requestList1);
+
+		
+		/*if(requestList.size()>0) {
+			for(int i=0;i<requestList1.size();i++)
+			{
+				if(!requestList.contains(requestList1.get(i)))
+				{
+					requestList1.add(requestList1.get(i));	
+				}
+			}
+		}
+		else
+		{
+			requestList=requestList1;
+		}*/
+		System.out.println("con friendList발신"+friendList1);
+		if(friendList.size()>0) {
+			for(int i=0;i<friendList1.size();i++)
+			{
+				if(!friendList.contains(friendList1.get(i)))
+				{
+					friendList.add(friendList1.get(i));	
+				}
+			}
+		}
+		else
+		{
+			friendList=friendList1;
+		}
+		mv.addObject("list",list);
+		//mv.addObject("requestList",requestList);
 		mv.addObject("friendList",friendList);
 		mv.setViewName("friend/friendSearch");
 		
@@ -94,8 +132,8 @@ public class FriendController{
 		Member m = (Member)hs.getAttribute("memberLoggedIn");
 		String email = m.getMemberEmail();
 		ModelAndView mv=new ModelAndView();
-		List<Map<String,String>> friendList=friendService.friendList(email);
-		mv.addObject("friendList",friendList);
+		//List<Map<String,String>> friendList=friendService.friendList(email);
+		//mv.addObject("friendList",friendList);
 		mv.setViewName("chat/chattingView");
 		
 		return mv;
@@ -105,11 +143,14 @@ public class FriendController{
 	{
 		Member m=(Member)hs.getAttribute("memberLoggedIn");
 		String email = m.getMemberEmail();
+		System.out.println("----------------------"+fEmail);
+		System.out.println(email);
 		ModelAndView mv=new ModelAndView();
 		Map<String, String> fr=new HashMap<String, String>();
 		fr.put("email", email);
 		fr.put("fEmail", fEmail);
 		fr.put("p", "P");
+		System.out.println("-------------"+fr.get(1));
 		int result=friendService.friendRequest(fr);
 		
 		String msg="";
