@@ -72,18 +72,43 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<JarvisLike> selectPostLike(int postRef) {
-		return dao.selectPostLike(sqlSession, postRef);
+	public List<JarvisLike> selectPostLike(JarvisLike like) {
+		return dao.selectPostLike(sqlSession, like);
 	}
 
 	@Override
-	public int selectPostLikeCount(int postRef) {
-		return dao.selectPostLikeCount(sqlSession, postRef);
+	public List<JarvisLike> selectCommentLike(JarvisLike like) {
+		return dao.selectCommentLike(sqlSession, like);
+	}
+
+	@Override
+	public int selectPostLikeCount(JarvisLike like) {
+		return dao.selectPostLikeCount(sqlSession, like);
 	}
 	
 	@Override
-	public List<JarvisLike> selectCommentLike(int commentRef) {
-		return dao.selectCommentLike(sqlSession, commentRef);
+	public int selectCommentLikeCount(JarvisLike like) {
+		return dao.selectCommentLikeCount(sqlSession, like);
 	}
+	
+	@Override
+	public int deletePostLike(JarvisLike like) {
+		return dao.deletePostLike(sqlSession, like);
+	}
+
+	@Override
+	public int deleteCommentLike(JarvisLike like) {
+		return dao.deleteCommentLike(sqlSession, like);
+	}
+	
+	// 최초 로그인시 count값 받기 위한 select
+	@Override
+	public List<JarvisLike> startSelectLike() {
+		return dao.startSelectLike(sqlSession);
+	}
+
+
+
+
 	
 }
