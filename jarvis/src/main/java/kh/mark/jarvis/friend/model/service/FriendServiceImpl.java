@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.mark.jarvis.friend.model.dao.FriendDao;
-import kh.mark.jarvis.friend.model.vo.Friend;
+import kh.mark.jarvis.member.model.vo.Member;
 @Service
 public class FriendServiceImpl implements FriendService{
 
@@ -18,16 +18,20 @@ public class FriendServiceImpl implements FriendService{
 	@Autowired
 	private FriendDao dao;
 	
-	/*@Override
-	public List<Friend> selectFriendList(String member_email) {
-		
-		return dao.selectFriendList(sqlSession,member_email);
-	}*/
-
+	
 	@Override
-	public List<Friend> selectFriendListJson(String email) {
+	public List<String> selectFriendListJson(Map<String,String> map) {
 		// TODO Auto-generated method stub
-		return dao.selectFriendListJson(sqlSession,email);
+		return dao.selectFriendListJson(sqlSession,map);
+	}
+	@Override
+	public String selectConcernList(String email) {
+		// TODO Auto-generated method stub
+		return dao.selectConcernList(sqlSession,email);
+	}
+	@Override
+	public List<Member> selectMemberConcernList(String concern) {
+		return dao.selectMemberConcernList(sqlSession,concern);
 	}
 
 	@Override
