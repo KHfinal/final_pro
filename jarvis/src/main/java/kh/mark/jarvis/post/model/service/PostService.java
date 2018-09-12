@@ -37,6 +37,10 @@ public interface PostService {
 
 	List<JarvisLike> startSelectLike();
 
+	int startSelectPostLikeCountList(JarvisLike like);
+
+	List<Integer> startSelectCommentLikeCountList(JarvisLike like);
+
 
 
 	
