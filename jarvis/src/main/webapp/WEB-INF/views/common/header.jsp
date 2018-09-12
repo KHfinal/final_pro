@@ -155,6 +155,12 @@ function filterFunction() {
         }
     }
 }	
+function friend_agree(data){
+	location.href="${path}/friend/friendAgree.do?mEmail="+data;
+}
+function friend_refuse(data){
+	location.href="${path}/friend/friendRefuse.do?mEmail="+data;
+}
 </script>
 <style>
 	html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
@@ -169,12 +175,19 @@ function filterFunction() {
 	  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>JARVIS</a>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-	  <a href="${path }/friend/chattingFriend.do" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-
+	  <a href="${path }/chat/chattingView.do" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
 	  <div class="w3-dropdown-hover w3-hide-small">
-	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">4</span></button>     
+	    <button class="w3-button w3-padding-large" title="Notifications">
+	    	<i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">4</span>
+	    </button>     
 	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-	      <a href="#" class="w3-bar-item w3-button">One new friend request</a>
+	    <c:forEach items="${requestList1}" var="r1">
+	      <a href="#" class="w3-bar-item w3-button">
+	      	${r1 }
+	      	<button type="button" id="friend_agree" onclick="friend_agree('${r1 }');">수락</button>
+	      	<button type="button" id="friend_refuse1" onclick="friend_refuse('${r1 }');">거절</button>
+	      </a>
+	    </c:forEach>
 	      <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
 	      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
 	    </div>

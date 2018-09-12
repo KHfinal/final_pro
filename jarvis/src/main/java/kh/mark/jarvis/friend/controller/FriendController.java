@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.friend.model.service.FriendService;
@@ -91,21 +92,6 @@ public class FriendController{
 		mv.addObject("requestList",requestList);
 		mv.addObject("requestList1",requestList1);
 
-		
-		/*if(requestList.size()>0) {
-			for(int i=0;i<requestList1.size();i++)
-			{
-				if(!requestList.contains(requestList1.get(i)))
-				{
-					requestList1.add(requestList1.get(i));	
-				}
-			}
-		}
-		else
-		{
-			requestList=requestList1;
-		}*/
-		System.out.println("con friendList발신"+friendList1);
 		if(friendList.size()>0) {
 			for(int i=0;i<friendList1.size();i++)
 			{
@@ -174,14 +160,14 @@ public class FriendController{
 	}
 	
 	@RequestMapping("/friend/friendAgree.do")
-	public ModelAndView friendAgree(HttpSession hs, String fEmail)
+	public ModelAndView friendAgree(HttpSession hs, String mEmail)
 	{
 		ModelAndView mv=new ModelAndView();
 		Member m = (Member)hs.getAttribute("memberLoggedIn");
 		String email = m.getMemberEmail();
 		Map<String, String> fr=new HashMap<String, String>();
 		fr.put("email", email);
-		fr.put("fEmail", fEmail);
+		fr.put("mEmail", mEmail);
 		fr.put("y", "Y");
 		System.out.println("들어가?"+fr);
 		int result=friendService.friendAgree(fr);
@@ -206,14 +192,14 @@ public class FriendController{
 	}
 		
 	@RequestMapping("/friend/friendRefuse.do")
-	public ModelAndView friendRefuse(HttpSession hs, String fEmail)
+	public ModelAndView friendRefuse(HttpSession hs, String mEmail)
 	{
 		ModelAndView mv=new ModelAndView();
 		Member m = (Member)hs.getAttribute("memberLoggedIn");
 		String email = m.getMemberEmail();
 		Map<String, String> fr=new HashMap<String, String>();
 		fr.put("email", email);
-		fr.put("fEmail", fEmail);
+		fr.put("fEmail", mEmail);
 		int result=friendService.friendRefuse(fr);
 		String msg="";
 	    String loc="/";

@@ -34,11 +34,11 @@
 	</insert>
 	
 	<update id="friendAgree" parameterType="map">
-		UPDATE FRIEND SET F_STATUS=#{y} WHERE F_MEMBER_EMAIL=#{fEmail} AND F_FRIEND_EMAIL=#{email}
+		UPDATE FRIEND SET F_STATUS=#{y} WHERE F_MEMBER_EMAIL=#{mEmail} AND F_FRIEND_EMAIL=#{email}
 	</update>
 	
 	<delete id="friendRefuse" parameterType="map">
-		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{email} AND F_FRIEND_EMAIL=#{fEmail}
+		DELETE FROM FRIEND WHERE F_MEMBER_EMAIL=#{mEmail} AND F_FRIEND_EMAIL=#{email}
 	</delete>
 	
 	<select id="friendOne" resultMap="friendMap" parameterType="string">
