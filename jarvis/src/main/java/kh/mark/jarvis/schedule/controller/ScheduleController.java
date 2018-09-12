@@ -2,13 +2,17 @@ package kh.mark.jarvis.schedule.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -142,6 +146,27 @@ public class ScheduleController {
 		
 		mv.setViewName("common/msg");
 		
+		return mv;
+	}
+	
+	@RequestMapping("/schedule/iptest.do")
+	public ModelAndView iptest(HttpServletResponse response, HttpServletRequest request,ModelAndView mv) throws UnknownHostException {
+		
+		String msg = "";
+		String loc = "/";
+		
+		logger.debug("헤헷"+request.getLocalAddr());
+		logger.debug(request.getRemoteHost());
+		logger.debug(request.getLocalName());
+		InetAddress ip;
+		ip=InetAddress.getLocalHost();
+		
+		logger.debug(ip.getHostAddress());
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
 		return mv;
 	}
 }
