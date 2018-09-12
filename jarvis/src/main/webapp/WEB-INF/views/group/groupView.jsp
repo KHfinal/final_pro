@@ -68,13 +68,13 @@ $(function() {
 	   console.log(replyCommentRef);
 	   
 	   /* 답글 입력 */
-	   var html = "<form class='createCommentFrm' method='post' action='${path }/post/postCommentInsert.do'>";
-	   html += "<input type='hidden' name='commentWriter' value='${memberLoggedIn.getMemberNickname() }'/>";
-	   html += "<input type='hidden' name='postRef' value='" + replyPostRef + "'/>";
-	   html += "<input type='hidden' name='commentLevel' value='2'/>";
-	   html += "<input type='hidden' name='commentRef' value='" + replyCommentRef + "'/>";
+	   var html = "<form class='createCommentFrm' method='post' action='${path }/group/postCommentInsert.do?groupNo=${groupNo}'>";
+	   html += "<input type='hidden' name='g_comment_writer' value='${memberLoggedIn.getMemberNickname() }'/>";
+	   html += "<input type='hidden' name='g_post_ref' value='" + replyPostRef + "'/>";
+	   html += "<input type='hidden' name='g_comment_level' value='2'/>";
+	   html += "<input type='hidden' name='g_comment_ref' value='" + replyCommentRef + "'/>";
 	   html += "<span><img class='replyProfile rounded-circle' src='${path }/resources/upload/post/20180030_210021127_730.jpg'></span>";
-	   html += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
+	   html += "<input type='text' name='g_comment_contents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
 	   html += "<div style='clear: both'></div></form>";
 	   
 	   div.html(html);
@@ -109,7 +109,7 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	$.ajaxSettings.traditional = true;
 	$.ajax({
 		type: "POST",
-		url: "${pageContext.request.contextPath}/post/likeInsertAndSelect.do",
+		url: "${pageContext.request.contextPath}/group/likeInsertAndSelect.do",
 		data: {
 			likeMember : likeFrm.children('.likeMember').val(),
 			postRef : likeFrm.children('.postRef').val(),
@@ -161,6 +161,7 @@ function fn_postLikeDelete(e) {
 }
 
 </script>
+<c:if test="${memberCheck eq 1 }">
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 	   <div class="modal-header">
@@ -169,7 +170,7 @@ function fn_postLikeDelete(e) {
 	   </div>
 	   
 	   <div class="modal-body">
-	      <textarea rows="5" id="fakePostContents" class="form-control" name="postContents" placeholder="문구 입력..." disabled></textarea>
+	      <textarea rows="5" id="fakePostContents" class="form-control" name="g_post_contents" placeholder="문구 입력..." disabled></textarea>
 	   </div>
 	</div>
 	
@@ -195,16 +196,6 @@ function fn_postLikeDelete(e) {
 	               <!-- 이미지 업로드 -->
 	               <div id="imgDisplayContainer"></div>
 	               <hr>
-	               
-	               <div class="privacyBoundContainer">
-	                   <label for="privacyBound" style="display: inline;">공개 범위</label>
-	                   <select class="form-control" id="privacyBound" name="g_post_bound">
-	                      <option value="public">전체 보기</option>
-	                      <option value="friend">친구만</option>
-	                      <option value="private">나만 보기</option>
-	                   </select>
-	               </div>
-	               
 	               <div class="filebox"> <label for="imgInput">업로드</label> <input type="file" id="imgInput" name="upFile" multiple> </div>
 	            </div>
 	            
@@ -264,19 +255,19 @@ function fn_postLikeDelete(e) {
 	         <c:if test='${post.getG_post_no() eq comment.getG_post_ref() and comment.getG_comment_level() eq 1}'>
 	         <div class="commentDisplay-container">
 	            <a href="#"><span class="commentWriter">${comment.getG_comment_writer() }</span></a>
-	            <span class="commentContents">&nbsp;&nbsp;${comment.getG_comment_content() }</span>
+	            <span class="commentContents">&nbsp;&nbsp;${comment.getG_comment_contents() }</span>
 	            
 	            <!-- 댓글 좋아요를 위한 form -->
             	<%-- <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a> --%>
             	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getG_comment_no() }"><i class="far fa-heart like" style="font-size: 1.1em;"></i></a>
-	        	<form class="likeFrm" style="display:inline-block" method="post" action="${path }/group/likeInsertAndSelect.do">
+	        	<form class="likeFrm" style="display:inline-block" method="post" action="${path }/group/likeInsertAndSelect.do?groupNo=${post.getG_post_no() }">
 	            	<input type="hidden" class="likeMember" name="g_like_member" value="${memberLoggedIn.getMemberEmail() }"/>
 		        	<input type="hidden" class="postRef" name="g_post_ref" value="${post.getG_post_no() }"/>
 		        	<input type="hidden" class="commentRef" name="g_comment_ref" value="${comment.getG_comment_no() }"/>
 		        	<input type="hidden" class="likeCheck" name="g_like_check" value="2"/>
 	            </form>
 	            
-	            <button style="margin-left: 1%" class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getG_post_ref() }" value="${comment.getG_comment_no }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em;"></i></button>
+	            <button style="margin-left: 1%" class="inputReplyIcon btn btn-primary btn-sm" id="reply_commentRef" title="${comment.getG_post_ref() }" value="${comment.getG_comment_no() }"><i class="fas fa-long-arrow-alt-down" style="font-size: 1.1em;"></i></button>
 	            <div style="clear: both"></div>
 	            
 	            
@@ -295,12 +286,12 @@ function fn_postLikeDelete(e) {
 	         <c:if test='${post.getG_post_no() eq comment.getG_post_ref() and comment.getG_comment_level() eq 2}'>
 	            <div title='${comment.getG_comment_ref() }' class='replyDisplay'>
 	               <a href='#'><span class='replyWriterDisplay'>${comment.getG_comment_writer()}</span></a>
-	               <span>&nbsp;&nbsp;${comment.getG_comment_content() }</span>
+	               <span>&nbsp;&nbsp;${comment.getG_comment_contents() }</span>
 	               
 	               <!-- 답글 좋아요를 위한 form -->
 				   <%-- <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getCommentNo() }"><i class="fas fa-heart like ok" style="font-size: 1.1em;"></i></a> --%>
 				   <a href="javascript:void(0);" onclick="fn_postLike(this);" title="${comment.getG_comment_no() }"><i class="far fa-heart like" style="font-size: 1.1em;"></i></a>
-	        	   <form class="likeFrm" style="display:inline-block" method="post" action="${path }/group/likeInsertAndSelect.do">
+	        	   <form class="likeFrm" style="display:inline-block" method="post" action="${path }/group/likeInsertAndSelect.do?groupNo=${post.getG_post_no() }">
 						<input type="hidden" class="likeMember" name="g_like_member" value="${memberLoggedIn.getMemberEmail() }"/>
 			        	<input type="hidden" class="postRef" name="g_post_ref" value="${post.getG_post_no() }"/>
 			        	<input type="hidden" class="commentRef" name="g_comment_ref" value="${comment.getG_comment_no() }"/>
@@ -315,9 +306,9 @@ function fn_postLikeDelete(e) {
 	
 	      <!-- 댓글 쓰기 -->
 	      <div id="inputComment-container">
-	         <form id="createCommentFrm" method="post" action="${path }/group/postCommentInsert.do">
+	         <form id="createCommentFrm" method="post" action="${path }/group/postCommentInsert.do?groupNo=${post.getG_post_no() }">
 	            <span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180030_210021127_730.jpg"></span>
-	            <input type="text" id="inputCommentTxt" name="g_comment_content" class="form-control" placeholder=" 댓글을 입력하세요..."/>
+	            <input type="text" id="inputCommentTxt" name="g_comment_contents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
 	            <input type="hidden" id="reply_postRef" name="g_post_ref" value="${post.getG_post_no() }"/>
 	            <input type="hidden" name="g_comment_writer" value="${memberLoggedIn.getMemberNickname() }"/>
 	            <input type="hidden" name="g_comment_level" value="1"/>
@@ -330,6 +321,19 @@ function fn_postLikeDelete(e) {
 	</div> <!-- panel -->
 	
 	</c:forEach>
-
+</c:if>
+<c:if test="${memberCheck eq 0 }">
+	<div class="container">
+		<h2>그룹에 가입하세요~~!</h2>
+		<div class="card" style="width:400px">
+			<img class="card-img-top" src="${g.getG_renamedFilename() }" alt="Card image" style="width:100%">
+			<div class="card-body">
+				<h4 class="card-title">${g.getG_name() }</h4>
+				<p class="card-text">${getG_intro() }</p>
+				<a href="#" class="btn btn-outline-secondary">가입 하기</a>
+			</div>
+		</div>
+	</div>
+</c:if>
 
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> --%>

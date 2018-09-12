@@ -6,7 +6,7 @@ public class GroupComment {
 
 	private int g_comment_no;
 	private String g_comment_writer;
-	private String g_comment_content;
+	private String g_comment_contents;
 	private int g_comment_level;
 	private int g_post_ref;
 	private int g_comment_ref;
@@ -14,12 +14,12 @@ public class GroupComment {
 	
 	public GroupComment() {}
 
-	public GroupComment(int g_comment_no, String g_comment_writer, String g_comment_content, int g_comment_level,
+	public GroupComment(int g_comment_no, String g_comment_writer, String g_comment_contents, int g_comment_level,
 			int g_post_ref, int g_comment_ref, Date g_comment_date) {
 		super();
 		this.g_comment_no = g_comment_no;
 		this.g_comment_writer = g_comment_writer;
-		this.g_comment_content = g_comment_content;
+		this.g_comment_contents = g_comment_contents;
 		this.g_comment_level = g_comment_level;
 		this.g_post_ref = g_post_ref;
 		this.g_comment_ref = g_comment_ref;
@@ -42,12 +42,12 @@ public class GroupComment {
 		this.g_comment_writer = g_comment_writer;
 	}
 
-	public String getG_comment_content() {
-		return g_comment_content;
+	public String getG_comment_contents() {
+		return g_comment_contents;
 	}
 
-	public void setG_comment_content(String g_comment_content) {
-		this.g_comment_content = g_comment_content;
+	public void setG_comment_contents(String g_comment_contents) {
+		this.g_comment_contents = g_comment_contents;
 	}
 
 	public int getG_comment_level() {
@@ -85,7 +85,7 @@ public class GroupComment {
 	@Override
 	public String toString() {
 		return "GroupComment [g_comment_no=" + g_comment_no + ", g_comment_writer=" + g_comment_writer
-				+ ", g_comment_content=" + g_comment_content + ", g_comment_level=" + g_comment_level + ", g_post_ref="
+				+ ", g_comment_contents=" + g_comment_contents + ", g_comment_level=" + g_comment_level + ", g_post_ref="
 				+ g_post_ref + ", g_comment_ref=" + g_comment_ref + ", g_comment_date=" + g_comment_date + "]";
 	}
 	

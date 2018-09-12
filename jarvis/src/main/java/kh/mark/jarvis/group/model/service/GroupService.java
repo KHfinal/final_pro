@@ -5,6 +5,8 @@ import java.util.Map;
 
 import kh.mark.jarvis.group.model.vo.Group;
 import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
 
 public interface GroupService {
@@ -17,5 +19,16 @@ public interface GroupService {
 	List<GroupPost> groupView(int groupNo);
 	int insertGroupPost(GroupPost post, List<GroupAttachment> attList);
 	List<GroupAttachment> selectAttachList(int groupNo);
+	int insertComment(GroupComment comment);
+	List<GroupComment> selectCommentList();
+	List<Map<String, String>> selectGroupMember(int groupNo);
+	Group groupViewDetail(int groupNo);
 	
+	int insertGroupPostLike(GroupLike like);
+	List<GroupLike> selectGroupPostLike(GroupLike like);
+	int selectGroupPostLikeCount(GroupLike like);
+	
+	int insertGroupCommentLike(GroupLike like);
+	List<GroupLike> selectGroupCommentLike(GroupLike like);
+	int selectGroupCommentLikeCount(GroupLike like);
 }

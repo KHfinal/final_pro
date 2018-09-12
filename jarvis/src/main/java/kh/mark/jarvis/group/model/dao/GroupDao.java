@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import kh.mark.jarvis.group.model.vo.Group;
 import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
 
 public interface GroupDao {
@@ -21,4 +23,16 @@ public interface GroupDao {
 	int insertGroupPost(SqlSessionTemplate Session, GroupPost post);
 	int insertAttach(SqlSessionTemplate Session, GroupAttachment a);
 	List<GroupAttachment> selectAttachList(SqlSessionTemplate Session, int groupNo);
+	int insertComment(SqlSessionTemplate Session, GroupComment comment);
+	List<GroupComment> selectCommentList(SqlSessionTemplate Session);
+	List<Map<String, String>> selectGroupMember(SqlSessionTemplate Session, int groupNo);
+	Group groupViewDetail(SqlSessionTemplate Session, int groupNo);
+	
+	int insertGroupPostLike(SqlSessionTemplate Session, GroupLike like);
+	List<GroupLike> selectGroupPostLike(SqlSessionTemplate Session, GroupLike like);
+	int selectGroupPostLikeCount(SqlSessionTemplate Session, GroupLike like);
+	
+	int insertGroupCommentLike(SqlSessionTemplate Session, GroupLike like);
+	List<GroupLike> selectGroupCommentLike(SqlSessionTemplate Session, GroupLike like);
+	int selectGroupCommentLikeCount(SqlSessionTemplate Session, GroupLike like);
 }

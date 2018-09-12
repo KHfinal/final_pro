@@ -160,9 +160,6 @@
 					<li class="nav-item">
 						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="c10">재테크</button>
 					</li>
-					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="com" value="c11">공통</button>
-					</li>
 				</ul>
 							    
 			</div> 	
@@ -241,10 +238,6 @@
 								    <input type="checkbox" class="custom-control-input" id="category10" name="g_category" value="c10"/>
 								    <label class="custom-control-label" for="category10">재테크</label>
 							    </div>
-							    <div class="custom-control custom-checkbox mr-3">
-								    <input type="checkbox" class="custom-control-input" id="category11" name="g_category" value="c11"/>
-								    <label class="custom-control-label" for="category11">공통</label>
-							    </div>
 						    </div>
 					    </div>
 					    
@@ -268,7 +261,7 @@
 					<c:if test="${list!=null }">
 						<c:forEach var="g" items="${list}">				
 							<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
-								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
+								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}&memberLoggedIn=${memberLoggedIn.getMemberEmail()}">
 									<div class="portfolio-hover">
 						                <div class="portfolio-hover-content">
 						                  	<p>${g.g_intro}</p>

@@ -13,7 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +24,9 @@ import kh.mark.jarvis.group.model.service.GroupService;
 import kh.mark.jarvis.group.model.vo.Group;
 import kh.mark.jarvis.group.model.vo.GroupAttachment;
 import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
+import kh.mark.jarvis.post.model.vo.JarvisLike;
 
 @Controller
 public class GroupController {
@@ -131,21 +136,46 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/groupView.do")
-	public ModelAndView groupView(int groupNo) {
+	public ModelAndView groupView(int groupNo, String memberLoggedIn) {
 		ModelAndView mv=new ModelAndView();
-		System.out.println(groupNo);
+		logger.debug("멤버 세션 이메일"+memberLoggedIn);
 		
 		
 		List<GroupPost> postList = service.groupView(groupNo); // 전체 Post
+		Group g = service.groupViewDetail(groupNo);
 		List<GroupAttachment> attachmentList = service.selectAttachList(groupNo); 
-		/*List<GroupComment> commentList = service.selectCommentList();*/
+		List<GroupComment> commentList = service.selectCommentList();
+		
+		List<Map<String, String>> memberList = service.selectGroupMember(groupNo);
+		
+		int memberCheck=0;
+		
+		logger.debug(commentList.toString());
+		for(int i=0;i<memberList.size();i++) {
+			logger.debug("그룹 멤버 셀렉트"+memberList.get(i).values());
+			if(memberList.get(i).values().equals(memberLoggedIn)) {
+				memberCheck=1;
+				mv.addObject("memberCheck", memberCheck);
+				logger.debug("멤버 체크 :"+memberCheck);
+			}
+			else {
+				memberCheck=0;
+				mv.addObject("memberCheck", memberCheck);
+				logger.debug("멤버 체크 :"+memberCheck);
+			}
+		}
 			
 		if(postList != null && attachmentList != null) {
 			mv.addObject("postList", postList);
 			mv.addObject("attachmentList", attachmentList);
+			
 		}
 		
-		/*model.addAttribute("commentList", commentList);*/
+		
+		
+		mv.addObject("g", g);
+		
+		mv.addObject("memberList", memberList);
 		
 		mv.addObject("groupNo", groupNo);
 		mv.setViewName("group/groupView");
@@ -156,7 +186,6 @@ public class GroupController {
 	@RequestMapping("/group/insertGroupPost.do")
 	public ModelAndView insertGroupPost(GroupPost post, MultipartFile[] upFile, HttpServletRequest request) {
 		logger.debug(post.getG_post_writer());
-		logger.debug(post.getG_post_bound());
 		logger.debug(post.getG_post_contents());
 		logger.debug(post.getG_no());
 
@@ -219,5 +248,117 @@ public class GroupController {
 		
 		return mv;
 	}
+	
+	// 3. 댓글 등록
+		@RequestMapping(value="/group/postCommentInsert.do", method=RequestMethod.POST)
+		public ModelAndView insertComment(GroupComment comment, int groupNo) {
+			ModelAndView mv = new ModelAndView();
+			
+			logger.debug("댓글 등록 로거"+comment.toString());
+			int result = service.insertComment(comment);
+			
+			String msg = "";
+			String loc = "";
+			
+			if(result>0) {
+				msg = "댓글이 성공적으로 등록되었습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			} else {
+				msg = "댓글 등록이 실패하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			}
+			
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			
+			mv.setViewName("common/msg");
+			
+			return mv;
+		}
+		
+		// 4. 좋아요 등록 및 조회
+		@ResponseBody
+		@RequestMapping(value="/group/likeInsertAndSelect.do", method=RequestMethod.POST)
+		public ModelAndView likeInsertAndSelect(@ModelAttribute GroupLike like) throws Exception {
+			ModelAndView mv = new ModelAndView();
+			
+			logger.debug("likeInsertAndSelect.do 입장");
+			logger.debug("likeMember = " + like.getG_like_member());
+			logger.debug("postRef = " + like.getG_post_ref());
+			logger.debug("commentRef = " + like.getG_comment_ref());
+			logger.debug("likeCheck = " + like.getG_like_check());
+			
+			List<GroupLike> likeList = new ArrayList<GroupLike>();
+			
+			if(like.getG_comment_ref() == 0) {
+				int result = service.insertGroupPostLike(like);
+				if(result > 0) {
+					likeList = service.selectGroupPostLike(like);
+					
+					int count = service.selectGroupPostLikeCount(like);
+					System.out.println("selectPostLikeCount = " + count);
+					
+					mv.addObject("likeList", likeList);
+					mv.addObject("count", count);
+				}
+			} else {
+				int result = service.insertGroupCommentLike(like);
+				if(result > 0) {
+					likeList = service.selectGroupCommentLike(like);
+					int count = service.selectGroupCommentLikeCount(like);
+					
+					System.out.println("selectCommentLikeCount = " + count);
+					
+					mv.addObject("likeList", likeList);
+					mv.addObject("count", count);
+				}
+			}
+			
+			mv.setViewName("jsonView");
+			
+			return mv;
+		}
+		
+		// 5. 좋아요 삭제 및 조회
+		/*@ResponseBody
+		@RequestMapping(value="/post/likeDeleteAndSelect.do", method=RequestMethod.POST)
+		public ModelAndView likeDeleteAndSelect(@ModelAttribute JarvisLike like) throws Exception {
+			ModelAndView mv = new ModelAndView();
+			
+			logger.debug("likeDeleteAndSelect.do 입장");
+			logger.debug("likeMember = " + like.getLikeMember());
+			logger.debug("postRef = " + like.getPostRef());
+			logger.debug("commentRef = " + like.getCommentRef());
+			logger.debug("likeCheck = " + like.getLikeCheck());
+			
+			List<JarvisLike> likeList = new ArrayList<JarvisLike>();
+			
+			if(like.getCommentRef() == 0) {
+				int result = service.deletePostLike(like);
+				if(result > 0) {
+					likeList = service.selectPostLike(like);
+					
+					int count = service.selectPostLikeCount(like);
+					System.out.println("selectPostLikeCount = " + count);
+					mv.addObject("likeList", likeList);
+					mv.addObject("count", count);
+				}
+			} else {
+				int result = service.deleteCommentLike(like);
+				if(result > 0) {
+					likeList = service.selectCommentLike(like);
+					
+					int count = service.selectCommentLikeCount(like);
+					System.out.println("selectCommentLikeCount = " + count);
+					mv.addObject("likeList", likeList);
+					mv.addObject("count", count);
+				}
+			}
+			
+			mv.setViewName("jsonView");
+			
+			return mv;
+		}*/
+	
 
 }

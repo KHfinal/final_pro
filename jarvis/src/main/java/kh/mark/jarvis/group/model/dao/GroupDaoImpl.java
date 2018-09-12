@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import kh.mark.jarvis.group.model.vo.Group;
 import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
 
 @Repository
@@ -73,6 +75,69 @@ public class GroupDaoImpl implements GroupDao {
 		
 		return Session.insert("group.insertAttach", a);
 	}
+
+	@Override
+	public int insertComment(SqlSessionTemplate Session, GroupComment comment) {
+		
+		return Session.insert("group.insertComment", comment);
+	}
+
+	@Override
+	public List<GroupComment> selectCommentList(SqlSessionTemplate Session) {
+		
+		return Session.selectList("group.selectCommentList");
+	}
+	
+
+	@Override
+	public List<Map<String, String>> selectGroupMember(SqlSessionTemplate Session, int groupNo) {
+		
+		return Session.selectList("group.selectGroupMember", groupNo);
+	}
+	
+
+	@Override
+	public Group groupViewDetail(SqlSessionTemplate Session, int groupNo) {
+		// TODO Auto-generated method stub
+		return Session.selectOne("group.groupViewDetail", groupNo);
+	}
+
+	@Override
+	public int insertGroupPostLike(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.insert("group.insertGroupPostLike", like);
+	}
+
+	@Override
+	public List<GroupLike> selectGroupPostLike(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.selectList("group.selectGroupPostLike", like);
+	}
+
+	@Override
+	public int selectGroupPostLikeCount(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.selectOne("group.selectGroupPostLikeCount", like);
+	}
+
+	@Override
+	public int insertGroupCommentLike(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.insert("group.insertGroupCommentLike", like);
+	}
+
+	@Override
+	public List<GroupLike> selectGroupCommentLike(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.selectList("group.selectGroupCommentLike", like);
+	}
+
+	@Override
+	public int selectGroupCommentLikeCount(SqlSessionTemplate Session, GroupLike like) {
+		// TODO Auto-generated method stub
+		return Session.selectOne("group.selectGroupCommentLikeCount", like);
+	}
+	
 	
 	
 
