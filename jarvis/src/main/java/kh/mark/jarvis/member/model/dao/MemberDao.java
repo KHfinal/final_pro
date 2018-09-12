@@ -31,6 +31,9 @@ public interface MemberDao {
 	//이메일 찾기 
 	String emailSearch(SqlSessionTemplate sqlSession, Member member);
 
+	//비밀번호 찾기
+	Member selectPw(SqlSessionTemplate sqlSession, String memberEmail);
+
 
 
 }

@@ -52,6 +52,12 @@ public class MemberDaoImpl implements MemberDao{
 		//하나의 값을 검색 할떄에는 selectOne로  
 	}
 
+	@Override
+	public Member selectPw(SqlSessionTemplate sqlSession, String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectPw",memberEmail);
+	}
+
 
 	
 

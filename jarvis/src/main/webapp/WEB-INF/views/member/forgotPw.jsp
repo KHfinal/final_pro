@@ -23,7 +23,7 @@
         	<div class="col-10 col-sm-8 col-md-6 col-lg-6 offset-1 offset-sm-2 offset-md-3 offset-lg-0 align-self-center d-lg-flex align-items-lg-center align-self-lg-stretch bg-white p-5 rounded rounded-lg-0 my-5 my-lg-0" id="login-block">
     			<div class="m-auto w-lg-75 w-xl-50">
         			<h2 class="text-info font-weight-light mb-5"><i class="fa fa-diamond"></i>비밀번호 찾기</h2>
-        			<form name="memberEnrollFrm" action="${path }/emailSearch.do" method="post">
+        			<form name="memberEnrollFrm" action="${path }/PwSearch.do" method="post">
 	            		   		            		
 	            		<div class="form-group ">
 		            		<label class="text-secondary">이메일 입력<small> 임시 비밀번호  </small> </label>

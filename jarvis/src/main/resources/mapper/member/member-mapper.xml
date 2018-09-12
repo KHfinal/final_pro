@@ -52,7 +52,9 @@
   		select member_email from member where member_name=#{memberName} and member_phone=#{phone}
   </select>
 
-
-
+	
+ <select id="selectPw" resultMap="memberMap" parameterType="string">
+      SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+ </select>
 
 </mapper>

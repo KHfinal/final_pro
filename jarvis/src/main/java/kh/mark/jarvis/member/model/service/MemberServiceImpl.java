@@ -57,6 +57,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.emailSearch(sqlSession,member);
 	}
+
+	@Override
+	public Member selectPw(String memberEmail) {
+		// TODO Auto-generated method stub
+		return memberDao.selectPw(sqlSession,memberEmail);
+	}
 	
 	
 

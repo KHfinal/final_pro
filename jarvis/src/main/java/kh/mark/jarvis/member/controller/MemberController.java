@@ -108,7 +108,7 @@ public class MemberController {
 			return "member/memberEnroll";
 	}
 		
-	//회원가입 정보를 가지고 데이터베이스에 자료 넣기
+	//회원가입하기
 	@RequestMapping("memberEnrollEnd.do")
 	public String memberEnrollEnd(Member member, Model model) 
 	{
@@ -141,6 +141,7 @@ public class MemberController {
 		
 		return "common/msg";
 	}
+	
 	
 	public void sendMail(Member member) {
 		logger.debug(member.getMemberEmail());
@@ -280,8 +281,72 @@ public class MemberController {
 			}
 			
 			
+
+			//패스워드 찾기 시작 
+			@RequestMapping(value="/PwSearch.do")
+			public ModelAndView pwSearch(String memberEmail) {
+				
+					/*//2.암호화하기
+					String oriPw=member.getMemberPw(); //암호화 전
+					String enPw=BCPE.encode(oriPw);	   //암호화 후
+					System.out.println(enPw);	
+					member.setMemberPw(enPw);	//암호화 처리한것을 pw에 저장
+*/					
+					//xml까지 보내기
+					Member pwSearch=memberService.selectPw(memberEmail); //비밀번호 찾기
+					
+					//xml까지 다녀왔음  아래 진행
+					ModelAndView mv = new ModelAndView();
+					String msg="";
+					String loc="/";
+					logger.debug(pwSearch.getMemberPw());
+					
+					
+					
+					if (pwSearch.getMemberEmail() == null) 
+					{
+						msg="등록된 이메일이 없습니다.";
+						loc="/views/member/forgotPw.jsp";
+					} 
+					else 
+					{
+						msg="이메일 발송완료";
+						pwSendMail(pwSearch);
+						
+					}
+					mv.addObject("msg",msg);
+					mv.addObject("loc",loc);
+					mv.setViewName("common/msg");
+					return mv;
+				}
 			
-			
+			//이메일 보내보자...
+			public void pwSendMail(Member member) {
+				logger.debug(member.getMemberEmail());
+				String setfrom = "kkh9180@gmail.com";         
+			    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
+			    String title   = "Jarvis 암호변경메일입니다";      // 제목
+			    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+			    content += "<h2>jarvis 해당 링크를 누르시면 암호변경페이지로 이동됩니다.<h2>";    // 내용
+			    content += "<a href='http://localhost:9090/jarvis/member/변경할 페이지 맞추기?memberEmail="+member.getMemberEmail()+
+			    		"'>jarvis 계정 인증하기</a>";
+			    try {
+			    	
+			      MimeMessage message = mailSender.createMimeMessage();
+			      MimeMessageHelper messageHelper 
+			                        = new MimeMessageHelper(message, true, "UTF-8");
+			 
+			      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+			      messageHelper.setTo(tomail);     // 받는사람 이메일
+			      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			      messageHelper.setText(content,true);  // 메일 내용,true하면 html형식으로 보내진다.
+			     
+			      mailSender.send(message);
+			    } catch(Exception e){
+			      System.out.println(e);
+			    }
+			    
+			}
 			
 			
 }
