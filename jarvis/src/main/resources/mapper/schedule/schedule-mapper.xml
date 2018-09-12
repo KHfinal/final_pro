@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="schedule">
 	<insert id="addSchedule" parameterType="schedule">
-		insert into schedule values(s_seq.nextval,#{userEmail},#{title},#{startDate},#{endDate}+1,#{content},#{color})
+		insert into schedule values(schedule_seq.nextval,#{userEmail},#{title},#{startDate},#{endDate}+1,#{content},#{color})
 	</insert>
 	<resultMap type="map" id="eventMap">
 	</resultMap>
