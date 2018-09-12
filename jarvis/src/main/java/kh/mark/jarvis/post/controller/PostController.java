@@ -40,6 +40,7 @@ public class PostController {
 	// 1. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
 	public String selectPost(Model model,HttpSession s) {
+		
 		Member m = (Member)s.getAttribute("memberLoggedIn");
 		logger.debug(m.toString());
 		if(m.getAddInfo().equals("N")) {
@@ -51,6 +52,7 @@ public class PostController {
 		List<Attachment> attachmentList = service.selectAttachList(); 
 		List<JarvisComment> commentList = service.selectCommentList();
 		List<Integer> myLikeList = service.selectMyLike(m.getMemberEmail());
+		List<Member> memberList = service.selectMemberList(); // 전체 회원 리스트
 		
 		if(myLikeList.size() == 0) {
 			int flagCnt = 1;
@@ -64,6 +66,7 @@ public class PostController {
 		
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("myLikeList", myLikeList);
+		model.addAttribute("memberList", memberList);
 		
 		String loc = "social/socialHome";
 		

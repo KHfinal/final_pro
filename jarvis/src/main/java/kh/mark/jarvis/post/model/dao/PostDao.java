@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.JarvisLike;
@@ -40,6 +41,8 @@ public interface PostDao {
 	int deleteCommentLike(SqlSessionTemplate sqlSession, JarvisLike like);
 
 	List<Integer> selectMyLike(SqlSessionTemplate sqlSession, String memberEmail);
+
+	List<Member> selectMemberList(SqlSessionTemplate sqlSession);
 
 
 

@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 /* Post게시물 출력 */
 
 #createPostContainer {
@@ -175,12 +176,19 @@
 
 
 
+
 /* 댓글, 답글*/
 #inputComment-container {
    margin-top: 2%;
 }
 
-#commentProfile {
+.postProfile {
+	margin-right: 1%;
+	max-width: 65px;
+	height: 65px;
+}
+
+.commentProfile {
    max-width: 50px;
    height: 50px;
 }
@@ -208,6 +216,8 @@
    margin-top: 0.5%;
    margin-left: 10%;
 }
+
+
 
 
 /* 좋아요 */
