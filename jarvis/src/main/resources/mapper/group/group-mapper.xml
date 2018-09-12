@@ -27,12 +27,25 @@
 		SELECT * FROM GROUP_LIST WHERE G_NO IN(SELECT G_NO FROM GROUP_CATEGORY WHERE C_KEY=#{category})
 	</select>
 	
-	<select id="groupView" parameterType="_int" resultMap="groupMap">
-		SELECT * FROM GROUP_LIST WHERE G_NO=#{groupNo}
+	<select id="groupView" parameterType="_int" resultType="groupPost">
+		SELECT * FROM GROUP_POST WHERE G_NO=#{groupNo} ORDER BY G_POST_DATE DESC
+	</select>
+	<select id="selectAttachList" parameterType="_int" resultType="groupAttach">
+		SELECT G_ATTACHMENT_NO, G_POST_NO, G_ORIGINAL_FILENAME, G_RENAMED_FILENAME, G_UPLOAD_DATE FROM GROUP_ATTACHMENT JOIN GROUP_POST USING(G_POST_NO) WHERE G_NO=#{groupNo} 
 	</select>
 	
 	<select id="selectCategory" resultType="map">
 		SELECT * FROM GROUP_CATEGORY JOIN CATEGORY USING(C_KEY)
 	</select>
+	
+	<insert id="insertGroupPost" parameterType="groupPost">
+		INSERT INTO GROUP_POST VALUES(GROUP_POST_SEQ.NEXTVAL,#{g_post_contents},#{g_post_bound},#{g_no},#{g_post_writer},SYSTIMESTAMP)
+		<selectKey keyProperty="g_post_no" resultType="_int" order="AFTER">
+			SELECT GROUP_POST_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<insert id="insertAttach" parameterType="groupAttach">
+		INSERT INTO GROUP_ATTACHMENT VALUES(GROUP_ATTACHMENT_SEQ.NEXTVAL,#{g_post_no},#{g_original_filename},#{g_renamed_filename},SYSTIMESTAMP)
+	</insert>
   
 </mapper>

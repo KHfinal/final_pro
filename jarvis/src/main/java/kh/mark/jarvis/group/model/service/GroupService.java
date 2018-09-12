@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import kh.mark.jarvis.group.model.vo.Group;
+import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupPost;
 
 public interface GroupService {
 
@@ -12,6 +14,8 @@ public interface GroupService {
 	List<Map<String, String>> selectCategory();
 	List<Map<String, String>> groupSearch(String titleSearch);
 	List<Map<String, String>> groupFilter(String category);
-	Group groupView(int groupNo);
+	List<GroupPost> groupView(int groupNo);
+	int insertGroupPost(GroupPost post, List<GroupAttachment> attList);
+	List<GroupAttachment> selectAttachList(int groupNo);
 	
 }

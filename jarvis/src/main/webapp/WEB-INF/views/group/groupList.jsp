@@ -101,21 +101,15 @@
 			});
  
 </script>
-	<div class="headBar sticky-top" style="background-color:#A9E2C5;min-height: 50px;">
-        
+
+<div class="w3-col m9 ml-5">
             <div class="container">
                 <table class="table">
 	                <tbody>
 		                <tr>
 		                	<td>
-		                		<ul class="nav nav-pills">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="pill" href="#searchGroup">그룹</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-toggle="pill" href="#myGroup">내 그룹</a>
-									</li>
-			                    </ul>
+		                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
+		                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
 		                	</td>
 		                	<td>
 		                		<form action="${path }/group/groupSearch.do" method="post">
@@ -129,12 +123,6 @@
 									</div>
 								</form>
 		                	</td>
-		                	<td>
-		                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
-		                	</td>
-		                	<td>
-		                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
-		                	</td>
 		                </tr>
 	                </tbody>     
                 </table>
@@ -146,33 +134,39 @@
 						<button type="button" class="btn btn-light ml-2 mr-2 t" name="travle" value="c1">여행</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="arts" value="c2">예술&문화</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="arts" value="c2">예술</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="health" value="c3">건강</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="culture" value="c3">문화</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="beauty" value="c4">패션&뷰티</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="health" value="c4">건강</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="sports" value="c5">스포츠</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="fashion" value="c5">패션</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="food" value="c6">푸드</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="beauty" value="c6">뷰티</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="living" value="c7">리빙</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="sports" value="c7">스포츠</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="c8">재테크</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="food" value="c8">푸드</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-light ml-2 mr-2 t" name="com" value="c9">공통</button>
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="living" value="c9">리빙</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="invest" value="c10">재테크</button>
+					</li>
+					<li class="nav-item">
+						<button type="button" class="btn btn-light ml-2 mr-2 t" name="com" value="c11">공통</button>
 					</li>
 				</ul>
 							    
 			</div> 	
-	</div>
+	
 	<script>
 	$(function(){
 		$('.t').on('click',function(){
@@ -213,35 +207,43 @@
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category2" name="g_category" value="c2"/>
-								    <label class="custom-control-label" for="category2">예술&문화</label>
+								    <label class="custom-control-label" for="category2">예술</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category3" name="g_category" value="c3"/>
-								    <label class="custom-control-label" for="category3">건강</label>
+								    <label class="custom-control-label" for="category3">문화</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category4" name="g_category" value="c4"/>
-								    <label class="custom-control-label" for="category4">패션&뷰티</label>
+								    <label class="custom-control-label" for="category4">건강</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category5" name="g_category" value="c5"/>
-								    <label class="custom-control-label" for="category5">스포츠</label>
+								    <label class="custom-control-label" for="category5">패션</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category6" name="g_category" value="c6"/>
-								    <label class="custom-control-label" for="category6">푸드</label>
+								    <label class="custom-control-label" for="category6">뷰티</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category7" name="g_category" value="c7"/>
-								    <label class="custom-control-label" for="category7">리빙</label>
+								    <label class="custom-control-label" for="category7">스포츠</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category8" name="g_category" value="c8"/>
-								    <label class="custom-control-label" for="category8">재테크</label>
+								    <label class="custom-control-label" for="category8">푸드</label>
 							    </div>
 							    <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category9" name="g_category" value="c9"/>
-								    <label class="custom-control-label" for="category9">공통</label>
+								    <label class="custom-control-label" for="category9">리빙</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category10" name="g_category" value="c10"/>
+								    <label class="custom-control-label" for="category10">재테크</label>
+							    </div>
+							    <div class="custom-control custom-checkbox mr-3">
+								    <input type="checkbox" class="custom-control-input" id="category11" name="g_category" value="c11"/>
+								    <label class="custom-control-label" for="category11">공통</label>
 							    </div>
 						    </div>
 					    </div>
@@ -256,60 +258,49 @@
             </div>  
         </div>
         
-        <div class="container mt-2" style="height: 3000px;">
-        	<div class="tab-content">
-				<div class="tab-pane active container" id="searchGroup">
-					
-	        		<div id="portfolio">
-						<div class="col-lg-12 text-center">
-							<h2 class="section-heading text-uppercase mt-3">그룹</h2>
-							<h3 class="section-subheading text-muted" style="margin-bottom: 30px;">자신에게 어울리는 그룹을 찾아보세요.</h3>
-						</div>
-						<div class="row">
-							<c:if test="${list!=null }">
-								<c:forEach var="g" items="${list}">				
-									<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
-										<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
-											<div class="portfolio-hover">
-								                <div class="portfolio-hover-content">
-								                  	<p>${g.g_intro}</p>
-								                </div>
-							                </div>
-											<img class="img-fluid" src="${path }/resources/upload/group/${g.g_renamedFilename}" style="width: 340px; height: 250px;"/>
-										</a>
-										<div class="portfolio-caption">
-											<h2>${g.g_name }</h2>
-											
-											<p class="text-muted">
-												<c:forEach var="cate" items="${cateList }">
-													<c:if test="${g.g_no==cate.G_NO }">
-														${cate.C_VALUE }&nbsp;
-													</c:if>
-												</c:forEach>
-											</p>
-											
-										</div>
-									</div>
-								</c:forEach>
-							</c:if>
-						</div>
-					</div>
+        <div class="container mt-2" style="height: 3000px;">					
+       		<div id="portfolio">
+				<div class="col-lg-12 text-center">
+					<h2 class="section-heading text-uppercase mt-3">그룹</h2>
+					<h3 class="section-subheading text-muted" style="margin-bottom: 30px;">자신에게 어울리는 그룹을 찾아보세요.</h3>
 				</div>
-				<script>
-					function fn_view(data){
-						location.href="${path }/group/groupView.do?groupNo="+data;
-					}
-				</script>
-				
-				<div class="tab-pane container" id="myGroup">
-					
-					내가 속한 그룹 페이지
-				
+				<div class="row">
+					<c:if test="${list!=null }">
+						<c:forEach var="g" items="${list}">				
+							<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
+								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
+									<div class="portfolio-hover">
+						                <div class="portfolio-hover-content">
+						                  	<p>${g.g_intro}</p>
+						                </div>
+					                </div>
+									<img class="img-fluid" src="${path }/resources/upload/group/${g.g_renamedFilename}" style="width: 340px; height: 250px;"/>
+								</a>
+								<div class="portfolio-caption">
+									<h2>${g.g_name }</h2>
+									
+									<p class="text-muted">
+										<c:forEach var="cate" items="${cateList }">
+											<c:if test="${g.g_no==cate.G_NO }">
+												${cate.C_VALUE }&nbsp;
+											</c:if>
+										</c:forEach>
+									</p>
+									
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
 				</div>
-            </div>
-           
-       </div>
-        	
-    </section>  
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+			</div>
+		</div>
+		<script>
+			function fn_view(data){
+				location.href="${path }/group/groupView.do?groupNo="+data;
+			}
+		</script>
+	</section>		
+</div>
+          
+<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> --%>
 

@@ -5,11 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.service.PostService;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
@@ -42,8 +39,12 @@ public class PostController {
 	
 	// 1. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model) {
-		
+	public String selectPost(Model model,HttpSession s) {
+		Member m = (Member)s.getAttribute("memberLoggedIn");
+		logger.debug(m.toString());
+		if(m.getAddInfo().equals("N")) {
+			return "member/memberInfoAdd";
+		}
 		List<Post> postList = service.selectPostList(); // 전체 Post
 		List<Attachment> attachmentList = service.selectAttachList(); 
 		List<JarvisComment> commentList = service.selectCommentList();
