@@ -17,7 +17,7 @@
  		<typeAlias type="kh.mark.jarvis.common.StringArrayType" alias="strArr"/>
  		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupPost" alias="groupPost"/>
 		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupAttachment" alias="groupAttach"/>
-		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupComment" alias="groupAomment"/>
+		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupComment" alias="groupComment"/>
 		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupLike" alias="groupLike"/>
  		
 

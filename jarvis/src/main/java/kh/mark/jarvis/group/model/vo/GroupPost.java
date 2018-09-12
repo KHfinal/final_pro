@@ -6,7 +6,6 @@ public class GroupPost {
 
 	private int g_post_no;
 	private String g_post_contents;
-	private String g_post_bound;
 	private String g_no;
 	private String g_post_writer;
 	private Date g_post_date;
@@ -18,7 +17,6 @@ public class GroupPost {
 		super();
 		this.g_post_no = g_post_no;
 		this.g_post_contents = g_post_contents;
-		this.g_post_bound = g_post_bound;
 		this.g_no = g_no;
 		this.g_post_writer = g_post_writer;
 		this.g_post_date = g_post_date;
@@ -38,14 +36,6 @@ public class GroupPost {
 
 	public void setG_post_contents(String g_post_contents) {
 		this.g_post_contents = g_post_contents;
-	}
-
-	public String getG_post_bound() {
-		return g_post_bound;
-	}
-
-	public void setG_post_bound(String g_post_bound) {
-		this.g_post_bound = g_post_bound;
 	}
 
 	public String getG_no() {
@@ -74,8 +64,8 @@ public class GroupPost {
 
 	@Override
 	public String toString() {
-		return "GroupPost [g_post_no=" + g_post_no + ", g_post_contents=" + g_post_contents + ", g_post_bound="
-				+ g_post_bound + ", g_no=" + g_no + ", g_post_writer=" + g_post_writer + ", g_post_date=" + g_post_date
+		return "GroupPost [g_post_no=" + g_post_no + ", g_post_contents=" + g_post_contents
+				+ ", g_no=" + g_no + ", g_post_writer=" + g_post_writer + ", g_post_date=" + g_post_date
 				+ "]";
 	}
 	

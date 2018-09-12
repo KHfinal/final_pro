@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import kh.mark.jarvis.group.model.dao.GroupDao;
 import kh.mark.jarvis.group.model.vo.Group;
 import kh.mark.jarvis.group.model.vo.GroupAttachment;
+import kh.mark.jarvis.group.model.vo.GroupComment;
+import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
 import kh.mark.jarvis.post.model.vo.Attachment;
 
@@ -94,6 +96,69 @@ public class GroupServiceImpl implements GroupService {
 		return result;
 		
 	}
+
+	@Override
+	public int insertComment(GroupComment comment) {
+		
+		return dao.insertComment(Session, comment);
+	}
+	
+
+	@Override
+	public List<GroupComment> selectCommentList() {
+		// TODO Auto-generated method stub
+		return dao.selectCommentList(Session);
+	}
+	
+
+	@Override
+	public List<Map<String, String>> selectGroupMember(int groupNo) {
+		// TODO Auto-generated method stub
+		return dao.selectGroupMember(Session, groupNo);
+	}
+
+	@Override
+	public Group groupViewDetail(int groupNo) {
+		// TODO Auto-generated method stub
+		return dao.groupViewDetail(Session, groupNo);
+	}
+
+	@Override
+	public int insertGroupPostLike(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.insertGroupPostLike(Session, like);
+	}
+
+	@Override
+	public List<GroupLike> selectGroupPostLike(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.selectGroupPostLike(Session, like);
+	}
+
+	@Override
+	public int selectGroupPostLikeCount(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.selectGroupPostLikeCount(Session, like);
+	}
+
+	@Override
+	public int insertGroupCommentLike(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.insertGroupCommentLike(Session, like);
+	}
+
+	@Override
+	public List<GroupLike> selectGroupCommentLike(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.selectGroupCommentLike(Session, like);
+	}
+
+	@Override
+	public int selectGroupCommentLikeCount(GroupLike like) {
+		// TODO Auto-generated method stub
+		return dao.selectGroupCommentLikeCount(Session, like);
+	}
+	
 	
 	
 	
