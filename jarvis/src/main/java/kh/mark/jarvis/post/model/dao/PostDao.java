@@ -41,6 +41,10 @@ public interface PostDao {
 
 	List<JarvisLike> startSelectLike(SqlSessionTemplate sqlSession);
 
+	int startSelectPostLikeCountList(SqlSessionTemplate sqlSession, JarvisLike like);
+
+	List<Integer> startSelectCommentLikeCountList(SqlSessionTemplate sqlSession, JarvisLike like);
+
 
 
 

@@ -14,6 +14,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	
+	
 	<!-- #1.1 ojdbc 사설저장소 등록 -->
 	<repositories>      
 	   <repository>
