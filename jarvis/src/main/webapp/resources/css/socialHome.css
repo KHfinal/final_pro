@@ -2,11 +2,11 @@
 
 /* Post게시물 출력 */
 #friendRecommendClass{
-	margin-left: 10%
+	
 }
 #createPostContainer {
-	width: 100%;
-    margin-left: 13%;
+	width: 80%;
+    margin-left: 10%;
     -webkit-transform:scale(1);
     -moz-transform:scale(1);
     -ms-transform:scale(1); 

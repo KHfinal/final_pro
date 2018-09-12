@@ -355,7 +355,7 @@ function fn_postLike(e) { /* 좋아요 전송 */
 </div>
 <script>
 $(document).ready(function(){
-	ajax();
+		ajax();
 		var email2 = '${memberLoggedIn.memberEmail}';
 		$.ajax({
 			url:"${path}/friend/friednRecommendList.do",
@@ -364,17 +364,11 @@ $(document).ready(function(){
 			dataType:"json",
 			success : function(data){
 				console.log("friendList :"+friendList);
-				
 				var friendConcernTag;
-				
 				$.each(data.concernCompareList,function(i,item){
-					 /* compareList */
-				
 					var f_email2 = item;
-					
 					console.log("f_email2 : "+f_email2);
 					for(var i =0; i<friendList.length;i++){
-						
 						if((friendList[i]==f_email2)){
 							break;	
 						}
@@ -387,25 +381,12 @@ $(document).ready(function(){
 							 break;
 						}	
 					}
-					console.log("friendConcernTag : " + friendConcernTag );
-					
-					
-					$('#tablefriend').append(friendConcernTag);
+					$('.tablefriend').append(friendConcernTag);
 					friendConcernTag;
-					
-					
-						
-					 
-					
-					
 				}); 
-				
-				
 			}
-		
 		});
-		
-}) 
+}); 
 var userIdList=[] ;
 var su =0;
 var friendList=[];
@@ -413,7 +394,6 @@ var sock=new SockJS("<c:url value='/friendInList'/>")  /* (0) */
 	/* sock.메소드 는 컨트롤러(핸들러)로 감 */
 sock.onmessage = onMessage;
 sock.onclose = onClose;
-
 $(function() {
     $('.dropdown-toggle').click(function() {
         this.attr("border", none);
@@ -435,16 +415,8 @@ function ajax() {
 			$.each(data.list,function(i,item){
 				var f_email = item; 
 				var size =userIdList.length;
-				
-				
-				
-					
 				friendList.push(f_email);
-				
-			
-				
 				for(var k =0; k<size;k++){
-					
 					console.log("userIdList[k] : "+userIdList[k]);
 				    if(f_email==userIdList[k]){
 						friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"<i class='fa fa-cloud'/></a><br>";
@@ -454,37 +426,25 @@ function ajax() {
 				    	friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"</a><br>";
 				    }
 				} 
-				
-				
 				$('#myDropdown').append(friendListTag);
 			});
 			$("#su").empty();
 			$('#su').append(su);
-		
 		}
-		
-	
 	});
 };
-
 function onMessage(evt){
 	var userId = evt.data;
 	var flag=evt.data.split("|");
 	console.log("구분 : " +userId[0]);
-	
-	
 	if(flag[0]=="1"){
 		console.log("스크립트 추가한 유저 : " + flag[1]);
-		
 		if(!(userIdList.indexOf(flag[1])>=0)){
 			userIdList.push(flag[1]);
 			su++;
 		}
-		
-		
 		console.log("스크립트 접속후 접속자 : "+userIdList);
 		/* alert("포함?"+userIdList.contains(flag[1])); */
-			
 	}
 	if(flag[0]=="2"){
 		console.log("스크립트 나간 유저 : " + flag[1]);
@@ -493,11 +453,7 @@ function onMessage(evt){
 			userIdList=[];	
 		}
 		userIdList.push(flag[1]);
-		
-			
-		
 		console.log("스크립트 나간후 접속자 : "+userIdList);
-		
 	}
 };
 function onClose() {
@@ -546,12 +502,29 @@ function filterFunction() {
 	
 </script> 
 <div class='w3-col m2' id='friendRecommendClass'>
-	<table cellspacing='0' id='tablefriend'>
+	<table cellspacing='0' class='tablefriend'>
+	<div class="pull-center well">
+        <form class="form-inline" action="#" method="POST">
+            <center>  
+                        <select class="form-control">
+                            <option>ㅇㅎㅇ</option>
+                            <option>jgfhfhfh</option>
+                        </select>
+                    
+                    
+                       <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                      <i>search</i>
+                                    </button>
+                                </span>
+                        </div>
+        </form>
+    </div>
 		<tr>
 			<th >회원 이메일</th>
 		</tr>
-		
-		
 	</table>
 </div>
 	
