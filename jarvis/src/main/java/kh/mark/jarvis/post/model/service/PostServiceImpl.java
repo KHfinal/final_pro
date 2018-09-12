@@ -107,8 +107,15 @@ public class PostServiceImpl implements PostService {
 		return dao.startSelectLike(sqlSession);
 	}
 
+	@Override
+	public int startSelectPostLikeCountList(JarvisLike like) {
+		return dao.startSelectPostLikeCountList(sqlSession, like);
+	}
 
-
+	@Override
+	public List<Integer> startSelectCommentLikeCountList(JarvisLike like) {
+		return dao.startSelectCommentLikeCountList(sqlSession, like);
+	}
 
 	
 }

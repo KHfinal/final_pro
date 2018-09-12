@@ -11,7 +11,7 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1511">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1111">
 
 <script>
 
@@ -132,9 +132,6 @@ function fn_postLike(e) { /* 좋아요 전송 */
 				commentRef = item.commentRef;
 				likeCheck = item.likeCheck;
 			});
-			alert("postRef = " + postRef);
-			alert("likeFrm.children('.postRef').val() = " + likeFrm.children('.postRef').val());
-			alert("likeCheck = " + likeCheck);
 			
 			if(data.count == 0 || likeFrm.children('.postRef').val() == postRef && likeFrm.children('.likeCheck').val() == 1) {
 				var html = "<p class='likePostCount'>" + data.count + "</p>";
@@ -158,7 +155,7 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	});
 }
 </script>
-
+<div class="w3-col m7">
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 	   <div class="modal-header">
@@ -235,8 +232,8 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	        <!-- 게시물 좋아요 갯수 출력 -->
 	        <div class="likePostCount-container" style="display: inline-block">
 	        	<c:forEach items="${likeList }" var="like" varStatus="vs">
-	        		<c:if test="${post.getPostNo() == like.getPostRef() }">
-						<p class='likePostCount'>data.count</p>
+	        		<c:if test="${post.getPostNo() eq like.getPostRef() and like.getLikeCheck() eq 1}">
+						<p class='likePostCount'>${likePostCountList }</p>
 					</c:if>
 				</c:forEach>
 	        </div>
@@ -340,5 +337,5 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	
 	</c:forEach>
 
-
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

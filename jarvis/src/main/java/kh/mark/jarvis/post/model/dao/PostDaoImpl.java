@@ -95,6 +95,16 @@ public class PostDaoImpl implements PostDao {
 		return sqlSession.selectList("post.startSelectLike");
 	}
 
+	@Override
+	public int startSelectPostLikeCountList(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectOne("post.startSelectPostLikeCountList", like);
+	}
+
+	@Override
+	public List<Integer> startSelectCommentLikeCountList(SqlSessionTemplate sqlSession, JarvisLike like) {
+		return sqlSession.selectList("post.startSelectCommentLikeCountList", like);
+	}
+
 
 
 

@@ -45,14 +45,26 @@ public class PostController {
 		if(m.getAddInfo().equals("N")) {
 			return "member/memberInfoAdd";
 		}
+		
+		// 용석
 		List<Post> postList = service.selectPostList(); // 전체 Post
 		List<Attachment> attachmentList = service.selectAttachList(); 
 		List<JarvisComment> commentList = service.selectCommentList();
 		List<JarvisLike> likeList = service.startSelectLike();
 		
-		for(JarvisLike like : likeList) {
-//			List<Integer> likeCountList = service.startSelectLikeCountList(like);
-		}
+//		int postRef = 0;
+//		int LikeCheck = 0;
+//		
+//		Map<> countMap = Hashmap();
+//		
+//		for(Post p : postList) {
+//			for(JarvisLike like : likeList) {
+//				if(like.getLikeCheck() == 1 && p.getPostNo() == like.getPostRef()) {
+//					postRef = like.getPostRef();
+//					
+//				}
+//			}
+//		}
 		
 		
 		if(postList != null && attachmentList != null) {
@@ -62,6 +74,8 @@ public class PostController {
 		
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("likeList", likeList);
+		
+		
 		
 		String loc = "social/socialHome";
 		
