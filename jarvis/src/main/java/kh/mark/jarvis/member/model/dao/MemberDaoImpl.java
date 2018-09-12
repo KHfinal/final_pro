@@ -45,6 +45,13 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.update("member.addInfoUpdate",m);
 	}
 
+	@Override	//이메일 찾기
+	public String emailSearch(SqlSessionTemplate sqlSession, Member member) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.emailSearch", member);
+		//하나의 값을 검색 할떄에는 selectOne로  
+	}
+
 
 	
 

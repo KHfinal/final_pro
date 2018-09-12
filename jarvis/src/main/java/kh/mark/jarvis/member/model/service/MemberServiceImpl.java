@@ -51,6 +51,12 @@ public class MemberServiceImpl implements MemberService{
 
 		return memberDao.addInfoUpdate(sqlSession,m);
 	}
+
+	@Override
+	public String emailSearch(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.emailSearch(sqlSession,member);
+	}
 	
 	
 

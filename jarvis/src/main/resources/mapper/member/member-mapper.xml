@@ -45,4 +45,14 @@
     <update id="addInfoUpdate" parameterType="member">
   	update member set member_pfp=#{memberPFP},member_concern=#{memberConcern,typeHandler=strArr},member_gender=#{memberGender},member_birth=#{memberBirthday},addr1=#{addr1},addr2=#{addr2},addr3=#{addr3},addinfo='Y' where member_email=#{memberEmail}
   </update>
+
+	
+	<select id="emailSearch"  resultType="string" parameterType="member">
+  		<!-- 한개의 값을 찾으려고 string으로, parameterType값을 alise값 -->
+  		select member_email from member where member_name=#{memberName} and member_phone=#{phone}
+  </select>
+
+
+
+
 </mapper>

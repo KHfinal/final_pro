@@ -244,4 +244,44 @@ public class MemberController {
 		  
 		  
 	  }
+	  
+	  
+	  		//이메일 찾기 페이지로 이동
+			@RequestMapping("/member/forgotEmail.do")
+			public String forget() 
+			{
+				return "member/forgotEmail";
+			}
+			
+			
+			//패스워드 찾기 페이지로 이동
+			@RequestMapping("/member/forgotPw.do")
+			public String forgetPw() 
+			{
+					return "member/forgotPw";
+			}
+	  
+			
+			
+			//이메일 찾기시작   //모델엔뷰 방식
+			@RequestMapping("/emailSearch.do")
+			public ModelAndView emailSearch(Member member) 
+			{
+				logger.debug("전달 받은 이름:"+member.getMemberName());
+				logger.debug("전달 받은 이름:"+member.getPhone());
+				ModelAndView mv = new ModelAndView(); 
+				
+				//화면으로 뿌리기 시작 mv.addjoject에 담아
+				String email = memberService.emailSearch(member); //이메일 찾기
+				
+				mv.setViewName("member/forgotEmailEnd");	//jsp이름
+				mv.addObject("emailSearch", email);	//뷰에 전송 할 이름에 email을 담아서  
+				return mv;
+			}
+			
+			
+			
+			
+			
+			
 }

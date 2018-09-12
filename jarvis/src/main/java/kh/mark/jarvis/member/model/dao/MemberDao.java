@@ -27,6 +27,10 @@ public interface MemberDao {
 
 	int addInfoUpdate(SqlSessionTemplate sqlSession, Member m);
 
+	
+	//이메일 찾기 
+	String emailSearch(SqlSessionTemplate sqlSession, Member member);
+
 
 
 }

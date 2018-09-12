@@ -17,4 +17,6 @@ public interface MemberService {
 	int memberVerify(String memberEmail);
 
 	int addInfoUpdate(Member m);
+
+	String emailSearch(Member member);	//이메일 찾기
 }
