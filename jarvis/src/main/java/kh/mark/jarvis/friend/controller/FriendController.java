@@ -89,8 +89,8 @@ public class FriendController{
 		List<String> requestList1=friendService.requestList(map);
 		List<String> friendList1=friendService.friendList(map);
 		
-		mv.addObject("requestList",requestList);
-		mv.addObject("requestList1",requestList1);
+		mv.addObject("requestList",requestList);		//본인 이메일이 f_member_email일때
+		mv.addObject("requestList1",requestList1);		//본인 이메일이 f_friend_email일때
 
 		if(friendList.size()>0) {
 			for(int i=0;i<friendList1.size();i++)
