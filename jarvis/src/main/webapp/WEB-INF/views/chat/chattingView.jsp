@@ -11,7 +11,7 @@
 <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script>
 //SocketJS 채팅구현
-var sock=new SockJS("<c:url value='/chatting'/>")
+/* var sock=new SockJS("<c:url value='/chatting'/>")
 	sock.onmessage=onMessage;
 	sock.onclose=onClose;
 	
@@ -55,8 +55,8 @@ var today=null;
 			message=strArray[1];//전송내용
 			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);//실제아이피주소만 남기기
 			today=new Date();
-			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate();
-			printHour=today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
+			printDate=today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDate()+"일";
+			printHour=today.getHours()+":"+today.getMinutes();
 			console.log(printDate);
 			
 			var ck_host='${host}';
@@ -65,34 +65,36 @@ var today=null;
 			
 			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
 			{
-				var printDate="<div class='messageDate'><sub>"+printDate+"</sub></div>";
-				var printHTML="<div class='well' style='margin-left:30%;'>";
-				printHTML+="<div class='alert alert-primary'>";
-				printHTML+="<sub>"+printHour+"</sub><br/>";
-				printHTML+="<strong>"+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$("#chat_panel").append(printDate);
-				$("#chatdata").append(printHTML);
-				//자기자신 메세지
-				/* var printHTML="<div class='well' style='margin-left:30%;'>";
-				printHTML+="<div class='alert alert-primary' style='min-width:10px;'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$("#chatdata").append(printHTML); */
+				if(message!=null && message!=""){
+					var printDate="<div class='messageDate' style='margin-left:45%;'><sub>"+printDate+"</sub></div>";					
+					var printHTML="<div class='well' style='float: right;'>";
+					printHTML+="<div style='display:inline-block;'><sub>"+printHour+"</sub></div>";
+					printHTML+="<div class='alert alert-primary p-1 mb-1 mr-2 ml-2' style='display:inline-block;'>";
+					printHTML+="<strong>"+message+"</strong>";
+					printHTML+="</div>";
+					printHTML+="</div><br/><br/>";
+					
+					$("#chatdata").append(printDate);
+					$("#chatdata").append(printHTML);
+				}
+				else alert("메세지를 입력하세요");
 			}
 			else
 			{
-				//타인의 메세지
-				var printHTML="<div class='well' style='margin-left:0%;margin-right:30%'>";
-				printHTML+="<div class='alert alert-secondary' style='min-width:10px;'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<img style='width:50px;height:50px;' src='${path}/resources/upload/profileImg/defaultmen.PNG' class='rounded-circle' alt='"+userName+"'><strong>["+userName+"] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$("#chatdata").append(printHTML);
+				if(message!=null && message!=""){
+					//타인의 메세지
+					var printDate="<div class='messageDate' style='margin-left:45%;'><sub>"+printDate+"</sub></div>";
+					var printHTML="<img style='width:50px;height:50px;float: left;' src='${path}/resources/upload/profileImg/defaultmen.PNG' class='rounded-circle' data-toggle='tooltip' title='"+userName+"'>"
+					printHTML+="<div class='well' style='float: left;'>";
+					printHTML+="<div class='alert alert-secondary p-1 mb-1 ml-2 mr-2' style='display:inline-block;'>";
+					printHTML+="<strong>"+message+"</strong>";
+					printHTML+="</div>";
+					printHTML+="<div style='display:inline-block;'><sub>"+printHour+"</sub></div>";
+					printHTML+="</div><br/><br/>";
+					$("#chatdata").append(printDate);
+					$("#chatdata").append(printHTML);
+				}
+				else alert("메세지를 입력하세요");
 			}
 		}
 		else
@@ -121,7 +123,7 @@ var today=null;
 	{
 		location.href='${pageContext.request.contextPath}';
 		self.close();
-	}
+	} */
 </script>
 <style>
 	div#chatdata{
@@ -157,8 +159,7 @@ $(document).ready(function(){
 <div class="w3-col m10">
 <div class="w3-card w3-round w3-white">
 	<div class="w3-container">
-		<div class="row"
-			style="border: 1px solid lightgray; padding: 10px; height: 40px;">
+		<div class="row" style="border: 1px solid lightgray; padding: 10px; height: 40px;">
 			<div class="col-2">
 				<strong>Messenger</strong>
 			</div>
@@ -167,29 +168,14 @@ $(document).ready(function(){
 		</div>
 		<div class="row">
 			<!-- 채팅창 -->
-			<div class="chatting-cintainer col-9">
-				<input id="m_search" class="ml-5 mt-3" type="text" placeholder="메세지 검색" style="width: 80%;">
-				<button id="searchBtn" style="padding: 0;">
-					<img src="${path }/resources/img/searchIcon.PNG" style="width: 30px; height: 30px;">
-				</button>
+			<div class="chatting-cintainer col-6">
 				<div class="chatInput-container">
-					<div class="panel panel-default" id="chat_panel">
-						<div id="chatdata" class="panel-body"></div>
-					</div>
-					<div class="input-group">
-						<textarea name="message" id="message" class="chatInput form-control" placeholder="메세지를 입력하세요.."></textarea>
-						<div class="input-group-append">
-							<button class="btn" style="background-color: white;" type="button">
-								<img class="btn-img" src="${path }/resources/img/camera.png" style="width: 50px; height: 50px;">
-							</button>
-							<button class="btn btn-primary" type="button" id='sendBtn'>보내기</button>
-						</div>
-					</div>
+					<h3>채팅할 친구를 선택해주세요</h3>
 				</div>
 
 			</div>
-			<!-- 대화목록 -->
-			<div class="chatting-cintainer col-3 pl-2 pr-2 pt-3">
+			<!-- 친구목록 -->
+			<div class="chatting-cintainer col-6 pl-2 pr-2 pt-3" style="overflow:auto; height:760px;">
 				<form action="${path}/friend/selectOneFriend.do">
 					<input type="text" id="friendSearch"
 						class="form-control form-control-sm mb-2" placeholder="친구검색">
@@ -197,7 +183,7 @@ $(document).ready(function(){
 				</form>
 				<div class="list-group">
 					<c:forEach items="${friendList}" var="f">
-						<a href="${path}/chat/chattingView?fEmail=${f}" class="list-group-item list-group-item-action">
+						<a href="${path}/chat/chattingFriend?fEmail=${f}" class="list-group-item list-group-item-action">
 							<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height: 23px; width: 23px" alt="Avatar">&nbsp;
 							${f}
 						</a>

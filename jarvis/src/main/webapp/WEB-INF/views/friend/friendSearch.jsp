@@ -13,9 +13,6 @@
 	function friend_request(data){
 		location.href="${path}/friend/friendRequest.do?fEmail="+data;
 	}
-	/* function friend_waiting(){
-		alert("친구요청 대기중입니다");
-	} */
 	function friend_agree(data){
 		location.href="${path}/friend/friendAgree.do?mEmail="+data;
 	}
@@ -47,13 +44,13 @@
                 <td>${m.memberName}</td>
                 <td>${m.memberNickname}</td>
                 <td>${m.phone}</td>
-                <%-- <td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td> --%>
-	              	<c:if test="${m.memberEmail!=requestList1 }">
+                <td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td>
+	              	<%-- <c:if test="${m.memberEmail!=requestList1 }">
 	                	<td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td>
 	             	</c:if> 
 	                <c:if test="${m.memberEmail==requestList1 }">
 	                	<td>요청중</td>
-	            	</c:if>  
+	            	</c:if>   --%>
             </tr>
             </c:if>
             <%-- </c:forEach> --%>
@@ -89,7 +86,7 @@
                 <th></th>
             </tr>
             <c:if test="${requestList1!=null }">
-            <c:forEach items="${requestList1}" var="r1">
+            <c:forEach items="${requestList1}" var="r1">		<!-- f_friend_email일때 -->
 	            <tr>
 	                <td>${r1}</td>
 	                <td><button type="button" id="friend_agree" onclick="friend_agree('${r1}');">수락</button></td>
@@ -98,7 +95,7 @@
             </c:forEach>
             </c:if>
             <c:if test="${requestList!=null }">
-            <c:forEach items="${requestList}" var="r"> 
+            <c:forEach items="${requestList}" var="r"> 			<!-- f_member_email일때 -->
 	            <tr>
 	                <td>${r}</td>
 	                <td><button type="button" id="friend_refuse2" onclick="friend_refuse('${r}');">요청취소</button></td>

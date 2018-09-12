@@ -70,18 +70,9 @@
 	</delete>
 	
 	<!-- 최초 로그인시 count값 받기 위한 select -->
-	<select id="startSelectLike" resultType="like" resultMap="likeMap">
-		SELECT * FROM JARVIS_LIKE
+	<select id="selectMyLike" parameterType="string" resultType="Integer">
+		SELECT DISTINCT POST_REF FROM JARVIS_LIKE WHERE LIKE_MEMBER = #{memberEmail}
 	</select>
-	
-	<select id="startSelectPostLikeCountList" resultType="_int" parameterType="like">
-		SELECT COUNT(*) FROM JARVIS_LIKE WHERE POST_REF = #{postRef} AND LIKE_CHECK = #{likeCheck}
-	</select>
-	
-	<select id="startSelectCommentLikeCountList" resultType="java.lang.Integer" parameterType="like">
-		SELECT COUNT(*) FROM JARVIS_LIKE WHERE COMMENT_REF = #{commentRef} AND LIKE_CHECK = #{likeCheck}
-	</select>
-	
 	
 	
 	
