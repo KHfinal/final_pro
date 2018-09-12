@@ -102,7 +102,7 @@
  
 </script>
 
-<div class="w3-col m9 ml-5">
+<div class="w3-col m8 ml-4">
             <div class="container">
                 <table class="table">
 	                <tbody>
@@ -261,7 +261,9 @@
 					<c:if test="${list!=null }">
 						<c:forEach var="g" items="${list}">				
 							<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
-								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}&memberLoggedIn=${memberLoggedIn.getMemberEmail()}">
+								<%-- <a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}"> --%>
+								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}&mEmail=${memberLoggedIn.memberEmail}">
+								
 									<div class="portfolio-hover">
 						                <div class="portfolio-hover-content">
 						                  	<p>${g.g_intro}</p>
@@ -270,7 +272,7 @@
 									<img class="img-fluid" src="${path }/resources/upload/group/${g.g_renamedFilename}" style="width: 340px; height: 250px;"/>
 								</a>
 								<div class="portfolio-caption">
-									<h2>${g.g_name }</h2>
+									<h3>${g.g_name }</h3>
 									
 									<p class="text-muted">
 										<c:forEach var="cate" items="${cateList }">
