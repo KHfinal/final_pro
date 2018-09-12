@@ -30,7 +30,7 @@
 	            		
 	            		<div class="form-group">
 		            		<label class="text-secondary">Email</label>
-		            		<input type="text" name='memberEmail' required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}$" inputmode="email" class="form-control" />
+		            		<input type="text" name='memberEmail' required class="form-control" />
 	            		</div>
 	       
 	            		<div class="form-group">

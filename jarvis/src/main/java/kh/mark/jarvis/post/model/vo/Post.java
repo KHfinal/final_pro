@@ -8,7 +8,6 @@ public class Post {
 	private String postContents;
 	private String privacyBound;
 	private Date postDate;
-	
 	public Post() {
 		
 	}
