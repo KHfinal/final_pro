@@ -35,7 +35,7 @@ public interface PostService {
 
 	int deleteCommentLike(JarvisLike like);
 
-	List<JarvisLike> startSelectLike();
+	List<Integer> selectMyLike(String memberEmail);
 
 
 

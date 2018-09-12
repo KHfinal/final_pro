@@ -11,7 +11,7 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1511">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1111">
 
 <script>
 
@@ -132,9 +132,6 @@ function fn_postLike(e) { /* 좋아요 전송 */
 				commentRef = item.commentRef;
 				likeCheck = item.likeCheck;
 			});
-			alert("postRef = " + postRef);
-			alert("likeFrm.children('.postRef').val() = " + likeFrm.children('.postRef').val());
-			alert("likeCheck = " + likeCheck);
 			
 			if(data.count == 0 || likeFrm.children('.postRef').val() == postRef && likeFrm.children('.likeCheck').val() == 1) {
 				var html = "<p class='likePostCount'>" + data.count + "</p>";
@@ -158,7 +155,7 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	});
 }
 </script>
-
+<div class="w3-col m7">
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 	   <div class="modal-header">
@@ -224,21 +221,36 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	        <span><fmt:formatDate value="${post.getPostDate()}" pattern="yy-MM-dd HH:mm"/></span>
 	        
 	        <!-- 게시글 좋아요를 위한 form -->
-        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="far fa-heart like" style="font-size: 2.3em;"></i></a>
+	        <c:set var="loop_flag" value="false" />
+	        <c:forEach items="${myLikeList }" var="myLike">
+	        	<c:if test="${not loop_flag }">
+		        <c:choose>
+			        <c:when test="${post.getPostNo() eq myLike }">
+			        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="fas fa-heart like" style="font-size: 2.3em;"></i></a>
+			        	<c:set var="loop_flag" value="true" />	        
+			        </c:when>
+			        <c:when test="${post.getPostNo() ne myLike }">
+			        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="far fa-heart like" style="font-size: 2.3em;"></i></a>
+				        <c:set var="loop_flag" value="true" />
+			        </c:when>
+		        </c:choose>
+		        </c:if>
+	        </c:forEach>
+	        
+	        <c:if test="${flagCnt eq 1 }">
+	        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="far fa-heart like" style="font-size: 2.3em;"></i></a>
+	        </c:if>
 	        <form class="likeFrm" style="display: inline-block;" method="post" action="${path }/post/likeInsertAndSelect.do">
 	        	<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
 	        	<input type="hidden" class="postRef" name="postRef" value="${post.getPostNo() }"/>
 	        	<input type="hidden" class="commentRef" name="commentRef" value= "0"/>
 	        	<input type="hidden" class="likeCheck" name="likeCheck" value="1"/>
 	        </form>
+	       
 	        
 	        <!-- 게시물 좋아요 갯수 출력 -->
 	        <div class="likePostCount-container" style="display: inline-block">
-	        	<c:forEach items="${likeList }" var="like" varStatus="vs">
-	        		<c:if test="${post.getPostNo() == like.getPostRef() }">
-						<p class='likePostCount'>data.count</p>
-					</c:if>
-				</c:forEach>
+				<p class='likePostCount'></p>
 	        </div>
 	        
 	        <a href="#nothing" style="float: right"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
@@ -340,5 +352,5 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	
 	</c:forEach>
 
-
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

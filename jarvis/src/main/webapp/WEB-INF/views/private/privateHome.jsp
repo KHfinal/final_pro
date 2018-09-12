@@ -15,11 +15,18 @@
 <style>
     .fc-sat { color:#0000FF; }     /* 토요일 */
     .fc-sun { color:#FF0000; }    /* 일요일 */
-	.m9{
+	.m8{
 		margin-left: 5%;
+
 	}
+	@media ( max-width: 768px ){
+		.m8{
+			margin-left:0;
+		}
+	}
+	
 </style>
-<div class="w3-col m9">
+<div class="w3-col m8">
 	<div id="calendar"></div>
 </div>
 

@@ -110,7 +110,7 @@ public class MemberController {
 		
 	//회원가입 정보를 가지고 데이터베이스에 자료 넣기
 	@RequestMapping("memberEnrollEnd.do")
-	public String memberEnrollEnd(Member member, Model model) 
+	public String memberEnrollEnd(Member member, Model model,HttpServletRequest req) 
 	{
 		
 		//2.암호화하기
@@ -127,7 +127,7 @@ public class MemberController {
 		if (result>0) 
 		{
 			msg="회원가입을 성공하였습니다.이메일 인증 후 로그인 해주세요";
-			sendMail(member);
+			sendMail(member,req);
 		} 
 		else 
 		{
@@ -142,14 +142,18 @@ public class MemberController {
 		return "common/msg";
 	}
 	
-	public void sendMail(Member member) {
+	public void sendMail(Member member,HttpServletRequest req) {
 		logger.debug(member.getMemberEmail());
 		String setfrom = "kkh9180@gmail.com";         
 	    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
 	    String title   = "Jarvis 이메일인증";      // 제목
 	    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+	    String domain = "localhost";
+	    if(!req.getLocalAddr().equals("0:0:0:0:0:0:0:1"))//만약 자기 자신이 주소가 아니면
+	    	domain=req.getLocalAddr();//서버의 주소로 링크를 보냅니다.
+	    
 	    content += "<h2>jarvis 계정 인증 메일입니다.링크를 눌러 인증해주세요<h2>";    // 내용
-	    content += "<a href='http://localhost:9090/jarvis/member/memberVerify?memberEmail="+member.getMemberEmail()+
+	    content += "<a href='http://"+domain+":9090/jarvis/member/memberVerify?memberEmail="+member.getMemberEmail()+
 	    		"'>jarvis 계정 인증하기</a>";
 	    try {
 	    	

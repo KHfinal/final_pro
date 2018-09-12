@@ -20,11 +20,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-<link href="https://fonts.googleapis.com/css?family=Audiowide|Cabin+Sketch|Monoton|Orbitron" rel="stylesheet">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
 </head>
 <script >
 var userIdList=[] ;
@@ -176,6 +177,19 @@ function friend_refuse(data){
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
 	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
 	  <a href="${path }/chat/chattingView.do" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+	  <c:if test="${memberLoggedIn.memberEmail  eq 'admin'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	  <button class="w3-button w3-padding-large" title="Notifications">
+	    	<i class="fas fa-edit"></i>
+	   </button>
+	  <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	      <a href="${path }/admin/customizing.do" class="w3-bar-item w3-button">홈페이지 커스터마이징</a>
+	      <a href="${path }/admin/warningContent.do" class="w3-bar-item w3-button">신고 내역보기</a>
+	      <a href="${path }/admin/memberAdministration.do" class="w3-bar-item w3-button">회원관리</a>
+	      <a href="${path }/admin/customizing.do" class="w3-bar-item w3-button">홈페이지 커스터마이징</a>
+	    </div>
+	   </div>
+	  </c:if>
 	  <div class="w3-dropdown-hover w3-hide-small">
 	    <button class="w3-button w3-padding-large" title="Notifications">
 	    	<i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">4</span>
@@ -214,7 +228,7 @@ function friend_refuse(data){
   <div class="w3-row">
     <!-- 사이드 메뉴들 div 시작부분 -->
     <div class="w3-col m3">
-      <!-- Profile div-->
+      <!-- 프로필 div-->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">${memberLoggedIn.memberName }님의 Profile</h4>
@@ -227,7 +241,7 @@ function friend_refuse(data){
       </div>
       <br>
       
-      <!--  -->
+      <!-- 메뉴 DIV -->
       <div class="w3-card w3-round">
         <div class="w3-white">
           <button onclick="selectGroup('selectGroup');" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Groups</button>
@@ -241,29 +255,7 @@ function friend_refuse(data){
           </div>
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
           <button onclick="goFriend()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Friends</button>
-          <div id="Demo3" class="w3-hide w3-container">
-         <div class="w3-row-padding">
-         <br>
-           <div class="w3-half">
-             <img src="/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-         </div>
-          </div>
+
         </div>      
       </div>
       <br>
@@ -300,8 +292,6 @@ function friend_refuse(data){
     
     <!-- 사이드 메뉴 부분 종료 DIV -->
     </div>
-
-<div class="main-content mt-0" style="padding-top: 0px; padding-left: 0px;">
 <script>
 	function goCalendar(){
 		location.href="${path}/schedule/privateHome.do";

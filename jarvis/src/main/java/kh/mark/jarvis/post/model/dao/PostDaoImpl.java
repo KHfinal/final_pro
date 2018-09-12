@@ -91,8 +91,8 @@ public class PostDaoImpl implements PostDao {
 	
 	// 최초 로그인시 count값 받기 위한 select
 	@Override
-	public List<JarvisLike> startSelectLike(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectList("post.startSelectLike");
+	public List<Integer> selectMyLike(SqlSessionTemplate sqlSession, String memberEmail) {
+		return sqlSession.selectList("post.selectMyLike", memberEmail);
 	}
 
 
