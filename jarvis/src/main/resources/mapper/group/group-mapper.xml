@@ -18,6 +18,9 @@
 	<insert id="categoryInsert" parameterType="map">
 		INSERT INTO GROUP_CATEGORY VALUES(#{g_no},#{g_category})
 	</insert>
+	<insert id="groupMasterInsert" parameterType="map">
+		INSERT INTO GROUP_MEMBER VALUES(GROUP_MEMBER_SEQ.NEXTVAL,#{g_no},#{member_email})
+	</insert>
 	
 	<select id="groupSearch" parameterType="string" resultMap="groupMap">
 		SELECT * FROM GROUP_LIST WHERE G_NAME=#{titleSearch} ORDER BY G_DATE DESC

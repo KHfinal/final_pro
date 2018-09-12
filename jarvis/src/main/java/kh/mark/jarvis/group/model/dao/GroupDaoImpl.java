@@ -59,6 +59,12 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
+	public int groupMasterInsert(SqlSessionTemplate Session, Map master) {
+		// TODO Auto-generated method stub
+		return Session.insert("group.groupMasterInsert", master);
+	}
+
+	@Override
 	public List<Map<String, String>> selectCategory(SqlSessionTemplate Session) {
 		
 		return Session.selectList("group.selectCategory");

@@ -20,6 +20,8 @@ public interface GroupDao {
 	List<Map<String, String>> groupFilter(SqlSessionTemplate Session, String category);
 	List<GroupPost> groupView(SqlSessionTemplate Session, int groupNo);
 	int categoryInsert(SqlSessionTemplate Session, Map cat);
+	int groupMasterInsert(SqlSessionTemplate Session, Map master);
+	
 	int insertGroupPost(SqlSessionTemplate Session, GroupPost post);
 	int insertAttach(SqlSessionTemplate Session, GroupAttachment a);
 	List<GroupAttachment> selectAttachList(SqlSessionTemplate Session, int groupNo);

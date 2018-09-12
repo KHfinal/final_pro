@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,31 +65,37 @@ public class GroupController {
 		logger.debug("파일 이름 : "+upFile.getName());
 		logger.debug("기존 파일 이름: "+upFile.getOriginalFilename());
 		logger.debug("파일 크기: "+upFile.getSize());
-		System.out.println(g_category[0]);
+		
 		
 		String saveDir=request.getSession().getServletContext().getRealPath("/resources/upload/group");
-		
+		String renamedFileName=null;
+		String originalFilename=null;
 		File dir=new File(saveDir);
 		if(dir.exists()==false) dir.mkdirs();
 		
-			if(!upFile.isEmpty()) {
-				String originalFilename=upFile.getOriginalFilename();
-				String ext=originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSS");
-				int rndNum=(int)(Math.random()*1000);
-				String renamedFileName=sdf.format(new Date(System.currentTimeMillis()));
-				renamedFileName+="_"+rndNum+"."+ext;
-				try {
-					/*?쒕쾭???대떦寃쎈줈???뚯씪????ν븯??紐낅졊*/
-					upFile.transferTo(new File(saveDir+"/"+renamedFileName));
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-				g.setG_originalFilename(originalFilename);
-				g.setG_renamedFilename(renamedFileName);
+		if(!upFile.isEmpty()) {
+			originalFilename=upFile.getOriginalFilename();
+			String ext=originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSS");
+			int rndNum=(int)(Math.random()*1000);
+			renamedFileName=sdf.format(new Date(System.currentTimeMillis()));
+			renamedFileName+="_"+rndNum+"."+ext;
+			try {
+				/*?쒕쾭???대떦寃쎈줈???뚯씪????ν븯??紐낅졊*/
+				upFile.transferTo(new File(saveDir+"/"+renamedFileName));
 			}
-		
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			g.setG_originalFilename(originalFilename);
+			g.setG_renamedFilename(renamedFileName);
+		}
+		else {
+			originalFilename="03-thumbnail.jpg";
+			renamedFileName="20180913_001734151_740.jpg";
+			g.setG_originalFilename(originalFilename);
+			g.setG_renamedFilename(renamedFileName);
+		}
 		
 		
 		int result=service.groupInsert(g, g_category);
@@ -136,11 +143,12 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/groupView.do")
-	public ModelAndView groupView(int groupNo, String memberLoggedIn) {
+	public ModelAndView groupView(int groupNo, String mEmail) {
 		ModelAndView mv=new ModelAndView();
-		logger.debug("멤버 세션 이메일"+memberLoggedIn);
 		
+		logger.debug("멤버 세션 이메일"+mEmail);
 		
+		/*String mEmail=(String)session.getAttribute("memberEmail");*/
 		List<GroupPost> postList = service.groupView(groupNo); // 전체 Post
 		Group g = service.groupViewDetail(groupNo);
 		List<GroupAttachment> attachmentList = service.selectAttachList(groupNo); 
@@ -150,10 +158,11 @@ public class GroupController {
 		
 		int memberCheck=0;
 		
+		logger.debug("멤버 그룹 디테일 : "+g.toString());
 		logger.debug(commentList.toString());
 		for(int i=0;i<memberList.size();i++) {
 			logger.debug("그룹 멤버 셀렉트"+memberList.get(i).values());
-			if(memberList.get(i).values().equals(memberLoggedIn)) {
+			if(memberList.get(i).values().equals(mEmail)) {
 				memberCheck=1;
 				mv.addObject("memberCheck", memberCheck);
 				logger.debug("멤버 체크 :"+memberCheck);

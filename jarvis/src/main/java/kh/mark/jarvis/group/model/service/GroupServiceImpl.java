@@ -28,7 +28,7 @@ public class GroupServiceImpl implements GroupService {
 	public int groupInsert(Group g, String[] g_category) {
 		
 		Map cat=new HashMap();
-		
+		Map master=new HashMap();
 		int result=dao.groupInsert(Session, g);
 		int g_no=g.getG_no();
 		if(g_category.length>0) {
@@ -37,7 +37,11 @@ public class GroupServiceImpl implements GroupService {
 				cat.put("g_category", g_category[i]);
 				dao.categoryInsert(Session, cat);
 			}
-		}			
+		}
+		String groupMaster=g.getG_master();
+		master.put("g_no", g_no);
+		master.put("member_email", groupMaster);
+		int re=dao.groupMasterInsert(Session, master);
 		return result;	
 	}
 
