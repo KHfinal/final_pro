@@ -197,9 +197,9 @@ $(document).ready(function(){
 				</form>
 				<div class="list-group">
 					<c:forEach items="${friendList}" var="f">
-						<a href="${path}/chat/chattingView?fEmail=${f.f_friend_email}" class="list-group-item list-group-item-action">
+						<a href="${path}/chat/chattingView?fEmail=${f}" class="list-group-item list-group-item-action">
 							<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height: 23px; width: 23px" alt="Avatar">&nbsp;
-							${f.f_friend_email}
+							${f}
 						</a>
 					</c:forEach>
 				</div>

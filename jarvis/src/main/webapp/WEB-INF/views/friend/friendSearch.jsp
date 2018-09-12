@@ -17,10 +17,10 @@
 		alert("친구요청 대기중입니다");
 	} */
 	function friend_agree(data){
-		location.href="${path}/friend/friendAgree.do?fEmail="+data;
+		location.href="${path}/friend/friendAgree.do?mEmail="+data;
 	}
 	function friend_refuse(data){
-		location.href="${path}/friend/friendRefuse.do?fEmail="+data;
+		location.href="${path}/friend/friendRefuse.do?mEmail="+data;
 	}
 </script>
 <style>
@@ -30,8 +30,6 @@
 <div class="row">
 	<div class="col-8">
 	<h3>전체회원목록</h3>
-	<hr>
-		<p>아이디 : </p><input type="text" id="friendSearch" class="form-control form-control-sm" placeholder="친구검색">
 		<div class="list-group">
 			<table id="tbl-board" class="table table-striped table-hover">
             <tr>
@@ -49,15 +47,13 @@
                 <td>${m.memberName}</td>
                 <td>${m.memberNickname}</td>
                 <td>${m.phone}</td>
-                <td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td>
-                <%-- <c:forEach items="${requestList }" var="re" >
-	              	<c:if test="${m.memberEmail!=re.f_friend_email }">
-	                	<td><button type="button" id="friend_add" onclick="friend_request('${memberLoggedIn.memberEmail }','${m.memberEmail}')">친구추가</button></td>
+                <%-- <td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td> --%>
+	              	<c:if test="${m.memberEmail!=requestList1 }">
+	                	<td><button type="button" id="friend_add" onclick="friend_request('${m.memberEmail}')">친구추가</button></td>
 	             	</c:if> 
-	                <c:if test="${m.memberEmail==re.f_friend_email }">
-	                	<td><button onclick="friend_waiting">친구요청중</button></td>
+	                <c:if test="${m.memberEmail==requestList1 }">
+	                	<td>요청중</td>
 	            	</c:if>  
-            	</c:forEach> --%>
             </tr>
             </c:if>
             <%-- </c:forEach> --%>
@@ -66,14 +62,16 @@
 		</div>
 	</div>
 	<div class="col-4">
-	<h4>친구목록</h4>
-	<hr>
-		<p>아이디 : </p><input type="text" id="friendSearch" class="form-control form-control-sm" placeholder="친구검색">
 		<div class="list-group">
 			<table id="tbl-board" class="table table-striped table-hover">
             <tr>
-                <th colspan="2">ID</th>
+                <th colspan="2">친구목록</th>
             </tr>
+            <c:if test="${friendList.size()==0 }">
+            	<tr>
+            		<td colspan="2">친구가 없습니다</td>
+            	</tr>
+            </c:if>
             <c:forEach items="${friendList}" var="f"> 
             <tr>
                 <td>${f}</td>
@@ -82,36 +80,33 @@
             </c:forEach>
         	</table>
 		</div>
-	<c:if test="${requestList.size()>0 }">
-	<h4>친구요청</h4>
-	<hr>
+
 		<div class="list-group">
 			<table id="tbl-board" class="table table-striped table-hover">
             <tr>
-                <th>ID</th>
+                <th>친구요청</th>
                 <th></th>
                 <th></th>
             </tr>
             <c:if test="${requestList1!=null }">
             <c:forEach items="${requestList1}" var="r1">
 	            <tr>
-	                <td>${r1.f_member_email}</td>
-	                <td><button type="button" id="friend_agree" onclick="friend_agree('${r1.f_member_email}');">수락</button></td>
-	                <td><button type="button" id="friend_refuse1" onclick="friend_refuse('${r1.f_friend_email}');">거절</button></td>
+	                <td>${r1}</td>
+	                <td><button type="button" id="friend_agree" onclick="friend_agree('${r1}');">수락</button></td>
+	                <td><button type="button" id="friend_refuse1" onclick="friend_refuse('${r1}');">거절</button></td>
 	            </tr>
             </c:forEach>
             </c:if>
             <c:if test="${requestList!=null }">
             <c:forEach items="${requestList}" var="r"> 
 	            <tr>
-	                <td>${r.f_friend_email}</td>
-	                <td><button type="button" id="friend_refuse2" onclick="friend_refuse('${r.f_friend_email}');">요청취소</button></td>
+	                <td>${r}</td>
+	                <td><button type="button" id="friend_refuse2" onclick="friend_refuse('${r}');">요청취소</button></td>
 	            </tr>
             </c:forEach>
             </c:if>
         	</table>
 		</div>
-	</c:if>
 	</div>
 </div>
 </body>
