@@ -506,25 +506,23 @@ function filterFunction() {
 	<div class="pull-center well">
         <form class="form-inline" action="#" method="POST">
             <center>  
-                        <select class="form-control">
-                            <option>ㅇㅎㅇ</option>
-                            <option>jgfhfhfh</option>
-                        </select>
-                    
-                    
-                       <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                      <i>search</i>
-                                    </button>
-                                </span>
-                        </div>
+            <select class="form-control">
+                <option>옵션1</option>
+                <option>옵션2</option>
+            </select>
+           <div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                          <i>search</i>
+                        </button>
+                    </span>
+            </div>
         </form>
     </div>
-		<tr>
-			<th >회원 이메일</th>
-		</tr>
+	<tr>
+		<th >회원 이메일</th>
+	</tr>
 	</table>
 </div>
 	
