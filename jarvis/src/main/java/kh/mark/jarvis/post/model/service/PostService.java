@@ -2,6 +2,7 @@ package kh.mark.jarvis.post.model.service;
 
 import java.util.List;
 
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
 import kh.mark.jarvis.post.model.vo.JarvisLike;
@@ -36,6 +37,8 @@ public interface PostService {
 	int deleteCommentLike(JarvisLike like);
 
 	List<Integer> selectMyLike(String memberEmail);
+
+	List<Member> selectMemberList();
 
 
 
