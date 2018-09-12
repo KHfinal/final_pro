@@ -6,19 +6,22 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import kh.mark.jarvis.friend.model.vo.Friend;
+import kh.mark.jarvis.member.model.vo.Member;
 @Repository
 public class FriendDaoImpl implements FriendDao{
-	
-	/*@Override
-	public List<Friend> selectFriendList(SqlSessionTemplate sqlSession, String member_email) {
-		return sqlSession.selectList("friend.selectList",member_email);
-	}*/
 
 	@Override
-	public List<Friend> selectFriendListJson(SqlSessionTemplate sqlSession, String email) {
+	public List<String> selectFriendListJson(SqlSessionTemplate sqlSession, Map<String,String> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("friend.selectFriendListJson",email);
+		return sqlSession.selectList("friend.selectFriendListJson",map);
+	}
+	@Override
+	public String selectConcernList(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("friend.selectConcernList",email);
+	}
+	@Override
+	public List<Member> selectMemberConcernList(SqlSessionTemplate sqlSession, String concern) {
+		return sqlSession.selectList("friend.selectMemberConcernList",concern);
 	}
 
 	@Override
@@ -41,6 +44,8 @@ public class FriendDaoImpl implements FriendDao{
 
 	@Override
 	public int friendRefuse(SqlSessionTemplate sqlSession, Map<String, String> fr) {
+		System.out.println("키 : "+fr.keySet());
+		System.out.println("값 : "+fr.values());
 		return sqlSession.delete("friend.friendRefuse",fr);
 	}
 

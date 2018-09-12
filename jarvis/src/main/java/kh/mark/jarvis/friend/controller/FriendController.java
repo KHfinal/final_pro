@@ -1,23 +1,20 @@
 package kh.mark.jarvis.friend.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.friend.model.service.FriendService;
-import kh.mark.jarvis.friend.model.vo.Friend;
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
 
@@ -30,31 +27,68 @@ public class FriendController{
 	
 	@Autowired
 	private MemberService memberService;
-	/*@RequestMapping("/friend/selectList.do")*/
-	/*public ModelAndView selectFriendList(ModelAndView mv,String member_email) throws Throwable{
-//		userId는 jsp에서 ${memberloggedIn.memberAddr}의 값으로 가져온다
-		System.out.println("member_email : "+ member_email);
-		List<Friend> list = friendService.selectFriendList(member_email);
-		mv.addObject("list",list);
-		mv.setViewName("friend/friendList");
-		return mv;
-		
-	}*/
+	
 	@RequestMapping("/friend/selectFriendListJson.do")
 	public ModelAndView selectFriendList(String email,ModelAndView mv){
-		
-		List<Friend> list = friendService.selectFriendListJson(email);
-		
-		/*Map map = new HashMap();
-		
-		mv.addAllObjects(map);*/
-		
-		mv.addObject("list",list);
+		Map<String,String> map=new HashMap();
+		map.put("title", "F_MEMBER_EMAIL");
+		map.put("email", email);
+		List<String> friendList=friendService.selectFriendListJson(map);
+		map.put("title", "F_FRIEND_EMAIL");
+		List<String> friendList1=friendService.selectFriendListJson(map);
+
+		if(friendList.size()>0) {
+			for(int i=0;i<friendList1.size();i++)
+			{
+				if(!friendList.contains(friendList1.get(i)))
+				{
+					friendList.add(friendList1.get(i));	
+				}
+			}
+		}
+		else
+		{
+			friendList=friendList1;
+		}
+		//mv.addObject("requestList",requestList);
+
+		mv.addObject("list",friendList);
 		mv.setViewName("jsonView");
-		logger.debug("list : "+list);
+		
 		return mv;
 	}
-	@RequestMapping("/friend/selectFriendList.do")
+	@RequestMapping("/friend/friednRecommendList.do")
+	public ModelAndView friendRecommend(String email,ModelAndView mv) {
+		List<String> concernCompareList=new ArrayList();
+		
+		String concernString = friendService.selectConcernList(email);
+		System.out.println("concernString : "+ concernString);
+		
+		String[] consernArr = concernString.split(",");
+		String consern ="";
+		for(int i =0; i<consernArr.length;i++) {
+			consern = consernArr[i];
+			List<Member> memberConcernList = friendService.selectMemberConcernList(consern);
+			/*System.out.println("memberConcernList 크기: "+ memberConcernList.size());*/
+			
+			for(int j=0;i<memberConcernList.size();j++){
+				if(j==memberConcernList.size()) {
+					break;
+				}else {
+					if(!(concernCompareList.contains(memberConcernList.get(j).getMemberEmail()))) {
+						concernCompareList.add(memberConcernList.get(j).getMemberEmail());
+					}
+				}
+			}
+		        
+		
+		}
+		System.out.println("concernCompareList : " + concernCompareList);
+		mv.addObject("concernCompareList", concernCompareList);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	/*@RequestMapping("/friend/selectFriendList.do")
 	public String selectFriendList(Model model,HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
@@ -63,15 +97,8 @@ public class FriendController{
 		model.addAttribute("email",email);
 		model.addAttribute("list",list);
 		return "friend/friendListView";
-	}
-	/*@RequestMapping("/friend/selectFriendList.do")
-	public String chatting(Model model,HttpServletRequest request) {
-		접속한사람 하고 비교?   세션에대한정보가 없기때문에 정확한 구분위해 
-		
-		
-		
-		return "friend/friendListView";
 	}*/
+	
 	
 	@RequestMapping("/friend/friendView.do")
 	public ModelAndView friendView(HttpSession hs) {
