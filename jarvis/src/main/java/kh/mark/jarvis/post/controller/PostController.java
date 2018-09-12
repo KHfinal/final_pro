@@ -50,22 +50,12 @@ public class PostController {
 		List<Post> postList = service.selectPostList(); // 전체 Post
 		List<Attachment> attachmentList = service.selectAttachList(); 
 		List<JarvisComment> commentList = service.selectCommentList();
-		List<JarvisLike> likeList = service.startSelectLike();
+		List<Integer> myLikeList = service.selectMyLike(m.getMemberEmail());
 		
-//		int postRef = 0;
-//		int LikeCheck = 0;
-//		
-//		Map<> countMap = Hashmap();
-//		
-//		for(Post p : postList) {
-//			for(JarvisLike like : likeList) {
-//				if(like.getLikeCheck() == 1 && p.getPostNo() == like.getPostRef()) {
-//					postRef = like.getPostRef();
-//					
-//				}
-//			}
-//		}
-		
+		if(myLikeList.size() == 0) {
+			int flagCnt = 1;
+			model.addAttribute("flagCnt", flagCnt);
+		}
 		
 		if(postList != null && attachmentList != null) {
 			model.addAttribute("postList", postList);
@@ -73,9 +63,7 @@ public class PostController {
 		}
 		
 		model.addAttribute("commentList", commentList);
-		model.addAttribute("likeList", likeList);
-		
-		
+		model.addAttribute("myLikeList", myLikeList);
 		
 		String loc = "social/socialHome";
 		

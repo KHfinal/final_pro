@@ -35,11 +35,7 @@ public interface PostService {
 
 	int deleteCommentLike(JarvisLike like);
 
-	List<JarvisLike> startSelectLike();
-
-	int startSelectPostLikeCountList(JarvisLike like);
-
-	List<Integer> startSelectCommentLikeCountList(JarvisLike like);
+	List<Integer> selectMyLike(String memberEmail);
 
 
 
