@@ -44,11 +44,17 @@ var today=null;
 
 	function sendMessage()
 	{
-		sock.send($('#message').val());
+		console.log('${selectRoom}');
+		
+		if('${memberLoggedIn.getMemberEmail()}'=='${selectRoom.getMy_email()}'||'${memberLoggedIn.getMemberEmail()}'=='${selectRoom.getFriend_email()}'){
+			sock.send($('#message').val());
+		}
+		
 		//handler객체 거기의 handlerTextMessage메소드가 실행
 	};
 	function onMessage(evt)
 	{
+		console.log("----------------------");
 		var data=evt.data;//TextMessage생성 매게변수(아이디|값|아이피)
 		var host=null;
 		var strArray=data.split("|");
@@ -71,8 +77,8 @@ var today=null;
 			console.log(printDate);
 			
 			var ck_host='${host}';
-			console.log(host);
-			console.log(ck_host);
+			console.log("host"+host);
+			console.log("ck_host"+ck_host);
 			
 			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
 			{

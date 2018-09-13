@@ -47,12 +47,11 @@ public class SocketHandler extends TextWebSocketHandler {
 		//여기서 service,dao로 연결하여 대화내용 DB에 저장할 수 있다.
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		
-		
-		System.out.println("이거뭐야??????"+message.getPayload());
 		for(WebSocketSession s : sessionList)
 		{
 			//보내는 순서를 정확하게 기억을 해야함 "|"구분자로 
 			//배열로 처리한 다음 페이지를 변경
+			
 			s.sendMessage(new TextMessage(login.getMemberName()+"|"+message.getPayload()+"|"+session.getRemoteAddress())); //evt란 매개변수로 보내짐
 		}
 		 

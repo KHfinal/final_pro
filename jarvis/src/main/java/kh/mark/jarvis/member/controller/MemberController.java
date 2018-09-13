@@ -248,4 +248,168 @@ public class MemberController {
 		  
 		  
 	  }
+	  
+	//이메일 찾기 페이지로 이동
+		@RequestMapping("/member/forgotEmail.do")
+		public String forget() 
+		{
+			
+			return "member/forgotEmail";
+		}
+		
+		
+		//패스워드 찾기 페이지로 이동
+		@RequestMapping("/member/forgotPw.do")
+		public String forgetPw() 
+		{
+				return "member/forgotPw";
+		}
+
+		
+		
+		//이메일 찾기시작   //모델엔뷰 방식
+		@RequestMapping("/emailSearch.do")
+		public ModelAndView emailSearch(Member member) 
+		{
+			logger.debug("전달 받은 이름:"+member.getMemberName());
+			logger.debug("전달 받은 이름:"+member.getPhone());
+			ModelAndView mv = new ModelAndView(); 
+			
+			//화면으로 뿌리기 시작 mv.addjoject에 담아
+			String email = memberService.emailSearch(member); //이메일 찾기
+			
+			mv.setViewName("member/forgotEmailEnd");	//jsp이름
+			mv.addObject("emailSearch", email);	//뷰에 전송 할 이름에 email을 담아서  
+			return mv;
+		}
+		
+		
+
+		//패스워드 찾기 시작 
+		@RequestMapping(value="/PwSearch.do")
+		public ModelAndView pwSearch(String memberEmail) {
+			
+
+				//1.xml까지 보내기
+				Member pwSearch=memberService.selectPw(memberEmail); //비밀번호 찾기
+				
+				//2.xml까지 다녀왔음  아래 진행
+				ModelAndView mv = new ModelAndView();
+				String msg="";
+				String loc="/";
+				logger.debug(pwSearch.getMemberPw());
+				
+				
+				
+				if (pwSearch.getMemberEmail() == null) 
+				{
+					msg="등록된 이메일이 없습니다.";
+					loc="/views/member/forgotPw.jsp";
+				} 
+				else 
+				{
+					msg="이메일 발송완료";
+					pwSendMail(pwSearch);	//메소드 호출
+					
+				}
+				mv.addObject("msg",msg);
+				mv.addObject("loc",loc);
+				mv.setViewName("common/msg");
+				return mv;
+			}
+		
+		//이메일 보내보자...
+		public void pwSendMail(Member member) {
+			
+				
+			logger.debug("이메일 보내기"+member.getMemberEmail());
+			
+			String setfrom = "rudtjr0601jp@gmail.com";         
+		    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
+		    String title   = "Jarvis 암호변경메일입니다";      // 제목
+		    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+		    
+		    
+		    
+		    content += "<h2>jarvis 해당 링크를 누르시면 암호변경 페이지로 이동됩니다.<h2>";    // 내용
+		    content += "<a href='http://localhost:9090/jarvis/member/pwUpdateView.do?memberEmail="+member.getMemberEmail()+
+		    		"'>jarvis password 변경 하기</a>";
+		    
+		    try {
+		    	
+		      MimeMessage message = mailSender.createMimeMessage();
+		      MimeMessageHelper messageHelper 
+		                        = new MimeMessageHelper(message, true, "UTF-8");
+		 
+		      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+		      messageHelper.setTo(tomail);     // 받는사람 이메일
+		      messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+		      messageHelper.setText(content,true);  // 메일 내용,true하면 html형식으로 보내진다.
+		     
+		      mailSender.send(message);
+		    } catch(Exception e){
+		      System.out.println(e);
+		    }
+		   
+		}
+		
+	
+		
+		
+		//유저메일에서 - > 패스워드 찾기 페이지로 이동 
+		@RequestMapping("/member/pwUpdateView.do")
+		public ModelAndView pwUpdateView(Member m) 
+		{
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("memberEmail",m.getMemberEmail());
+			System.out.println("페이지 이동후 암호변경하기?"+m.getMemberEmail());
+			mv.setViewName("member/pwUpdate");
+			
+			return mv; //--->폴더이름/jsp명 
+		}
+		
+		
+			//비밀번호 변경 시작하기
+		  @RequestMapping("/member/pwUpdate.do")
+		  public ModelAndView pwUpdate(Member m,HttpServletRequest request) {
+			  
+			  logger.debug("유저가 이메일 변경 시도 "+m.getMemberEmail());
+			 
+				//암호화하기
+				String oriPw=m.getMemberPw(); //암호화 전
+				String enPw=BCPE.encode(oriPw);	   //암호화 후
+				System.out.println(enPw);	
+				m.setMemberPw(enPw);	//암호화 처리한것을 pw에 저장					
+			  
+				
+			  int result = memberService.pwUpdate(m);
+			  logger.debug("rename 후 멤버객체:"+m.toString());
+	
+			  ModelAndView mv = new ModelAndView();
+			  
+			  String msg ="";
+			  String loc="";
+			  
+			  if(result>0) {//디비에 업데이트가 되면 파일을 저장한다.
+				  
+				  msg ="암호 변경 완료!";
+				  //로그인 홈으로 돌아가기
+			  }
+			  else { 
+				  msg="암호 변경 실패";
+				  //페이지 머물기
+			  }
+			  
+			 /* Member member = memberService.selectLogin(m.getMemberEmail());
+			  mv.addObject("memberLoggedIn",member);*/
+			  mv.addObject("msg", msg);
+			  mv.addObject("loc",loc);
+			  mv.setViewName("common/msg");
+			  
+			  return mv;
+			  
+			  
+		  }
+	  
+	  
 }

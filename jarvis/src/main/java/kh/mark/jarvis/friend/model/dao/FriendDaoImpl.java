@@ -23,7 +23,13 @@ public class FriendDaoImpl implements FriendDao{
 	public List<Member> selectMemberConcernList(SqlSessionTemplate sqlSession, String concern) {
 		return sqlSession.selectList("friend.selectMemberConcernList",concern);
 	}
+	
 
+	@Override
+	public List<Map<String, String>> selectSearch2(SqlSessionTemplate session, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectList("friend.keywordSearch",map);
+	}
 	@Override
 	public int friendRequest(SqlSessionTemplate sqlSession, Map<String, String> fr) {
 		System.out.println("asdasd---------------------------"+fr);

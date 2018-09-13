@@ -10,120 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script>
-//SocketJS 채팅구현
-/* var sock=new SockJS("<c:url value='/chatting'/>")
-	sock.onmessage=onMessage;
-	sock.onclose=onClose;
-	
-var today=null;
 
-	$(function(){
-		//전송버튼을 눌렀을때 이벤트 처리
-		$('#sendBtn').click(function(){
-			sendMessage();//우리가 구현할 함수
-			$('#message').val('');
-			$("#message").focus();
-			$("#chatdata").animate({
-				scrollTop: $('#chatdata').get(0).scrollHeight
-			}, 10);
-		});
-		$('#exitBtn').click(function(){
-			sock.onclose();
-		});
-	});
-	function sendMessage()
-	{
-		sock.send($('#message').val());
-		//handler객체 거기의 handlerTextMessage메소드가 실행
-	};
-	function onMessage(evt)
-	{
-		var data=evt.data;//TextMessage생성 매게변수(아이디|값|아이피)
-		var host=null;
-		var strArray=data.split("|");
-		var userName=null;
-		var message=null;
-		for(i=0;i<strArray.length;i++)
-		{
-			console.log("strArray["+i+"] : "+strArray[i]);	
-		}
-		
-		if(strArray.length>1)
-		{
-			//실제 채팅메세지
-			userName=strArray[0];//접속자 아이디
-			message=strArray[1];//전송내용
-			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);//실제아이피주소만 남기기
-			today=new Date();
-			printDate=today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDate()+"일";
-			printHour=today.getHours()+":"+today.getMinutes();
-			console.log(printDate);
-			
-			var ck_host='${host}';
-			console.log(host);
-			console.log(ck_host);
-			
-			if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
-			{
-				if(message!=null && message!=""){
-					var printDate="<div class='messageDate' style='margin-left:45%;'><sub>"+printDate+"</sub></div>";					
-					var printHTML="<div class='well' style='float: right;'>";
-					printHTML+="<div style='display:inline-block;'><sub>"+printHour+"</sub></div>";
-					printHTML+="<div class='alert alert-primary p-1 mb-1 mr-2 ml-2' style='display:inline-block;'>";
-					printHTML+="<strong>"+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="</div><br/><br/>";
-					
-					$("#chatdata").append(printDate);
-					$("#chatdata").append(printHTML);
-				}
-				else alert("메세지를 입력하세요");
-			}
-			else
-			{
-				if(message!=null && message!=""){
-					//타인의 메세지
-					var printDate="<div class='messageDate' style='margin-left:45%;'><sub>"+printDate+"</sub></div>";
-					var printHTML="<img style='width:50px;height:50px;float: left;' src='${path}/resources/upload/profileImg/defaultmen.PNG' class='rounded-circle' data-toggle='tooltip' title='"+userName+"'>"
-					printHTML+="<div class='well' style='float: left;'>";
-					printHTML+="<div class='alert alert-secondary p-1 mb-1 ml-2 mr-2' style='display:inline-block;'>";
-					printHTML+="<strong>"+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="<div style='display:inline-block;'><sub>"+printHour+"</sub></div>";
-					printHTML+="</div><br/><br/>";
-					$("#chatdata").append(printDate);
-					$("#chatdata").append(printHTML);
-				}
-				else alert("메세지를 입력하세요");
-			}
-		}
-		else
-		{
-			message=strArray[0];
-			var printHTML="<strong>"+message+"</strong>";
-			if(message==userName+"님이 접속중입니다")
-				$("#friend_join").html(printHTML).css("color","green");
-			else
-				$("#friend_join").html(printHTML).css("color","red");
-			//나가기 들어온 사람 알리기
-			
-			/* today=new Date();
-			printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-			message=strArray[0];
-			var printHTML="<div class='well' style='margin-left:0%;margin-right:30%'>";
-			printHTML+="<div class='alert alert-danger'>";
-			printHTML+="<sub>"+printDate+"</sub><br/>";
-			printHTML+="<strong>[서버관리자] : "+message+"</strong>";
-			printHTML+="</div>";
-			printHTML+="</div>";
-			$("#chatdata").append(printHTML); */
-		}
-	};
-	function onClose()
-	{
-		location.href='${pageContext.request.contextPath}';
-		self.close();
-	} */
 </script>
 <style>
 	div#chatdata{
@@ -190,7 +77,7 @@ $(document).ready(function(){
 				</form>
 				<div class="list-group">
 					<c:forEach items="${friendList}" var="f">
-						<a href="${path}/chat/chattingFriend?fEmail=${f}" class="list-group-item list-group-item-action">
+						<a href="${path}/chat/createRoom?fEmail=${f}" class="list-group-item list-group-item-action">
 							<img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height: 23px; width: 23px" alt="Avatar">&nbsp;
 							${f}
 						</a>

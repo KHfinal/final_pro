@@ -5,6 +5,7 @@
 		SELECT * FROM MEMBER
 	</select>
 	
+	<!-- post, attachment 등록 -->
 	<insert id="insertPost" parameterType="post">
 		INSERT INTO POST(POST_NO, POST_WRITER, POST_CONTENTS, PRIVACY_BOUND, POST_DATE)
 		VALUES(post_seq.nextval, #{postWriter}, #{postContents}, #{privacyBound}, systimestamp)
@@ -17,6 +18,21 @@
 		INSERT INTO ATTACHMENT(ATTACHMENT_NO, POST_NO, ORIGINAL_FILENAME, RENAMED_FILENAME, UPLOAD_DATE)
 		VALUES(attachment_seq.nextval, #{postNo}, #{originalFileName}, #{renamedFileName}, systimestamp)
 	</insert>
+
+	<!-- post, attachment 수정 및 삭제 -->
+	<update id="updatePost" parameterType="post">
+		UPDATE POST SET POST_CONTENTS = #{postContents}, PRIVACY_BOUND = #{privacyBound}, POST_DATE = systimestamp
+		WHERE POST_NO = #{postNo}
+	</update>
+	
+	<!-- attachment 수정을 위해 기존의 이미지 삭제 -->
+	<delete id="deletePost" parameterType="post">
+		DELETE FROM POST WHERE POST_NO = #{postNo}
+	</delete>
+	
+	<delete id="deleteAttach" parameterType="post">
+		DELETE FROM ATTACHMENT WHERE POST_NO = #{postNo}
+	</delete>
 	
 	<select id="selectPostList" resultType="post" resultMap="postMap">
 		SELECT * FROM POST ORDER BY POST_DATE DESC
@@ -77,8 +93,6 @@
 	<select id="selectMyLike" parameterType="string" resultType="Integer">
 		SELECT DISTINCT POST_REF FROM JARVIS_LIKE WHERE LIKE_MEMBER = #{memberEmail}
 	</select>
-	
-	
 	
 	
 	<!-- Map을 이용할 때, resultMap사용. id는 xml안에서 태그를 불러올 변수명이다. -->

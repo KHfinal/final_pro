@@ -27,7 +27,177 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
 </head>
+<script>
+$(document).ready(function(){
+	ajax();
+	var email2 = '${memberLoggedIn.memberEmail}';
+	$.ajax({
+		url:"${path}/friend/friednRecommendList.do",
+		type:"GET",
+		data:{email:email2},
+		dataType:"json",
+		success : function(data){
+			console.log("friendList :"+friendList);
+			var friendConcernTag;
+			var tr="";
+			$.each(data.concernCompareList,function(i,item){
+				var f_email2 = item;
+				
+				console.log("가져온 값 : "+f_email2);
+				
+				for(var i =0; i<friendList.length;i++){
+					friendConcernTag ="";
+					
+					/* sbg1208@naver.com, admin@naver.com, aaaa@naver.com, eeee@naver.com, bbbb@naver.com, dddd@naver.com, gggg@naver.com, cccc@naver.com */
+					if(friendList[i]==f_email2 ){
+						console.log("친구중에 있다");
+						friendConcernTag ;
+						console.log("friendConcernTag : " + friendConcernTag);
+						
+						break;
+					}if(friendList[i]==f_email2){
+						console.log("나다");
+						break;
+					}
+					if(i==friendList.length-1){
+						if(f_email2==email2){
+							break;
+						}
+						
+						 friendConcernTag = "<tr><td>"+f_email2+"</td><td>"+'<button type="button" id="friend_add" onclick="fn_friendAdd('+"'"+f_email2+"'"+');">친추</button></td></tr>'; 
+						  
+							console.log(f_email2 +" 추가했음");
+						 $('.tablefriend').append(friendConcernTag);
+						 break;
+					}	
+				}
+			}); 
+		}
+	});
+});  
+var userIdList=[] ;
+var su =0;
+var friendList=[];
+var sock=new SockJS("<c:url value='/friendInList'/>")  /* (0) */
+sock.onmessage = onMessage;
+sock.onclose = onClose;
 
+function ajax() {
+var email = '${memberLoggedIn.memberEmail}';    /* (0) */
+$.ajax({
+	url:"${path}/friend/selectFriendListJson.do",
+	type:"POST",
+	data:{email:email},
+	dataType:"json",
+	success : function(data){
+    	$('#myDropdown').append('<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">');
+    	$('#myDropdown').append('<button id="refresh" onclick="reFresh()">새로고침</button><br>');
+    	su=0;
+		var friendListTag;
+		friendList=[];
+		$.each(data.list,function(i,item){
+			var f_email = item; 
+			var size =userIdList.length;
+			friendList.push(f_email);
+			for(var k =0; k<size;k++){
+				console.log("userIdList[k] : "+userIdList[k]);
+			    if(f_email==userIdList[k]){
+					friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"<i class='fa fa-cloud'/></a><br>";
+					su++;
+					break;
+			    }else{
+			    	friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"</a><br>";
+			    }
+			} 
+			$('#myDropdown').append(friendListTag);
+		});
+		$("#su").empty();
+		$('#su').append(su);
+	}
+});
+};
+function onMessage(evt){
+var userId = evt.data;
+var flag=evt.data.split("|");
+console.log("구분 : " +userId[0]);
+if(flag[0]=="1"){
+	console.log("스크립트 추가한 유저 : " + flag[1]);
+	if(!(userIdList.indexOf(flag[1])>=0)){
+		userIdList.push(flag[1]);
+		su++;
+		if(flag[1]!='${memberLoggedIn.memberEmail}'){
+			$("#su").empty();
+			$('#su').append(su);
+			
+		}	
+	}
+	
+	console.log("스크립트 접속후 접속자 : "+userIdList);
+	/* alert("포함?"+userIdList.contains(flag[1])); */
+}
+if(flag[0]=="2"){
+	console.log("스크립트 나간 유저 : " + flag[1]);
+	console.log("나간후 리스트 받아오기 전 사이즈"+userIdList.length);
+	if(userIdList.length !=null){
+		su=0;		
+		userIdList=[];	
+	}
+	userIdList.push(flag[1]);
+	su++;
+	if(flag[1]!='${memberLoggedIn.memberEmail}'){
+		$("#su").empty();
+		$('#su').append(su);
+	}
+	console.log("스크립트 나간후 접속자 : "+userIdList);
+}
+};
+function onClose() {
+/* 이동하고 close */
+location.href="${pageContext.request.contextPath}";
+self.close();
+};	
+
+
+$(document).ready(function () {
+$('#fr').hover(
+		function(){
+			dell();
+			ajax();
+		},
+		function() {
+			dell();
+		});
+});
+function reFresh() {
+dell();
+};
+function dell() {
+$("#myDropdown").empty();
+};
+function del() {
+$("#myDropdown").empty();
+};
+function filterFunction() {
+var input, filter, ul, li, a, i;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+div = document.getElementById("myDropdown");
+a = div.getElementsByTagName("a");
+for (i = 0; i < a.length; i++) {
+    if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+    } else {
+        a[i].style.display = "none";
+    }
+}
+}
+function fn_friendAdd(data){
+	location.href="${path}/friend/friendRequest.do?fEmail="+data;
+};
+function fn_submit() {
+	submit();
+}
+</script>
 
 <style>
 	html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}

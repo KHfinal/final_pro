@@ -27,6 +27,14 @@ public interface MemberDao {
 
 	int addInfoUpdate(SqlSessionTemplate sqlSession, Member m);
 
+		//이메일 찾기 
+		String emailSearch(SqlSessionTemplate sqlSession, Member member);
+
+		//비밀번호 찾기
+		Member selectPw(SqlSessionTemplate sqlSession, String memberEmail);
+
+
+		int pwUpdate(SqlSessionTemplate sqlSession, Member m);	//암호 변경
 
 
 }

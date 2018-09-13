@@ -5,16 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mark.jarvis.friend.model.service.FriendService;
+import kh.mark.jarvis.friend.model.vo.Friend;
 import kh.mark.jarvis.member.model.service.MemberService;
 import kh.mark.jarvis.member.model.vo.Member;
 
@@ -86,18 +89,23 @@ public class FriendController{
 		System.out.println("concernCompareList : " + concernCompareList);
 		mv.addObject("concernCompareList", concernCompareList);
 		mv.setViewName("jsonView");
+		
 		return mv;
 	}
-	/*@RequestMapping("/friend/selectFriendList.do")
-	public String selectFriendList(Model model,HttpServletRequest request) {
+	@RequestMapping("/friend/friendSearch.do")
+	public ModelAndView friendSearch(String searchType,String searchKeyword ,ModelAndView mv) {
+		System.out.println("searchType : " + searchType);
+		System.out.println("searchKeyword : " + searchKeyword);
+		Map<String,Object> map=new HashMap();
+		map.put("searchType", searchType);
+		map.put("searchKeyword", searchKeyword);
 		
-		String email = request.getParameter("email");
-		System.out.println("email : "  + email);
-		List<Friend> list = friendService.selectFriendListJson(email);
-		model.addAttribute("email",email);
-		model.addAttribute("list",list);
-		return "friend/friendListView";
-	}*/
+		List<Map<String,String>> list=friendService.selectSearch2(map);
+		System.out.println("list : " + list);
+		mv.addObject("list",list);
+		mv.setViewName("jsonView");
+		return mv;
+	}
 	
 	
 	@RequestMapping("/friend/friendView.do")

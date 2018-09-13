@@ -17,4 +17,13 @@ public interface MemberService {
 	int memberVerify(String memberEmail);
 
 	int addInfoUpdate(Member m);
+	
+	String emailSearch(Member member);	//이메일 찾기
+
+	Member selectPw(String memberEmail); //비밀번호 찾기
+
+	int pwUpdate(Member m);	//패스워드 변경하기
+
+	
+
 }
