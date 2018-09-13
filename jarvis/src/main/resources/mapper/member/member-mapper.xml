@@ -45,4 +45,24 @@
     <update id="addInfoUpdate" parameterType="member">
   	update member set member_pfp=#{memberPFP},member_concern=#{memberConcern,typeHandler=strArr},member_gender=#{memberGender},member_birth=#{memberBirthday},addr1=#{addr1},addr2=#{addr2},addr3=#{addr3},addinfo='Y' where member_email=#{memberEmail}
   </update>
+  
+  <!-- 한개의 값을 찾으려고 string으로, parameterType값을 alise값 -->
+  <select id="emailSearch"  resultType="string" parameterType="member">
+  		<!-- 한개의 값을 찾으려고 string으로, parameterType값을 alise값 -->
+  		select member_email from member where member_name=#{memberName} and member_phone=#{phone}
+  </select>
+
+<!-- 패스워드 찾기- 메일로 전송 -->	
+ <select id="selectPw" resultMap="memberMap" parameterType="string">
+      SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+ </select>
+
+
+<!-- 패스워드 변경 -메일 전송 후-->
+<update id="pwUpdate"  parameterType="string" >
+  	update member set member_pw=#{memberPw} where member_email = #{memberEmail}
+ </update>
+  
+  
+  
 </mapper>
