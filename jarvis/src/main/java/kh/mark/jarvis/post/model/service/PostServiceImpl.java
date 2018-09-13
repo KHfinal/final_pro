@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.dao.PostDao;
 import kh.mark.jarvis.post.model.vo.Attachment;
 import kh.mark.jarvis.post.model.vo.JarvisComment;
@@ -105,6 +106,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Integer> selectMyLike(String memberEmail) {
 		return dao.selectMyLike(sqlSession, memberEmail);
+	}
+
+	@Override
+	public List<Member> selectMemberList() {
+		return dao.selectMemberList(sqlSession);
 	}
 
 	

@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-import kh.mark.jarvis.friend.model.vo.Friend;
+import kh.mark.jarvis.member.model.vo.Member;
 
 public interface FriendDao {
-	/*List<Friend> selectFriendList(SqlSessionTemplate sqlSession,String member_email);*/
-	List<Friend> selectFriendListJson(SqlSessionTemplate sqlSession,String email);
+	List<String> selectFriendListJson(SqlSessionTemplate sqlSession,Map<String,String> map);
+	String selectConcernList(SqlSessionTemplate sqlSession,String email);
+	List<Member> selectMemberConcernList(SqlSessionTemplate sqlSession,String concern);
 	int friendRequest(SqlSessionTemplate sqlSession, Map<String, String> fr);
 	List<String> requestList(SqlSessionTemplate sqlSession, Map<String,String> map);
 	int friendAgree(SqlSessionTemplate sqlSession, Map<String,String> fr);

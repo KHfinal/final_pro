@@ -3,11 +3,13 @@ package kh.mark.jarvis.friend.model.service;
 import java.util.List;
 import java.util.Map;
 
-import kh.mark.jarvis.friend.model.vo.Friend;
+import kh.mark.jarvis.member.model.vo.Member;
 
 public interface FriendService {
 	/*List<Friend> selectFriendList(String member_email);*/
-	List<Friend> selectFriendListJson(String email);
+	List<String> selectFriendListJson(Map<String,String> map);
+	String selectConcernList(String email);
+	List<Member> selectMemberConcernList(String concern);
 	int friendRequest(Map<String, String> fr);
 	List<String> requestList(Map<String,String> map);
 	int friendAgree(Map<String, String> fr);
