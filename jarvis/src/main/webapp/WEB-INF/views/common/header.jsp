@@ -288,7 +288,7 @@ function fn_submit() {
           <button onclick="selectGroup('selectGroup');" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Groups</button>
           <div id="selectGroup" class="w3-hide w3-container">
             <button onclick="goGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Group List</button>
-            <button onclick="goGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Group</button>
+            <button onclick="goMyGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Group</button>
           </div>
           <button onclick="goCalendar()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
           <div id="Demo2" class="w3-hide w3-container">
@@ -342,6 +342,9 @@ function fn_submit() {
 	}
 	function goGroup(){
 		location.href="${path}/group/groupList.do";
+	}
+	function goMyGroup(){
+		location.href="${path}/group/myGroupList.do"
 	}
 	function selectGroup(id) {
 	    var x = document.getElementById(id);

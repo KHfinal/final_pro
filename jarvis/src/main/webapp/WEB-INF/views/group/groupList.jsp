@@ -108,16 +108,16 @@
 	                <tbody>
 		                <tr>
 		                	<td>
-		                		<button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
-		                		<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">필터</button>
+		                		<button type="button" class="btn btn-secondary btn" data-toggle="modal" data-target="#createGroup">그룹 만들기</button>
+		                		<button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#demo">분야별</button>
 		                	</td>
 		                	<td>
 		                		<form action="${path }/group/groupSearch.do" method="post">
 									<div>
 										<div class="input-group">
-											<input type="text" class="form-control" name="titleSearch" placeholder="그룹 찾아보기">
+											<input type="text" class="form-control" name="titleSearch" placeholder="그룹 이름을 입력하세요...">
 											<div class="input-group-append">
-												<button class="btn btn-success" type="submit">Go</button> 
+												<button class="btn btn-secondary" type="submit">Go</button> 
 											</div>	
 										</div>
 									</div>
@@ -260,9 +260,9 @@
 				<div class="row">
 					<c:if test="${list!=null }">
 						<c:forEach var="g" items="${list}">				
-							<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})">
+							<div class="col-md-4 col-sm-6 portfolio-item" onclick="fn_view(${g.g_no})" style="z-index: 0;">
 								<%-- <a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}"> --%>
-								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}&mEmail=${memberLoggedIn.memberEmail}">
+								<a class="portfolio-link" data-toggle="modal" href="${path }/group/groupView.do?groupNo=${g.g_no}">
 								
 									<div class="portfolio-hover">
 						                <div class="portfolio-hover-content">

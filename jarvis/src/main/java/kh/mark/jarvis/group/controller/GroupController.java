@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import kh.mark.jarvis.group.model.vo.GroupAttachment;
 import kh.mark.jarvis.group.model.vo.GroupComment;
 import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
-import kh.mark.jarvis.post.model.vo.JarvisLike;
+import kh.mark.jarvis.member.model.vo.Member;
 
 @Controller
 public class GroupController {
@@ -35,6 +36,23 @@ public class GroupController {
 	private Logger logger=LoggerFactory.getLogger(GroupController.class);
 	@Autowired
 	private GroupService service;
+	
+	@RequestMapping("/group/myGroupList.do")
+	public ModelAndView myGroupList(HttpSession hs) {
+		ModelAndView mv = new ModelAndView();
+		
+		Member m = (Member)hs.getAttribute("memberLoggedIn");
+		String mEmail = m.getMemberEmail();
+		
+		List<Map<String, String>> myList = service.myGroupList(mEmail);
+		List<Map<String, String>> cateList=service.selectCategory();
+		
+		mv.addObject("list", myList);
+		mv.addObject("cateList", cateList);
+		mv.setViewName("group/myGroupList");
+		
+		return mv;
+	}
 	
 	@RequestMapping("/group/groupList.do")
 	public ModelAndView selectGroupList() {
@@ -143,35 +161,45 @@ public class GroupController {
 	}
 	
 	@RequestMapping("/group/groupView.do")
-	public ModelAndView groupView(int groupNo, String mEmail) {
+	public ModelAndView groupView(int groupNo, HttpSession hs) {
 		ModelAndView mv=new ModelAndView();
+		
+		Member m = (Member)hs.getAttribute("memberLoggedIn");
+		String mEmail = m.getMemberEmail();
 		
 		logger.debug("멤버 세션 이메일"+mEmail);
 		
-		/*String mEmail=(String)session.getAttribute("memberEmail");*/
 		List<GroupPost> postList = service.groupView(groupNo); // 전체 Post
 		Group g = service.groupViewDetail(groupNo);
 		List<GroupAttachment> attachmentList = service.selectAttachList(groupNo); 
 		List<GroupComment> commentList = service.selectCommentList();
+		List<Member> memberList = service.selectMemberList(); 
 		
-		List<Map<String, String>> memberList = service.selectGroupMember(groupNo);
+		List<Map<String, String>> gMemberList = service.selectGroupMember(groupNo);
 		
+		logger.debug(postList.toString());
 		int memberCheck=0;
 		
 		logger.debug("멤버 그룹 디테일 : "+g.toString());
 		logger.debug(commentList.toString());
+		logger.debug(memberList.toString());
 		for(int i=0;i<memberList.size();i++) {
-			logger.debug("그룹 멤버 셀렉트"+memberList.get(i).values());
-			if(memberList.get(i).values().equals(mEmail)) {
+			/*logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).values().toString());
+			logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).get("MEMBER_EMAIL"));
+			logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).containsValue(mEmail));*/
+			if(gMemberList.get(i).containsValue(mEmail)) {
 				memberCheck=1;
 				mv.addObject("memberCheck", memberCheck);
 				logger.debug("멤버 체크 :"+memberCheck);
+				break;
 			}
 			else {
 				memberCheck=0;
 				mv.addObject("memberCheck", memberCheck);
 				logger.debug("멤버 체크 :"+memberCheck);
 			}
+		
+			
 		}
 			
 		if(postList != null && attachmentList != null) {
@@ -183,7 +211,7 @@ public class GroupController {
 		
 		
 		mv.addObject("g", g);
-		
+		mv.addObject("commentList", commentList);
 		mv.addObject("memberList", memberList);
 		
 		mv.addObject("groupNo", groupNo);
@@ -368,6 +396,62 @@ public class GroupController {
 			
 			return mv;
 		}*/
+		
+		@RequestMapping("/group/groupMemberInsert.do")
+		public ModelAndView groupMemberInsert(int groupNo, HttpSession hs) {
+			ModelAndView mv=new ModelAndView();
+			Member m = (Member)hs.getAttribute("memberLoggedIn");
+			String mEmail = m.getMemberEmail();
+			Map groupM=new HashMap();
+			groupM.put("groupNo", groupNo);
+			groupM.put("mEmail", mEmail);
+			
+			int result = service.groupMemberInsert(groupM);
+			
+			String msg = "";
+			String loc = "";
+			
+			if(result>0) {
+				msg = "그룹 가입이 성공하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			} else {
+				msg = "그룹 가입이 실패하였습니다. 다시 시도해 주세요.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			}
+			
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			
+			mv.setViewName("common/msg");
+			return mv;
+		}
+		
+		@RequestMapping("/group/deleteGroupPost.do")
+		public ModelAndView deleteGroupPost(int postNo, String groupNo) {
+			ModelAndView mv=new ModelAndView();
+			
+			logger.debug(String.valueOf(postNo));
+			logger.debug(groupNo);
+			
+			int result = service.deleteGroupPost(postNo);
+			
+			String msg = "";
+			String loc = "";
+			
+			if(result>0) {
+				msg = "게시물을 삭제하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			} else {
+				msg = "게시물 삭제에 실패하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			}
+			
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			
+			mv.setViewName("common/msg");
+			return mv;
+		}
 	
 
 }

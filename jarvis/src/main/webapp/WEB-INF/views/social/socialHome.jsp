@@ -11,10 +11,12 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
+
 <link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=211">
 
 <script>
 // 게시글 등록
+
 function readURL(input) {
    for(var i=0; i<input.files.length; i++) {
        if (input.files[i]) {
@@ -47,6 +49,7 @@ function updateReadURL(input) {
 }
 
 $(function() {
+
 	 // 게시글 등록
 	 $("#imgInput").on('change', function(){
 	    ext = $(this).val().split(".").pop().toLowerCase(); 
@@ -103,6 +106,7 @@ $(function() {
 	   $(this).off('click');
 	   
 	});
+
    
     /* 답글 삽입 스크립트 */
     $('.replyDisplay').each(function() {
@@ -119,6 +123,7 @@ $(function() {
 });
 
 function fn_postLike(e) { /* 좋아요 전송 */
+
 	
 	var btn = $(e)
 	var likeFrm = btn.next($('.likeFrm'));
@@ -148,41 +153,43 @@ function fn_postLike(e) { /* 좋아요 전송 */
 		},
 		contentType : "application/x-www-form-urlencoded; charset=utf-8",
 	    dataType : "json",
-        
-		success: function(data) {
-			var likeMember;
-			var postRef;
-			var commentRef;
-			var likeCheck;
 
-			$.each(data.likeList, function(i, item) {
-				likeMember = item.likeMember;
-				postRef = item.postRef;
-				commentRef = item.commentRef;
-				likeCheck = item.likeCheck;
-			});
-			
-			if(data.count == 0 || likeFrm.children('.postRef').val() == postRef && likeFrm.children('.likeCheck').val() == 1) {
-				var html = "<p class='likePostCount'>" + data.count + "</p>";
-				likeFrm.next($('.likePostCount-container')).html(html);
-			}
-			
-			if(data.count == 0 || likeFrm.children('.commentRef').val() == commentRef && likeFrm.children('.likeCheck').val() == 2) {
-				var html = "<p class='likeCount'>" + data.count + "</p>";
-				likeFrm.next($('.likeCommentCount-container')).html(html);
-				
-				var html = "<p class='likeCount'>" + data.count + "</p>";
-				likeFrm.next($('.likeReplyCount-container')).html(html);
-			} 
-		},
-		
-		error: function(xhr, status, errormsg) {
-			console.log(xhr);
-			console.log(status);
-			console.log(errormsg);
-		}
-	});
+        
+      success: function(data) {
+         var likeMember;
+         var postRef;
+         var commentRef;
+         var likeCheck;
+
+         $.each(data.likeList, function(i, item) {
+            likeMember = item.likeMember;
+            postRef = item.postRef;
+            commentRef = item.commentRef;
+            likeCheck = item.likeCheck;
+         });
+         
+         if(data.count == 0 || likeFrm.children('.postRef').val() == postRef && likeFrm.children('.likeCheck').val() == 1) {
+            var html = "<p class='likePostCount'>" + data.count + "</p>";
+            likeFrm.next($('.likePostCount-container')).html(html);
+         }
+         
+         if(data.count == 0 || likeFrm.children('.commentRef').val() == commentRef && likeFrm.children('.likeCheck').val() == 2) {
+            var html = "<p class='likeCount'>" + data.count + "</p>";
+            likeFrm.next($('.likeCommentCount-container')).html(html);
+            
+            var html = "<p class='likeCount'>" + data.count + "</p>";
+            likeFrm.next($('.likeReplyCount-container')).html(html);
+         } 
+      },
+      
+      error: function(xhr, status, errormsg) {
+         console.log(xhr);
+         console.log(status);
+         console.log(errormsg);
+      }
+   });
 }
+
 
 </script>
 
@@ -192,9 +199,11 @@ function fn_postLike(e) { /* 좋아요 전송 */
 		color: white;
 		z-index: 100;
 	}
+
 </style>
-	    
+       
 <div class="w3-col m7">
+
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
 	   <div class="modal-header">
@@ -523,6 +532,11 @@ function searchsearch(){
 	<table cellspacing='0' class='tablefriend'>
 	<div class="pull-center well">
        
+
+    
+    
+    
+ 
             <center>  
             <select class="form-control" name="searchType" id='searchType'>
                 <!-- <option value="" disabled selected>검색타입</option> -->
@@ -542,10 +556,10 @@ function searchsearch(){
             </div>
        
     </div>
-	<tr>
-		<th >회원 이메일</th>
-	</tr>
-	</table>
+   <tr>
+      <th >회원 이메일</th>
+   </tr>
+   </table>
 </div>
-	
+   
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

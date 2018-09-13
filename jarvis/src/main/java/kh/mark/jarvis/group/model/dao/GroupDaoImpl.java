@@ -11,9 +11,18 @@ import kh.mark.jarvis.group.model.vo.GroupAttachment;
 import kh.mark.jarvis.group.model.vo.GroupComment;
 import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
+import kh.mark.jarvis.member.model.vo.Member;
 
 @Repository
 public class GroupDaoImpl implements GroupDao {
+
+	
+	
+	@Override
+	public List<Map<String, String>> myGroupList(SqlSessionTemplate Session, String mEmail) {
+		// TODO Auto-generated method stub
+		return Session.selectList("group.myGroupList", mEmail);
+	}
 
 	@Override
 	public int groupInsert(SqlSessionTemplate Session, Group g) {
@@ -142,6 +151,24 @@ public class GroupDaoImpl implements GroupDao {
 	public int selectGroupCommentLikeCount(SqlSessionTemplate Session, GroupLike like) {
 		// TODO Auto-generated method stub
 		return Session.selectOne("group.selectGroupCommentLikeCount", like);
+	}
+
+	@Override
+	public int groupMemberInsert(SqlSessionTemplate Session, Map groupM) {
+		// TODO Auto-generated method stub
+		return Session.insert("group.groupMemberInsert", groupM);
+	}
+
+	@Override
+	public List<Member> selectMemberList(SqlSessionTemplate Session) {
+		// TODO Auto-generated method stub
+		return Session.selectList("group.selectMemberList");
+	}
+
+	@Override
+	public int deleteGroupPost(SqlSessionTemplate Session, int postNo) {
+		// TODO Auto-generated method stub
+		return Session.delete("group.deleteGroupPost", postNo);
 	}
 	
 	

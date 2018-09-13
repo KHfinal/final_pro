@@ -156,11 +156,17 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	/* $(e).parent().submit(); */
 }
 
-function fn_postLikeDelete(e) {
-	console.log($(e).attr('title'));
+
+function fn_subMenu(e) {
+	   var btn = $(e);
+	   var subMenu = $(e).next('.subMenu-container');
+	   
+	   console.log("클릭 버튼의 postNo = " + btn.attr('title'));
+	   
 }
 
 </script>
+<div class="w3-col m7 ml-3">
 <c:if test="${memberCheck eq 1 }">
 	<!-- 게시글 등록 미리보기. 클릭시 #postModal이 연결 돼 실제 입력창 나타난다. -->
 	<div id="createPostContainer" data-toggle="modal" data-target="#postModal">
@@ -214,9 +220,14 @@ function fn_postLikeDelete(e) {
 	<c:forEach items="${postList}" var="post" varStatus="vs">
 	<div class="panel panel-default" >
 	    <div class="panel-heading">
-	        <span class="userName" style="font-size: 2em">${post.getG_post_writer() }</span>&nbsp;&nbsp;
+	    
+	    <c:forEach items="${memberList }" var="member">
+          <c:if test="${post.getG_post_writer() eq member.getMemberNickname() }">
+          <span><img class='postProfile rounded-circle' src='${path }/resources/profileImg/${member.getMemberPFP() }'></span>
+           <span class="userName" style="font-size: 2em">${member.getMemberNickname() }</span>&nbsp;&nbsp;
+           </c:if>
+           </c:forEach>
 	        <span><fmt:formatDate value="${post.getG_post_date() }" pattern="yy-MM-dd HH:mm"/></span>
-	        
 	        <!-- 게시글 좋아요를 위한 form -->
         	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getG_post_no() }"><i class="far fa-heart like" style="font-size: 2.3em;"></i></a>
 	        <form class="likeFrm" style="display: inline-block;" method="post" action="${path }/group/likeInsertAndSelect.do">
@@ -228,11 +239,40 @@ function fn_postLikeDelete(e) {
 	        
 	        <!-- 좋아요 갯수 출력 -->
 	        <div class="likeCount-container" style="display: inline-block">
-
+				<p class='likePostCount'></p>
 	        </div>
 	        
-	        <a href="#nothing" style="margin-left: 45%"><i class="fas fa-ellipsis-v" style="font-size: 2.3em;"></i></a>
-	    </div>
+	        <!-- 게시물 서브 메뉴 -->
+           <a href="javascript:void(0);" onclick="fn_subMenu(this);" class="dropdown-toggle" data-toggle="dropdown" title="${post.getG_post_no() }" style="float: right; padding-top: 10px;"><i class="fas fa-angle-double-down subAwe" style="font-size: 2.3em;"></i></a>
+           <c:forEach items="${memberList }" var="member">
+           <c:choose>
+              <c:when test="${post.getG_post_writer() eq member.getMemberNickname()}">
+              <div class="subMenu-container dropdown-menu">
+                <a class="dropdown-item" href="#">수정하기</a>
+                <a class="dropdown-item" href="${path }/group/deleteGroupPost.do?postNo=${post.getG_post_no() }&groupNo=${groupNo }">삭제하기</a>
+                <a class="dropdown-item" href="#">숨기기</a>
+                <a class="dropdown-item" href="#">신고하기</a>
+             </div>
+              </c:when>
+              
+              <c:when test="${g.g_master eq member.getMemberEmail() }">
+              <div class="subMenu-container dropdown-menu">
+                <a class="dropdown-item" href="${path }/group/deleteGroupPost.do?postNo=${post.getG_post_no() }&groupNo=${groupNo }">삭제하기</a>
+                <a class="dropdown-item" href="#">숨기기</a>
+                <a class="dropdown-item" href="#">신고하기</a>
+             </div>
+              </c:when>
+              
+              <c:when test="${post.getG_post_writer() != member.getMemberNickname() }">
+              <div class="subMenu-container dropdown-menu">
+                <a class="dropdown-item" href="#">숨기기</a>
+                <a class="dropdown-item" href="#">신고하기</a>
+             </div>
+              </c:when>
+          </c:choose>
+           </c:forEach>
+           
+       </div>
 	    
 	    <div class="panel-body">
 	       <div id="postContentsContainer">
@@ -254,7 +294,13 @@ function fn_postLikeDelete(e) {
 	      <c:forEach items="${commentList }" var="comment">
 	         <c:if test='${post.getG_post_no() eq comment.getG_post_ref() and comment.getG_comment_level() eq 1}'>
 	         <div class="commentDisplay-container">
-	            <a href="#"><span class="commentWriter">${comment.getG_comment_writer() }</span></a>
+	         
+	         <c:forEach items="${memberList }" var="member">
+             <c:if test="${comment.getG_comment_writer() eq member.getMemberNickname() }">
+             <span><img class='commentProfile rounded-circle' src='${path }/resources/profileImg/${member.getMemberPFP() }'></span>
+               <a href="#"><span class="commentWriter" style="color: #EE4035">${member.getMemberNickname() }</span></a>
+              </c:if>
+                </c:forEach>
 	            <span class="commentContents">&nbsp;&nbsp;${comment.getG_comment_contents() }</span>
 	            
 	            <!-- 댓글 좋아요를 위한 form -->
@@ -307,7 +353,7 @@ function fn_postLikeDelete(e) {
 	      <!-- 댓글 쓰기 -->
 	      <div id="inputComment-container">
 	         <form id="createCommentFrm" method="post" action="${path }/group/postCommentInsert.do?groupNo=${post.getG_post_no() }">
-	            <span><img id="commentProfile" class="rounded-circle" src="${path }/resources/upload/post/20180030_210021127_730.jpg"></span>
+	            <span><img class="commentProfile rounded-circle" src="${path }/resources/upload/post/20180030_210021127_730.jpg"></span>
 	            <input type="text" id="inputCommentTxt" name="g_comment_contents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
 	            <input type="hidden" id="reply_postRef" name="g_post_ref" value="${post.getG_post_no() }"/>
 	            <input type="hidden" name="g_comment_writer" value="${memberLoggedIn.getMemberNickname() }"/>
@@ -323,17 +369,23 @@ function fn_postLikeDelete(e) {
 	</c:forEach>
 </c:if>
 <c:if test="${memberCheck eq 0 }">
-	<div class="container">
-		<h2>그룹에 가입하세요~~!</h2>
-		<div class="card" style="width:400px">
-			<img class="card-img-top" src="${g.getG_renamedFilename() }" alt="Card image" style="width:100%">
-			<div class="card-body">
-				<h4 class="card-title">${g.getG_name() }</h4>
-				<p class="card-text">${getG_intro() }</p>
-				<a href="#" class="btn btn-outline-secondary">가입 하기</a>
+	
+	<div class="mb-5" style="text-align: center;"><h2>그룹에 가입하세요~~!</h2></div>
+		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-6">
+				<div class="card" style="width:100%">
+					<img class="card-img-top" src="${path }/resources/upload/group/${g.g_renamedFilename }" alt="Card image" style="width:100%">
+					<div class="card-body">
+						<h4 class="card-title">${g.g_name }</h4>
+						<p class="card-text">${g.g_intro }</p>
+						<a href="${path }/group/groupMemberInsert.do?groupNo=${g.g_no}" class="btn btn-outline-secondary">가입 하기</a>
+					</div>
+				</div>
 			</div>
+			<div class="col-2"></div>
 		</div>
-	</div>
+	
 </c:if>
-
+</div>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> --%>
