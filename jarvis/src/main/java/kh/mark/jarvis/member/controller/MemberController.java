@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +21,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
 import com.sun.mail.util.logging.MailHandler;
 
@@ -145,13 +148,17 @@ public class MemberController {
 	
 	public void sendMail(Member member) {
 		logger.debug(member.getMemberEmail());
-		String setfrom = "kkh9180@gmail.com";         
+		String setfrom = "jarvis180920@gmail.com";         
 	    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
 	    String title   = "Jarvis 이메일인증";      // 제목
-	    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
+	    String content = "<h1>"+member.getMemberName().toString()+"님!<h1>";    // 내용
 	    content += "<h2>jarvis 계정 인증 메일입니다.링크를 눌러 인증해주세요<h2>";    // 내용
 	    content += "<a href='http://localhost:9090/jarvis/member/memberVerify?memberEmail="+member.getMemberEmail()+
 	    		"'>jarvis 계정 인증하기</a>";
+	    
+	    
+	    
+	    
 	    try {
 	    	
 	      MimeMessage message = mailSender.createMimeMessage();
@@ -251,6 +258,7 @@ public class MemberController {
 			@RequestMapping("/member/forgotEmail.do")
 			public String forget() 
 			{
+				
 				return "member/forgotEmail";
 			}
 			
@@ -286,16 +294,11 @@ public class MemberController {
 			@RequestMapping(value="/PwSearch.do")
 			public ModelAndView pwSearch(String memberEmail) {
 				
-					/*//2.암호화하기
-					String oriPw=member.getMemberPw(); //암호화 전
-					String enPw=BCPE.encode(oriPw);	   //암호화 후
-					System.out.println(enPw);	
-					member.setMemberPw(enPw);	//암호화 처리한것을 pw에 저장
-*/					
-					//xml까지 보내기
+
+					//1.xml까지 보내기
 					Member pwSearch=memberService.selectPw(memberEmail); //비밀번호 찾기
 					
-					//xml까지 다녀왔음  아래 진행
+					//2.xml까지 다녀왔음  아래 진행
 					ModelAndView mv = new ModelAndView();
 					String msg="";
 					String loc="/";
@@ -311,7 +314,7 @@ public class MemberController {
 					else 
 					{
 						msg="이메일 발송완료";
-						pwSendMail(pwSearch);
+						pwSendMail(pwSearch);	//메소드 호출
 						
 					}
 					mv.addObject("msg",msg);
@@ -322,14 +325,21 @@ public class MemberController {
 			
 			//이메일 보내보자...
 			public void pwSendMail(Member member) {
-				logger.debug(member.getMemberEmail());
-				String setfrom = "kkh9180@gmail.com";         
+				
+					
+				logger.debug("이메일 보내기"+member.getMemberEmail());
+				
+				String setfrom = "rudtjr0601jp@gmail.com";         
 			    String tomail  = member.getMemberEmail();     // 받는 사람 이메일
 			    String title   = "Jarvis 암호변경메일입니다";      // 제목
 			    String content = "<h1>"+member.getMemberName()+"님!<h1>";    // 내용
-			    content += "<h2>jarvis 해당 링크를 누르시면 암호변경페이지로 이동됩니다.<h2>";    // 내용
-			    content += "<a href='http://localhost:9090/jarvis/member/변경할 페이지 맞추기?memberEmail="+member.getMemberEmail()+
-			    		"'>jarvis 계정 인증하기</a>";
+			    
+			    
+			    
+			    content += "<h2>jarvis 해당 링크를 누르시면 암호변경 페이지로 이동됩니다.<h2>";    // 내용
+			    content += "<a href='http://localhost:9090/jarvis/member/pwUpdateView.do?memberEmail="+member.getMemberEmail()+
+			    		"'>jarvis password 변경 하기</a>";
+			    
 			    try {
 			    	
 			      MimeMessage message = mailSender.createMimeMessage();
@@ -345,8 +355,128 @@ public class MemberController {
 			    } catch(Exception e){
 			      System.out.println(e);
 			    }
-			    
+			   
 			}
+			
+		
+			
+			
+			//유저메일에서 - > 패스워드 찾기 페이지로 이동 
+			@RequestMapping("/member/pwUpdateView.do")
+			public ModelAndView pwUpdateView(Member m) 
+			{
+				ModelAndView mv = new ModelAndView();
+				mv.addObject("memberEmail",m.getMemberEmail());
+				System.out.println("페이지 이동후 암호변경하기?"+m.getMemberEmail());
+				mv.setViewName("member/pwUpdate");
+				
+				return mv; //--->폴더이름/jsp명 
+			}
+			
+			
+				//비밀번호 변경 시작하기
+			  @RequestMapping("/member/pwUpdate.do")
+			  public ModelAndView pwUpdate(Member m,HttpServletRequest request) {
+				  
+				  logger.debug("유저가 이메일 변경 시도 "+m.getMemberEmail());
+				 
+					//암호화하기
+					String oriPw=m.getMemberPw(); //암호화 전
+					String enPw=BCPE.encode(oriPw);	   //암호화 후
+					System.out.println(enPw);	
+					m.setMemberPw(enPw);	//암호화 처리한것을 pw에 저장					
+				  
+					
+				  int result = memberService.pwUpdate(m);
+				  logger.debug("rename 후 멤버객체:"+m.toString());
+		
+				  ModelAndView mv = new ModelAndView();
+				  
+				  String msg ="";
+				  String loc="";
+				  
+				  if(result>0) {//디비에 업데이트가 되면 파일을 저장한다.
+					  
+					  msg ="암호 변경 완료!";
+					  //로그인 홈으로 돌아가기
+				  }
+				  else { 
+					  msg="암호 변경 실패";
+					  //페이지 머물기
+				  }
+				  
+				 /* Member member = memberService.selectLogin(m.getMemberEmail());
+				  mv.addObject("memberLoggedIn",member);*/
+				  mv.addObject("msg", msg);
+				  mv.addObject("loc",loc);
+				  mv.setViewName("common/msg");
+				  
+				  return mv;
+				  
+				  
+			  }
+			
+			
+			  //개인정보수정 페이지로 이동
+			  @RequestMapping("/memberUpdateView.do")
+			
+				public String memberUpdateView() 
+				{
+						return "member/memberUpdate"; //회원수정페이지로
+				}
+			  
+			  //유저 개인정보 변경 /memberUpdate.do
+			  @RequestMapping("/memberUpdate.do")
+			  public ModelAndView memberUpdate(Member m,ModelAndView mv,MultipartFile profileFile1,HttpServletRequest request) {
+				  logger.debug(m.toString());
+				  logger.debug(profileFile1.getOriginalFilename());
+				  String saveDir=request.getSession().getServletContext().getRealPath("/resources/profileImg");
+				  String reNamedFilename=null;
+				  File dir = new File(saveDir);
+				  if(dir.exists()==false) dir.mkdirs();
+				  if(!profileFile1.isEmpty()) {
+					  String originalFilename=profileFile1.getOriginalFilename();
+					  String ext=originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+					  reNamedFilename = m.getMemberEmail()+"_profileImg"+"."+ext;
+					  
+				  }else {//이미지를 선택 안한다면 기본 이미지를 띄어줘야한다.
+					  reNamedFilename="profileDefault.png";
+				  }
+				  m.setMemberPFP(reNamedFilename);
+				  
+				  //xml으로 보내기 시작
+				  int result = memberService.memberUpdate(m);
+				  
+				  
+				  
+				  logger.debug("rename 후 멤버객체:"+m.toString());
+				  String msg = "정보 수정 완료";
+				  String loc="/post/socialHomeView.do";
+				  if(result>0) {//디비에 업데이트가 되면 파일을 저장한다.
+					  try {
+						if(!reNamedFilename.equals("profileDefault.png"))//단 프로필이미지를 선택하지 않았을 때는 파일을 저장하지 않는다.
+							profileFile1.transferTo(new File(saveDir+"/"+reNamedFilename));
+						}catch(Exception e) {
+							e.printStackTrace();
+						}//파일업로드 끝!
+					  
+				  }
+				  else { 
+					  msg="추가정보 입력 오류";
+					  //loc로 가서 만약 addinfo가 Y가 아니면 어차피 다시 입력 창으로 돌아온다.
+				  }
+				  Member member = memberService.selectLogin(m.getMemberEmail());
+				  mv.addObject("memberLoggedIn",member);
+				  mv.addObject("msg", msg);
+				  mv.addObject("loc",loc);
+				  mv.setViewName("common/msg");
+				  
+				  return mv;
+				  
+				  
+			  }
+			    
+			
 			
 			
 }

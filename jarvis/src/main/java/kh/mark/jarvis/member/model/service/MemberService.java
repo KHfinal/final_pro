@@ -22,5 +22,9 @@ public interface MemberService {
 
 	Member selectPw(String memberEmail); //비밀번호 찾기
 
+	int pwUpdate(Member m);	//패스워드 변경하기
+
+	int memberUpdate(Member m);	//User-개인정보 수정
+
 	
 }

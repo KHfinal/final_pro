@@ -35,5 +35,12 @@ public interface MemberDao {
 	Member selectPw(SqlSessionTemplate sqlSession, String memberEmail);
 
 
+	int pwUpdate(SqlSessionTemplate sqlSession, Member m);	//암호 변경
+
+	
+	//회원 정보 수정
+	int memberUpdate(SqlSessionTemplate sqlSession, Member m);
+
+
 
 }

@@ -26,6 +26,18 @@ public class Member {
 		super();
 	}
 
+	
+	//비밀번호 찾을시 사용 하는것
+	public Member(String memberEmail, String memberPw) 
+	{
+		super();
+		this.memberEmail = memberEmail;
+		this.memberPw = memberPw;
+	}
+
+
+
+
 	public Member(String memberEmail, String memberPw, String memberName, String memberNickname, String phone,
 			Date reg_date, String memberPFP, String[] memberConcern, String memberGender, Date memberBirthday,
 			String addr1, String addr2, String addr3, String addInfo, String verify) {
@@ -175,6 +187,7 @@ public class Member {
 				+ ", memberBirthday=" + memberBirthday + ", addr1=" + addr1 + ", addr2=" + addr2 + ", addr3=" + addr3
 				+ ", addInfo=" + addInfo + ", verify=" + verify + "]";
 	}
+	
 	
 	
 	

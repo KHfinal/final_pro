@@ -63,6 +63,18 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.selectPw(sqlSession,memberEmail);
 	}
+
+	@Override	//암호변경하기
+	public int pwUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.pwUpdate(sqlSession,m);
+	}
+
+	@Override  //개인정보 수정
+	public int memberUpdate(Member m) {
+		
+		return memberDao.memberUpdate(sqlSession,m);
+	}
 	
 	
 
