@@ -11,7 +11,7 @@
 <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script>
 //SocketJS 채팅구현
-/* var sock=new SockJS("<c:url value='/chatting'/>")
+var sock=new SockJS("<c:url value='/chatting'/>")
 	sock.onmessage=onMessage;
 	sock.onclose=onClose;
 	
@@ -31,6 +31,17 @@ var today=null;
 			sock.onclose();
 		});
 	});
+	function leadingZeros(n, digits) {
+		   var zero = '';
+		   n = n.toString();
+
+		   if (n.length < digits) {
+		     for (i = 0; i < digits - n.length; i++)
+		       zero += '0';
+		   }
+		   return zero + n;
+	}
+
 	function sendMessage()
 	{
 		sock.send($('#message').val());
@@ -55,8 +66,8 @@ var today=null;
 			message=strArray[1];//전송내용
 			host=strArray[2].substr(1,strArray[2].indexOf(":")-1);//실제아이피주소만 남기기
 			today=new Date();
-			printDate=today.getFullYear()+"년 "+today.getMonth()+"월 "+today.getDate()+"일";
-			printHour=today.getHours()+":"+today.getMinutes();
+			printDate=today.getFullYear()+"년 "+leadingZeros(today.getMonth(),2)+"월 "+today.getDate()+"일";
+			printHour=leadingZeros(today.getHours(),2)+":"+leadingZeros(today.getMinutes(),2);
 			console.log(printDate);
 			
 			var ck_host='${host}';
@@ -123,7 +134,7 @@ var today=null;
 	{
 		location.href='${pageContext.request.contextPath}';
 		self.close();
-	} */
+	}
 </script>
 <style>
 	div#chatdata{
@@ -159,7 +170,8 @@ $(document).ready(function(){
 <div class="w3-col m9">
 <div class="w3-card w3-round w3-white">
 	<div class="w3-container">
-		<div class="row" style="border: 1px solid lightgray; padding: 10px; height: 40px;">
+		<div class="row"
+			style="border: 1px solid lightgray; padding: 10px; height: 40px;">
 			<div class="col-2">
 				<strong>Messenger</strong>
 			</div>
@@ -168,21 +180,29 @@ $(document).ready(function(){
 		</div>
 		<div class="row">
 			<!-- 채팅창 -->
-			<div class="chatting-cintainer col-8">
+			<div class="chatting-cintainer col-9">
+				<input id="m_search" class="ml-5 mt-3" type="text" placeholder="메세지 검색" style="width: 80%;">
+				<button id="searchBtn" style="padding: 0;">
+					<img src="${path }/resources/img/searchIcon.PNG" style="width: 30px; height: 30px;">
+				</button>
 				<div class="chatInput-container">
-					<div class="list-group">
-						<a href="#" class="list-group-item list-group-item-action">
-							채팅방1
-						</a>
-						<a href="#" class="list-group-item list-group-item-action">
-							채팅방2
-						</a>
+					<div class="panel panel-default" id="chat_panel">
+						<div id="chatdata" class="panel-body"></div>
+					</div>
+					<div class="input-group">
+						<textarea name="message" id="message" class="chatInput form-control" placeholder="메세지를 입력하세요.."></textarea>
+						<div class="input-group-append">
+							<%-- <button class="btn" style="background-color: white;" type="button">
+								<img class="btn-img" src="${path }/resources/img/camera.png" style="width: 50px; height: 50px;">
+							</button> --%>
+							<button class="btn btn-primary" type="button" id='sendBtn'>보내기</button>
+						</div>
 					</div>
 				</div>
 
 			</div>
 			<!-- 친구목록 -->
-			<div class="chatting-cintainer col-4 pl-2 pr-2 pt-3" style="overflow:auto; height:760px;">
+			<div class="chatting-cintainer col-3 pl-2 pr-2 pt-3" style="overflow:auto; height:760px;">
 				<form action="${path}/friend/selectOneFriend.do">
 					<input type="text" id="friendSearch"
 						class="form-control form-control-sm mb-2" placeholder="친구검색">
