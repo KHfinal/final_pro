@@ -10,6 +10,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import kh.mark.jarvis.chatting.model.vo.ChattingContents;
 import kh.mark.jarvis.member.model.vo.Member;
 
 public class SocketHandler extends TextWebSocketHandler {
@@ -47,6 +48,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		Member login=(Member)session.getAttributes().get("memberLoggedIn");
 		
 		
+		System.out.println("이거뭐야??????"+message.getPayload());
 		for(WebSocketSession s : sessionList)
 		{
 			//보내는 순서를 정확하게 기억을 해야함 "|"구분자로 

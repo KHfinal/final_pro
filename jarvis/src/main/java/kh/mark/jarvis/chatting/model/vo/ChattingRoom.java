@@ -4,16 +4,16 @@ public class ChattingRoom {
 
 	private int room_no;
 	private String room_title;
-	private int m_count;
+	private String my_email;
 	private String f_friendEmail;
 	
 	public ChattingRoom() {}
 
-	public ChattingRoom(int room_no, String room_title, int m_count, String f_friendEmail) {
+	public ChattingRoom(int room_no, String room_title, String my_email, String f_friendEmail) {
 		super();
 		this.room_no = room_no;
 		this.room_title = room_title;
-		this.m_count = m_count;
+		this.my_email = my_email;
 		this.f_friendEmail = f_friendEmail;
 	}
 
@@ -33,12 +33,12 @@ public class ChattingRoom {
 		this.room_title = room_title;
 	}
 
-	public int getM_count() {
-		return m_count;
+	public String getMy_email() {
+		return my_email;
 	}
 
-	public void setM_count(int m_count) {
-		this.m_count = m_count;
+	public void setMy_email(String my_email) {
+		this.my_email = my_email;
 	}
 
 	public String getF_friendEmail() {
@@ -51,9 +51,11 @@ public class ChattingRoom {
 
 	@Override
 	public String toString() {
-		return "ChattingRoom [room_no=" + room_no + ", room_title=" + room_title + ", m_count=" + m_count
+		return "ChattingRoom [room_no=" + room_no + ", room_title=" + room_title + ", my_email=" + my_email
 				+ ", f_friendEmail=" + f_friendEmail + "]";
 	}
+
+	
 	
 	
 }
