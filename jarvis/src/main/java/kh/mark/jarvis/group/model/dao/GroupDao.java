@@ -10,9 +10,12 @@ import kh.mark.jarvis.group.model.vo.GroupAttachment;
 import kh.mark.jarvis.group.model.vo.GroupComment;
 import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
+import kh.mark.jarvis.member.model.vo.Member;
 
 public interface GroupDao {
 
+	List<Map<String, String>> myGroupList(SqlSessionTemplate Session, String mEmail);
+	
 	int groupInsert(SqlSessionTemplate Session, Group g);
 	List<Map<String, String>> selectGroupList(SqlSessionTemplate Session);
 	List<Map<String, String>> selectCategory(SqlSessionTemplate Session);
@@ -37,4 +40,9 @@ public interface GroupDao {
 	int insertGroupCommentLike(SqlSessionTemplate Session, GroupLike like);
 	List<GroupLike> selectGroupCommentLike(SqlSessionTemplate Session, GroupLike like);
 	int selectGroupCommentLikeCount(SqlSessionTemplate Session, GroupLike like);
+	
+	int groupMemberInsert(SqlSessionTemplate Session, Map groupM);
+	List<Member> selectMemberList(SqlSessionTemplate Session);
+	
+	int deleteGroupPost(SqlSessionTemplate Session, int postNo);
 }

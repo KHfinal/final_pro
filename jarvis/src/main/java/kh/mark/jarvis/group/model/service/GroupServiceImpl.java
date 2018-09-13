@@ -14,6 +14,7 @@ import kh.mark.jarvis.group.model.vo.GroupAttachment;
 import kh.mark.jarvis.group.model.vo.GroupComment;
 import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
+import kh.mark.jarvis.member.model.vo.Member;
 import kh.mark.jarvis.post.model.vo.Attachment;
 
 @Service
@@ -24,6 +25,14 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired
 	private SqlSessionTemplate Session;
 	
+	
+	
+	@Override
+	public List<Map<String, String>> myGroupList(String mEmail) {
+		// TODO Auto-generated method stub
+		return dao.myGroupList(Session, mEmail);
+	}
+
 	@Override
 	public int groupInsert(Group g, String[] g_category) {
 		
@@ -161,6 +170,24 @@ public class GroupServiceImpl implements GroupService {
 	public int selectGroupCommentLikeCount(GroupLike like) {
 		// TODO Auto-generated method stub
 		return dao.selectGroupCommentLikeCount(Session, like);
+	}
+
+	@Override
+	public int groupMemberInsert(Map groupM) {
+		// TODO Auto-generated method stub
+		return dao.groupMemberInsert(Session, groupM);
+	}
+
+	@Override
+	public List<Member> selectMemberList() {
+		// TODO Auto-generated method stub
+		return dao.selectMemberList(Session);
+	}
+
+	@Override
+	public int deleteGroupPost(int postNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteGroupPost(Session, postNo);
 	}
 	
 	

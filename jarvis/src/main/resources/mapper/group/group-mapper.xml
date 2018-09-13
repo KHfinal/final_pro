@@ -4,6 +4,11 @@
 	<resultMap type="group" id="groupMap">
 		<result column="g_category" property="g_category" typeHandler="strArr"/>
 	</resultMap>
+	
+	<select id="myGroupList" parameterType="string" resultMap="groupMap">
+		SELECT * FROM GROUP_LIST JOIN GROUP_MEMBER USING(G_NO) WHERE MEMBER_EMAIL=#{mEmail} ORDER BY G_DATE DESC 
+	</select>
+	
 	<select id="selectGroupList" resultMap="groupMap">
 		SELECT * FROM GROUP_LIST ORDER BY G_DATE DESC
 	</select>
@@ -85,5 +90,39 @@
 	<select id="selectGroupCommentLikeCount" parameterType="groupLike" resultType="_int">
 		SELECT COUNT(*) FROM GROUP_LIKE WHERE G_COMMENT_REF = #{g_comment_ref} AND G_LIKE_CHECK = #{g_like_check}
 	</select>
+	
+	<insert id="groupMemberInsert" parameterType="map">
+		INSERT INTO GROUP_MEMBER VALUES(GROUP_MEMBER_SEQ.NEXTVAL,#{groupNo},#{mEmail})
+	</insert>
+	
+	<select id="selectMemberList" resultType="member" resultMap="memberMap">
+		SELECT * FROM MEMBER
+	</select>
+	
+	<delete id="deleteGroupPost" parameterType="_int">
+		DELETE FROM GROUP_POST WHERE G_POST_NO=#{postNo}
+	</delete>
+	
+	
+	
+	
+	
+	<resultMap type="member" id="memberMap">
+		<result column="member_email" property="memberEmail" />
+		<result column="member_pw" property="memberPw" />
+		<result column="member_name" property="memberName" />
+		<result column="member_nickname" property="memberNickname" />
+		<result column="member_phone" property="phone" />
+		<result column="reg_date" property="reg_date" />
+		<result column="member_pfp" property="memberPFP" />
+		<result column="member_concern" property="memberConcern" typeHandler="strArr"/>
+		<result column="member_gender" property="memberGender" />
+		<result column="member_birth" property="memberBirthday" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="addr3" property="addr3" />
+		<result column="addinfo" property="addInfo"/>
+		<result column="verify" property="verify"/>  
+	</resultMap>
   
 </mapper>
