@@ -20,6 +20,7 @@
 		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupComment" alias="groupComment"/>
 		<typeAlias type="kh.mark.jarvis.group.model.vo.GroupLike" alias="groupLike"/>
  		
+ 		<typeAlias type="kh.mark.jarvis.chatting.model.vo.ChattingRoom" alias="chattingRoom"/>
 
 	</typeAliases>
 </configuration>

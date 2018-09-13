@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.mark.jarvis.chatting.model.service.ChattingService;
+import kh.mark.jarvis.chatting.model.vo.ChattingRoom;
 import kh.mark.jarvis.friend.model.service.FriendService;
 import kh.mark.jarvis.member.model.vo.Member;
 
@@ -21,6 +23,9 @@ public class ChattingController {
 
 	@Autowired
 	private FriendService friendService;
+	
+	@Autowired
+	private ChattingService chattingService;
 	
 	@RequestMapping("/chat/chattingView.do")
 	public String chatting(Model model, HttpSession hs, HttpServletRequest request, String fEmail)
@@ -54,12 +59,13 @@ public class ChattingController {
 		return "chat/chattingView";
 	}
 	
-	@RequestMapping("/chat/chattingFriend")
-	public String chattingFriend(Model model, HttpSession hs, HttpServletRequest request, String fEmail)
+	@RequestMapping("/chat/createRoom")
+	public String createRoom(Model model, HttpSession hs, HttpServletRequest request, String fEmail)
 	{
 		Member m = (Member)hs.getAttribute("memberLoggedIn");
 		String email = m.getMemberEmail();
 		
+		/*친구목록-----------------------------------------------------*/
 		Map<String,String> map=new HashMap();
 		map.put("title", "F_MEMBER_EMAIL");
 		map.put("email", email);
@@ -80,22 +86,37 @@ public class ChattingController {
 		{
 			friendList=friendList1;
 		}
+
+		
+		/*채팅방찾기-----------------------------------------------------*/
+		Map<String,String> roomMap=new HashMap();
+		roomMap.put("mytitle", "MY_EMAIL");
+		roomMap.put("ftitle", "FRIEND_EMAIL");
+		roomMap.put("myEmail", email);
+		roomMap.put("fEmail", fEmail);
+		ChattingRoom selectRoom=chattingService.selectRoom(roomMap);
+		roomMap.put("mytitle", "FRIEND_EMAIL");
+		roomMap.put("ftitle", "MY_EMAIL");
+		roomMap.put("myEmail", fEmail);
+		roomMap.put("fEmail", email);
+		ChattingRoom selectRoom1=chattingService.selectRoom(roomMap);
+		if(selectRoom==null) {
+			selectRoom=selectRoom1;
+		}
+		
+		/*채팅방생성-----------------------------------------------------*/
+		if(selectRoom==null)
+		{
+			roomMap.put("my_email", email);
+			roomMap.put("friend_email", fEmail);
+			int result=chattingService.createRoom(roomMap);
+		}
+		
+		model.addAttribute("selectRoom",selectRoom);
 		model.addAttribute("friendList",friendList);
 		model.addAttribute("chat/friendChatting");
 		model.addAttribute("host",request.getRemoteAddr());
 		return "chat/friendChatting";
 	}
-	/*@RequestMapping("/chat/chattingFriend")
-	public ModelAndView chattingFriend(HttpSession hs, String fEmail, HttpServletRequest request)
-	{
-		Member m = (Member)hs.getAttribute("memberLoggedIn");
-		String email = m.getMemberEmail();
-		ModelAndView mv=new ModelAndView();
-		
-		
-		mv.addObject("host",request.getRemoteAddr());
-		mv.setViewName("chat/friendChatting");
-		return mv;
-	}*/
 	
 }
