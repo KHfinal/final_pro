@@ -411,5 +411,23 @@ public class MemberController {
 			  
 		  }
 	  
-	  
+		  
+		  
+		  //개인정보수정 페이지로 이동
+		  @RequestMapping("/memberUpdateView.do")
+			public String memberUpdateView() 
+			{
+					return "member/memberUpdateView"; //회원수정페이지로
+			}
+		  
+		  
+		  //내 정보 보기
+		  @RequestMapping("/memberView.do")
+			public String memberView() 
+			{
+					return "member/memberView"; //회원수정페이지로
+			}
+		  	
+		  
+		  
 }
