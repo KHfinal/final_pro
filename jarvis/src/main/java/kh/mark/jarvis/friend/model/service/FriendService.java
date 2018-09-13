@@ -10,6 +10,7 @@ public interface FriendService {
 	List<String> selectFriendListJson(Map<String,String> map);
 	String selectConcernList(String email);
 	List<Member> selectMemberConcernList(String concern);
+	List<Map<String,String>> selectSearch2(Map<String,Object> map);
 	int friendRequest(Map<String, String> fr);
 	List<String> requestList(Map<String,String> map);
 	int friendAgree(Map<String, String> fr);

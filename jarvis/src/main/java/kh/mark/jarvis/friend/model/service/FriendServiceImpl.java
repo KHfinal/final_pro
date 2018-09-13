@@ -33,7 +33,12 @@ public class FriendServiceImpl implements FriendService{
 	public List<Member> selectMemberConcernList(String concern) {
 		return dao.selectMemberConcernList(sqlSession,concern);
 	}
+	
 
+	@Override
+	public List<Map<String, String>> selectSearch2(Map<String, Object> map) {
+		return dao.selectSearch2(sqlSession,map);
+	}
 	@Override
 	public int friendRequest(Map<String, String> fr) {
 		// TODO Auto-generated method stub

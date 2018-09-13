@@ -410,171 +410,47 @@ function fn_subMenu(e) {
 
 </div>
 <script>
-$(document).ready(function(){
-		ajax();
-		var email2 = '${memberLoggedIn.memberEmail}';
-		$.ajax({
-			url:"${path}/friend/friednRecommendList.do",
-			type:"POST",
-			data:{email:email2},
-			dataType:"json",
-			success : function(data){
-				console.log("friendList :"+friendList);
-				var friendConcernTag;
-				$.each(data.concernCompareList,function(i,item){
-					var f_email2 = item;
-					console.log("f_email2 : "+f_email2);
-					for(var i =0; i<friendList.length;i++){
-						if((friendList[i]==f_email2)){
-							break;	
-						}
-						if(i==friendList.length-1){
-							if(f_email2==email2){
-								console.log("email2 : " + email2);
-								break;
-							}
-							 friendConcernTag = "<tr><td>"+f_email2+"</td></tr>"; 
-							 break;
-						}	
-					}
-					$('.tablefriend').append(friendConcernTag);
-					friendConcernTag;
-				}); 
-			}
-		});
-}); 
-var userIdList=[] ;
-var su =0;
-var friendList=[];
-var sock=new SockJS("<c:url value='/friendInList'/>")  /* (0) */
-	/* sock.메소드 는 컨트롤러(핸들러)로 감 */
-sock.onmessage = onMessage;
-sock.onclose = onClose;
-$(function() {
-    $('.dropdown-toggle').click(function() {
-        this.attr("border", none);
-    })
-});
-function ajax() {
-	var email = '${memberLoggedIn.memberEmail}';    /* (0) */
+
+function searchsearch(){
+	var searchKeyword = $('#searchKeyword').val();
+	var searchType = $('#searchType').val();
+	alert("searchKeyword : "+ searchKeyword);
+	alert("searchType : "+ searchType);
 	$.ajax({
-		url:"${path}/friend/selectFriendListJson.do",
-		type:"POST",
-		data:{email:email},
+		url:"${path }/friend/friendSearch.do",
+		type:"get",
+		data:{searchKeyword : searchKeyword,searchType:searchType },
 		dataType:"json",
 		success : function(data){
-	    	$('#myDropdown').append('<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">');
-	    	$('#myDropdown').append('<button id="refresh" onclick="reFresh()">새로고침</button><br>');
-	    	su=0;
-			var friendListTag;
-			friendList=[];
-			$.each(data.list,function(i,item){
-				var f_email = item; 
-				var size =userIdList.length;
-				friendList.push(f_email);
-				for(var k =0; k<size;k++){
-					console.log("userIdList[k] : "+userIdList[k]);
-				    if(f_email==userIdList[k]){
-						friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"<i class='fa fa-cloud'/></a><br>";
-						su++;
-						break;
-				    }else{
-				    	friendListTag = "<a href='#' class='w3-bar-item w3-button'>"+f_email+"</a><br>";
-				    }
-				} 
-				$('#myDropdown').append(friendListTag);
-			});
-			$("#su").empty();
-			$('#su').append(su);
+			alert(data);
+		    	
 		}
 	});
-};
-function onMessage(evt){
-	var userId = evt.data;
-	var flag=evt.data.split("|");
-	console.log("구분 : " +userId[0]);
-	if(flag[0]=="1"){
-		console.log("스크립트 추가한 유저 : " + flag[1]);
-		if(!(userIdList.indexOf(flag[1])>=0)){
-			userIdList.push(flag[1]);
-			su++;
-		}
-		console.log("스크립트 접속후 접속자 : "+userIdList);
-		/* alert("포함?"+userIdList.contains(flag[1])); */
-	}
-	if(flag[0]=="2"){
-		console.log("스크립트 나간 유저 : " + flag[1]);
-		console.log("나간후 리스트 받아오기 전 사이즈"+userIdList.length);
-		if(userIdList.length !=null){
-			userIdList=[];	
-		}
-		userIdList.push(flag[1]);
-		console.log("스크립트 나간후 접속자 : "+userIdList);
-	}
-};
-function onClose() {
-	/* 이동하고 close */
-	location.href="${pageContext.request.contextPath}";
-	self.close();
-};	
-/* function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-    ajax();
-}; */
-
-$(document).ready(function () {
-	$('#fr').hover(
-			function(){
-				dell();
-				ajax();
-			},
-			function() {
-				dell();
-			});
-});
-function reFresh() {
-	dell();
-};
-function dell() {
-    $("#myDropdown").empty();
-};
-function del() {
-    $("#myDropdown").empty();
-};
-function filterFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("myDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
-        }
-    }
-}	
 	
-</script> 
+}
+</script>
 <div class='w3-col m2' id='friendRecommendClass'>
 	<table cellspacing='0' class='tablefriend'>
 	<div class="pull-center well">
-        <form class="form-inline" action="#" method="POST">
+       
             <center>  
-            <select class="form-control">
-                <option>옵션1</option>
-                <option>옵션2</option>
+            <select class="form-control" name="searchType" id='searchType'>
+                <!-- <option value="" disabled selected>검색타입</option> -->
+				<!-- 최초보이는 값으로 설정함. required이기 때문에 반드시 다른값을 선택해야함. value="" 반드시 있어야함.-->
+				<option value="member_email" ${'member_email' eq param.searchType?"selected":"" }>이메일</option>
+				<option value="member_name" ${'member_name'==param.searchType?"selected":"" }>친구이름</option>
+				<option value="ADDR2" ${'ADDR2' eq param.searchType?"selected":"" }>지역</option>
+				<option value="MEMBER_CONCERN" ${'MEMBER_CONCERN' eq param.searchType?"selected":"" }>관심사</option>
             </select>
            <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Search...">
+                <input type="search"  id='searchKeyword' name='searchKeyword' placeholder="Search...">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                          <i>search</i>
+                        <button class="btn btn-default" onclick='searchsearch();' >
+                          <i >search</i>
                         </button>
                     </span>
             </div>
-        </form>
+       
     </div>
 	<tr>
 		<th >회원 이메일</th>
