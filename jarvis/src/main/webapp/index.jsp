@@ -45,8 +45,7 @@
        				<p class="mt-3 mb-0"><a href="${path }/post/socialHomeView.do" class="text-info small">Forgot your email or password?</a></p>
    				</div>
 			</div>
-            <div class="col-lg-6 d-flex align-items-end" id="bg-block" style="background-image:url(&quot;resources/img/aldain-austria-316143-unsplash.jpg&quot;);background-size:cover;background-position:center center;">
-                <p class="ml-auto small text-dark mb-2"><em>Photo by&nbsp;</em><a href="https://unsplash.com/photos/v0zVmWULYTg?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" class="text-dark"><em>Aldain Austria</em></a><br></p>
+            <div class="col-lg-6 d-flex align-items-end" id="bg-block" style="background-image:url(&quot;resources/img/mainImg.jpg&quot;);background-size:cover;background-position:center center;">
             </div>
         </div>
     </div>

@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -247,5 +248,12 @@ public class MemberController {
 		  return mv;
 		  
 		  
+	  }
+	  
+	  @RequestMapping("/member/logout.do")
+	  public String logout(SessionStatus ss) {
+		  if(!ss.isComplete()) ss.setComplete();
+			
+		return "redirect:/";
 	  }
 }

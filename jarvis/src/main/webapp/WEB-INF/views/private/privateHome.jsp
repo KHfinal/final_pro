@@ -129,8 +129,8 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validateMod()">수정</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="fn_deleteEvent()">삭제</button>
+        <button type="submit" class="btn btn-success" data-dismiss="modal" onclick="fn_validateMod()"id="modbutton">수정</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="fn_deleteEvent()" >삭제</button>
         <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
       </div>
 
@@ -166,6 +166,7 @@
 				var userEmail = '${memberLoggedIn.memberEmail}';
 				var title = event.title;
 				var start = event.start._i;
+				$("#modbutton").show();
 				$.ajax({
 	 				url:"${pageContext.request.contextPath}/schedule/selectOneEvent.do",
 	 				data : {userEmail:userEmail,title:title,startDate:start},
