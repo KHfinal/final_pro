@@ -39,7 +39,7 @@ public class PostController {
 	
 	// 1. 게시물 조회
 	@RequestMapping("/post/socialHomeView.do")
-	public String selectPost(Model model,HttpSession s) {
+	public String selectPost(Model model, HttpSession s) {
 		
 		Member m = (Member)s.getAttribute("memberLoggedIn");
 		logger.debug(m.toString());
@@ -76,14 +76,7 @@ public class PostController {
 	// 2. 게시물 등록
 	@RequestMapping("/post/insertPost.do")
 	public ModelAndView insertPost(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
-		logger.debug(post.getPostContents());
-		logger.debug(post.getPostWriter());
-		logger.debug(post.getPrivacyBound());
 
-		for(int i=0; i<upFile.length; i++) {
-			logger.debug(upFile[i].getOriginalFilename());
-		}
-		
 		// postDate를 미리 지정해줘야한다.
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/post");
 		List<Attachment> attList = new ArrayList<Attachment>();
@@ -127,10 +120,95 @@ public class PostController {
 			loc = "/post/socialHomeView.do";
 		} else {
 			msg = "POST 등록이 실패하였습니다.";
-			loc = "/social/socialHome";
+			loc = "/post/socialHomeView.do";
 		}
 		
 		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	// 게시물 수정
+	@RequestMapping("/post/postUpdate.do")
+	public ModelAndView postUpdate(Post post, MultipartFile[] upFile, HttpServletRequest request) throws ParseException {
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/post");
+		List<Attachment> attList = new ArrayList<Attachment>();
+		
+		File dir = new File(saveDir);
+		if(dir.exists() == false) dir.mkdirs();
+		
+		for(MultipartFile f : upFile) {
+			if(!f.isEmpty()) {
+				String originalFileName = f.getOriginalFilename();
+				String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd_HHmmssSS");
+				
+				int rndNum = (int) (Math.random() * 1000);
+				String renamedFileName = sdf.format(new Date(System.currentTimeMillis()));
+				renamedFileName += "_" + rndNum + "." + ext; 
+				
+				try {
+					f.transferTo(new File(saveDir + "/" + renamedFileName));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				Attachment attach = new Attachment();
+				attach.setOriginalFileName(originalFileName);
+				attach.setRenamedFileName(renamedFileName);
+				attList.add(attach);
+			}
+		}
+		
+		int result = service.UpdatePost(post, attList);
+		
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg = "POST를 성공적으로 수정하였습니다.";
+			loc = "/post/socialHomeView.do";
+		} else {
+			msg = "POST 수정이 실패하였습니다.";
+			loc = "/post/socialHomeView.do";
+		}
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	// 게시물 삭제
+	@RequestMapping("/post/deletePost.do")
+	public ModelAndView deletePost(Post post) {
+		ModelAndView mv = new ModelAndView();
+		
+		System.out.println("딜리트의 포스트넘버!!"+post.getPostNo());
+		
+		int result = service.deletePost(post);
+		
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg = "POST가 성공적으로 삭제되었습니다.";
+			loc = "/post/socialHomeView.do";
+		} else {
+			msg = "POST 삭제가 실패하였습니다.";
+			loc = "/post/socialHomeView.do";
+		}
 		
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
@@ -156,7 +234,7 @@ public class PostController {
 			loc = "/post/socialHomeView.do";
 		} else {
 			msg = "댓글 등록이 실패하였습니다.";
-			loc = "/social/socialHome";
+			loc = "/post/socialHomeView.do";
 		}
 		
 		mv.addObject("msg", msg);
@@ -231,6 +309,7 @@ public class PostController {
 				
 				int count = service.selectPostLikeCount(like);
 				System.out.println("selectPostLikeCount = " + count);
+				
 				mv.addObject("likeList", likeList);
 				mv.addObject("count", count);
 			}
@@ -250,6 +329,7 @@ public class PostController {
 		
 		return mv;
 	}
+	
 }
 
 
