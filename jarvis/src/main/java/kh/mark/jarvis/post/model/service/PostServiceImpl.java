@@ -1,5 +1,6 @@
 package kh.mark.jarvis.post.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -36,6 +37,33 @@ public class PostServiceImpl implements PostService {
 				result = dao.insertAttach(sqlSession, a);
 			}
 		}
+		return result;
+	}
+	
+	@Override
+	public int UpdatePost(Post post, List<Attachment> attList) {
+		int result = 0;
+		int postNo = 0;
+		
+		result = dao.UpdatePost(sqlSession, post);
+		postNo = post.getPostNo();
+		result = dao.deleteAttach(sqlSession, post);
+		
+		if(attList.size() > 0) {
+			for(Attachment a : attList) {
+				a.setPostNo(postNo);
+				result = dao.insertAttach(sqlSession, a);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int deletePost(Post post) {
+		
+		int result = dao.deleteAttach(sqlSession, post);
+		result = dao.deletePost(sqlSession, post);
+
 		return result;
 	}
 	
@@ -113,5 +141,5 @@ public class PostServiceImpl implements PostService {
 		return dao.selectMemberList(sqlSession);
 	}
 
-	
+
 }

@@ -11,10 +11,10 @@
    <jsp:param value="social" name="title"/>
 </jsp:include>
 
-<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=1221">
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=211">
 
 <script>
-
+// 게시글 등록
 function readURL(input) {
    for(var i=0; i<input.files.length; i++) {
        if (input.files[i]) {
@@ -24,6 +24,22 @@ function readURL(input) {
              var img = $('<img id="imgDisplay" class="img-thumbnail">');
              img.attr('src', e.target.result);
              img.appendTo('#imgDisplayContainer');
+          }
+          reader.readAsDataURL(input.files[i]);
+       }
+   }
+}
+
+// 게시글 수정
+function updateReadURL(input) {
+   for(var i=0; i<input.files.length; i++) {
+       if (input.files[i]) {
+          var reader = new FileReader();
+   
+          reader.onload = function (e) {
+             var img = $('<img id="imgDisplayUpdate" class="img-thumbnail">');
+             img.attr('src', e.target.result);
+             img.appendTo('#imgDisplayUpdateContainer');
           }
           reader.readAsDataURL(input.files[i]);
        }
@@ -42,6 +58,18 @@ $(function() {
 	       readURL(this);   
 	    }
 	 });
+	 
+	// 게시글 수정
+	 $("#imgUpdateInput").on('change', function(){
+	    ext = $(this).val().split(".").pop().toLowerCase(); 
+	    
+	    if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+	       resetFormElement($(this)) // resetFormElement실행
+	       alert('이미지 파일이 아닙니다.');
+	    } else {
+	       updateReadURL(this);   
+	    }
+	 });
 	
 	/* 댓글 input 엔터 이벤트 */
 	$('.inputCommentTxt').keydown(function(e) {
@@ -52,8 +80,7 @@ $(function() {
 	
 	/* reply 아이콘 클릭. 답글 달기! */ 
 	$('.inputReplyIcon').click(function() {
-	   
-	   /* var replyPostRef = $('#reply_postRef').val(); */
+	   var replyProfile = $('.postProfile').attr('src');
 	   var replyPostRef = $(this).attr("title");
 	   var replyCommentRef = $(this).val();
 	   
@@ -65,7 +92,7 @@ $(function() {
 	   html += "<input type='hidden' name='postRef' value='" + replyPostRef + "'/>";
 	   html += "<input type='hidden' name='commentLevel' value='2'/>";
 	   html += "<input type='hidden' name='commentRef' value='" + replyCommentRef + "'/>";
-	   html += "<span><img class='replyProfile rounded-circle' src='${path }/resources/profileImg/${member.getMemberPFP() }'></span>";
+	   html += "<span><img class='replyProfile rounded-circle' src='" + replyProfile + "'></span>";
 	   html += "<input type='text' name='commentContents' class='inputReplyTxt form-control' placeholder=' 답글을 입력하세요...'/>";
 	   html += "<div style='clear: both'></div></form>";
 	   
@@ -89,8 +116,6 @@ $(function() {
        });
     });
     
-    
-    $('.subMenu-container').hide();
 });
 
 function fn_postLike(e) { /* 좋아요 전송 */
@@ -104,6 +129,7 @@ function fn_postLike(e) { /* 좋아요 전송 */
 		btn.children().addClass('fas fa-heart like');
 		likeUrl = "${pageContext.request.contextPath}/post/likeInsertAndSelect.do";
 	}
+	
 	else{
 		btn.children().removeClass();
 		btn.children().addClass('far fa-heart like');
@@ -158,30 +184,13 @@ function fn_postLike(e) { /* 좋아요 전송 */
 	});
 }
 
-
-function fn_subMenu(e) {
-	var btn = $(e);
-	var subMenu = $(e).next('.subMenu-container');
-	
-	console.log("클릭 버튼의 postNo = " + btn.attr('title'));
-	
-	if(subMenu.css('display') == 'none') {
-		subMenu.css('display', 'block');
-		subMenu.show();
-	} else {
-		subMenu.css('display', 'none');
-		subMenu.hide();
-	}
-	
-}
 </script>
+
 <style>
 	.subMenu-container {
-		background-color: white;
-		width: 20%;
-		color: black;
-		display: absolute;
-		left: 50px;
+		background-color: red;
+		color: white;
+		z-index: 100;
 	}
 </style>
 	    
@@ -276,13 +285,13 @@ function fn_subMenu(e) {
 	        <c:if test="${flagCnt eq 1 }">
 	        	<a href="javascript:void(0);" onclick="fn_postLike(this);" title="${post.getPostNo() }"><i class="far fa-heart like" style="font-size: 2.3em;"></i></a>
 	        </c:if>
+	        <!-- 좋아요 전송 form -->
 	        <form class="likeFrm" style="display: inline-block;" method="post" action="${path }/post/likeInsertAndSelect.do">
 	        	<input type="hidden" class="likeMember" name="likeMember" value="${memberLoggedIn.getMemberEmail() }"/>
 	        	<input type="hidden" class="postRef" name="postRef" value="${post.getPostNo() }"/>
 	        	<input type="hidden" class="commentRef" name="commentRef" value= "0"/>
 	        	<input type="hidden" class="likeCheck" name="likeCheck" value="1"/>
 	        </form>
-	       
 	        
 	        <!-- 게시물 좋아요 갯수 출력 -->
 	        <div class="likePostCount-container" style="display: inline-block">
@@ -290,15 +299,94 @@ function fn_subMenu(e) {
 	        </div>
 	        
 	        <!-- 게시물 서브 메뉴 -->
-	        <a href="javascript:void(0);" onclick="fn_subMenu(this);" title="${post.getPostNo() }" style="float: right; padding-top: 10px;"><i class="fas fa-angle-double-down subAwe" style="font-size: 2.3em;"></i></a>
-	        <div class="subMenu-container">
-				<ul>
-					<li><a href="#">수정</a></li>
-					<li><a href="#">삭제</a></li>
-					<li><a href="#">숨기기</a></li>
-					<li><a href="#">신고</a></li>
-				</ul>
-	        </div>
+	        <a href="javascript:void(0);" onclick="fn_subMenu(this);" class="dropdown-toggle" data-toggle="dropdown" title="${post.getPostNo() }" style="float: right; padding-top: 10px;"><i class="fas fa-angle-double-down subAwe" style="font-size: 2.3em;"></i></a>
+        	<c:choose>
+	        	<c:when test="${post.getPostWriter() eq memberLoggedIn.getMemberEmail() }">
+		        <div class="subMenu-container dropdown-menu">
+				    <a href="javascript:void(0);" onclick="subMenuPostUpdate(this)" title="${post.getPostNo() }" class="dropdown-item" data-toggle="modal" data-target="#postUpdateModal">수정하기</a>
+				    <a href="javascript:void(0);" onclick="subMenuPostDelete(this)" title="${post.getPostNo() }" class="dropdown-item" data-toggle="modal" data-target="#postDeleteModal">삭제하기</a>
+				    <a href="javascript:void(0);" onclick="subMenuPostReport(this)" title="${post.getPostNo() }" class="dropdown-item">신고하기</a>
+			    </div>
+		        </c:when>
+		        
+		        <c:otherwise>
+		        <div class="subMenu-container dropdown-menu">
+				    <a href="javascript:void(0);" onclick="subMenuPostReport(this)" title="${post.getPostNo() }" class="dropdown-item">신고하기</a>
+			    </div>
+		        </c:otherwise>
+		    </c:choose>
+		    
+		    <!-- 게시글 삭제 모달!! -->
+		    <div class="modal fade" id="postDeleteModal">
+		    	<div class="modal-dialog">
+		    		<div class="modal-content">
+		    		
+		    			<div class="modal-header">
+				            <h3 class="modal-title" style='color: black;'><strong>선택한 게시물</strong>을 삭제하시겠습니까??</h3>
+				            <button type="button" class="close" data-dismiss="modal">&times;</button>
+			         	</div>
+			         	
+			         	<form id="deletePostFrm" method="post" action="${path }/post/deletePost.do">
+			         		<div class="modal-body">
+			         			<input type="hidden" id="postNo" name="postNo" value="${post.getPostNo() }"/>
+			         			<p style="color: red;">게시물을 삭제하면 이후 복구할 수 없습니다.</p>
+			         		</div>
+			         		
+			         		<div class="modal-footer">
+				                <button type="submit" class="btn btn-primary text-center">삭제하기</button>
+				                <input type="reset" class="btn btn-danger text-center" value="취소" data-dismiss="modal"/>
+				            </div>
+			         	</form>
+			         	
+		    		</div>
+		    	</div>
+		    </div>
+		    
+		    <!-- 게시글 수정 모달!! -->
+			<div class="modal fade" id="postUpdateModal">
+			   <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			         
+			         <!-- Modal Header -->
+			         <div class="modal-header">
+			            <h3 class="modal-title" style='color: black;'><strong>선택한 게시물</strong> 수정하기</h3>
+			            <button type="button" class="close" data-dismiss="modal">&times;</button>
+			         </div>
+			                     
+			         <!-- Modal body -->
+			         <form id="updatePostFrm" method="post" action="${path }/post/postUpdate.do" enctype="multipart/form-data">
+			            <div class="modal-body">
+			               <input type="hidden" id="postNo" name="postNo" value="${post.getPostNo() }"/>
+			               <input type="hidden" id="postWriter" name="postWriter" value="${memberLoggedIn.getMemberEmail() }"/>
+			               <textarea class="form-control" rows="5" id="postContents" name="postContents" placeholder="문구 입력..."></textarea>
+			               <hr>
+			               
+			               <!-- 이미지 업로드 -->
+			               <div id="imgDisplayUpdateContainer"></div>
+			               <hr>
+			               
+			               <div class="privacyBoundContainer">
+			                   <label for="privacyBound" style="display: inline; color: black;">공개 범위</label>
+			                   <select class="form-control" id="privacyBound" name="privacyBound">
+			                      <option value="public">전체 보기</option>
+			                      <option value="friend">친구만</option>
+			                      <option value="private">나만 보기</option>
+			                   </select>
+			               </div>
+			               
+			               <div class="filebox"> <label for="imgUpdateInput">업로드</label> <input type="file" id="imgUpdateInput" name="upFile" multiple> </div>
+			            </div>
+			            
+			            <!-- Modal footer -->
+			            <div class="modal-footer">
+			               <button type="submit" class="btn btn-primary text-center">등록하기</button>
+			               <input type="reset" class="btn btn-danger text-center" value="취소" data-dismiss="modal"/>
+			            </div>
+			         </form>
+			      </div>
+			   </div>
+			</div>
+	        
 	    </div>
 	    
 	   
@@ -450,11 +538,7 @@ var sock=new SockJS("<c:url value='/friendInList'/>")  /* (0) */
 	/* sock.메소드 는 컨트롤러(핸들러)로 감 */
 sock.onmessage = onMessage;
 sock.onclose = onClose;
-$(function() {
-    $('.dropdown-toggle').click(function() {
-        this.attr("border", none);
-    })
-});
+
 function ajax() {
 	var email = '${memberLoggedIn.memberEmail}';    /* (0) */
 	$.ajax({
