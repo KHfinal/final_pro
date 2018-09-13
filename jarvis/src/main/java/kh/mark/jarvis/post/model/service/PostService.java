@@ -12,6 +12,8 @@ public interface PostService {
 
 	int insertPost(Post post, List<Attachment> attList);
 
+	int UpdatePost(Post post, List<Attachment> attList);
+
 	List<Attachment> selectAttachList();
 
 	List<Post> selectPostList();
@@ -40,9 +42,7 @@ public interface PostService {
 
 	List<Member> selectMemberList();
 
-
-
-	
+	int deletePost(Post post);
 
 
 

@@ -59,6 +59,16 @@
 	max-height: 100%;
 }
 
+#imgDisplayUpdate {
+	width: 25%;
+	height: 150px;
+}
+
+#imgDisplayUpdate img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
 .filebox {
 	display: inline-block;
 	float: right;
@@ -113,11 +123,11 @@
 
 /* post 게시물 출력  */
 .panel {
-    width: 96%;
+    width: 78%;
     border: 1px solid rgb(7, 48, 110); 
     border-radius:0;
     transition: box-shadow 0.5s;
-	margin-left: 15%;
+	margin-left: 11%;
     margin-top: 3%;
 }
 
