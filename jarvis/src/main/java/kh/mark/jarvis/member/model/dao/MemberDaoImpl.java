@@ -46,7 +46,25 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 
-	
+	@Override	//이메일 찾기
+	public String emailSearch(SqlSessionTemplate sqlSession, Member member) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.emailSearch", member);
+		//하나의 값을 검색 할떄에는 selectOne로  
+	}
+
+	@Override	//암호변경 이메일 전송
+	public Member selectPw(SqlSessionTemplate sqlSession, String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectPw",memberEmail);
+	}
+
+	@Override	//암호변경하기
+	public int pwUpdate(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.pwUpdate", m);
+	}
+
 
 	
 }

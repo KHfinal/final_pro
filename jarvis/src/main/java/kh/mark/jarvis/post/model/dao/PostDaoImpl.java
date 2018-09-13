@@ -24,6 +24,17 @@ public class PostDaoImpl implements PostDao {
 	public int insertAttach(SqlSessionTemplate sqlSession, Attachment a) {
 		return sqlSession.insert("post.insertAttach", a);
 	}
+	
+	/* post 수정 */
+	@Override
+	public int UpdatePost(SqlSessionTemplate sqlSession, Post post) {
+		return sqlSession.update("post.updatePost", post);
+	}
+	
+	@Override
+	public int deleteAttach(SqlSessionTemplate sqlSession, Post post) {
+		return sqlSession.delete("post.deleteAttach", post);
+	}
 
 	/* post 조회 */
 	@Override
@@ -101,6 +112,10 @@ public class PostDaoImpl implements PostDao {
 		return sqlSession.selectList("post.selectMemberList");
 	}
 
+	@Override
+	public int deletePost(SqlSessionTemplate sqlSession, Post post) {
+		return sqlSession.delete("post.deletePost", post);
+	}
 
 
 

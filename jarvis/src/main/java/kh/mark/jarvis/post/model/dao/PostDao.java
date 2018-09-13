@@ -15,6 +15,9 @@ public interface PostDao {
 	int insertPost(SqlSessionTemplate sqlSession, Post post);
 
 	int insertAttach(SqlSessionTemplate sqlSession, Attachment a);
+	
+	int UpdatePost(SqlSessionTemplate sqlSession, Post post);
+
 
 	List<Post> selectPostList(SqlSessionTemplate sqlSession);
 
@@ -44,8 +47,9 @@ public interface PostDao {
 
 	List<Member> selectMemberList(SqlSessionTemplate sqlSession);
 
+	int deleteAttach(SqlSessionTemplate sqlSession, Post post);
 
-
+	int deletePost(SqlSessionTemplate sqlSession, Post post);
 
 
 }
