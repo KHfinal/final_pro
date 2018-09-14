@@ -189,6 +189,12 @@ public class GroupServiceImpl implements GroupService {
 		// TODO Auto-generated method stub
 		return dao.deleteGroupPost(Session, postNo);
 	}
+
+	@Override
+	public int updateGroupPost(GroupPost post, List<GroupAttachment> attList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 	

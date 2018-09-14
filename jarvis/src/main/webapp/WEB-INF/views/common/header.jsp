@@ -287,8 +287,8 @@ function fn_submit() {
         <div class="w3-white">
           <button onclick="selectGroup('selectGroup');" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Groups</button>
           <div id="selectGroup" class="w3-hide w3-container">
-            <button onclick="goGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Group List</button>
-            <button onclick="goMyGroup();" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Group</button>
+            <button onclick="goGroup();" class="btn btn-outline-secondary w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Group List</button>
+            <button onclick="goMyGroup();" class="btn btn-outline-secondary w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Group</button>
           </div>
           <button onclick="goCalendar()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
           <div id="Demo2" class="w3-hide w3-container">

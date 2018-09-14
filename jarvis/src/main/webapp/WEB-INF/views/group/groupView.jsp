@@ -202,9 +202,15 @@ function fn_subMenu(e) {
 	               <!-- 이미지 업로드 -->
 	               <div id="imgDisplayContainer"></div>
 	               <hr>
-	               <div class="filebox"> <label for="imgInput">업로드</label> <input type="file" id="imgInput" name="upFile" multiple> </div>
 	            </div>
-	            
+	            <div class="modal-body">
+	                <div style="text-align: right;">
+	                	<div class="filebox" style="float: none">
+	                		<label for="imgInput">업로드</label>
+	                		<input type="file" id="imgInput" name="upFile">
+                		</div>
+               		</div>
+				</div>
 	            <!-- Modal footer -->
 	            <div class="modal-footer">
 	               <button type="submit" class="btn btn-primary text-center">등록하기</button>
@@ -248,9 +254,9 @@ function fn_subMenu(e) {
            <c:choose>
               <c:when test="${post.getG_post_writer() eq member.getMemberNickname()}">
               <div class="subMenu-container dropdown-menu">
-                <a class="dropdown-item" href="#">수정하기</a>
+                <%-- <a href="javascript:void(0);" onclick="subMenuPostUpdate(this)" title="${post.getG_post_no() }" class="dropdown-item" data-toggle="modal" data-target="#postUpdateModal">수정하기</a>
+			    <a href="javascript:void(0);" onclick="subMenuPostDelete(this)" title="${post.getG_post_no() }" class="dropdown-item" data-toggle="modal" data-target="#postDeleteModal">삭제하기</a> --%>
                 <a class="dropdown-item" href="${path }/group/deleteGroupPost.do?postNo=${post.getG_post_no() }&groupNo=${groupNo }">삭제하기</a>
-                <a class="dropdown-item" href="#">숨기기</a>
                 <a class="dropdown-item" href="#">신고하기</a>
              </div>
               </c:when>
@@ -258,14 +264,12 @@ function fn_subMenu(e) {
               <c:when test="${g.g_master eq member.getMemberEmail() }">
               <div class="subMenu-container dropdown-menu">
                 <a class="dropdown-item" href="${path }/group/deleteGroupPost.do?postNo=${post.getG_post_no() }&groupNo=${groupNo }">삭제하기</a>
-                <a class="dropdown-item" href="#">숨기기</a>
                 <a class="dropdown-item" href="#">신고하기</a>
              </div>
               </c:when>
               
               <c:when test="${post.getG_post_writer() != member.getMemberNickname() }">
               <div class="subMenu-container dropdown-menu">
-                <a class="dropdown-item" href="#">숨기기</a>
                 <a class="dropdown-item" href="#">신고하기</a>
              </div>
               </c:when>
@@ -273,6 +277,70 @@ function fn_subMenu(e) {
            </c:forEach>
            
        </div>
+       
+	   <%--  <!-- 게시글 삭제 모달!! -->
+		    <div class="modal fade" id="postDeleteModal">
+		    	<div class="modal-dialog">
+		    		<div class="modal-content">
+		    		
+		    			<div class="modal-header">
+				            <h3 class="modal-title" style='color: black;'><strong>선택한 게시물</strong>을 삭제하시겠습니까??</h3>
+				            <button type="button" class="close" data-dismiss="modal">&times;</button>
+			         	</div>
+			         	
+			         	<form id="deletePostFrm" method="post" action="${path }/group/deleteGroupPost.do?groupNo=${groupNo }">
+			         		<div class="modal-body">
+			         			<input type="hidden" id="postNo" name="postNo" value="${post.getG_post_no() }"/>
+			         			<p style="color: red;">게시물을 삭제하면 이후 복구할 수 없습니다.</p>
+			         		</div>
+			         		
+			         		<div class="modal-footer">
+				                <button type="submit" class="btn btn-primary text-center">삭제하기</button>
+				                <input type="reset" class="btn btn-danger text-center" value="취소" data-dismiss="modal"/>
+				            </div>
+			         	</form>
+			         	
+		    		</div>
+		    	</div>
+		    </div>
+		    
+		    <!-- 게시글 수정 모달!! -->
+			<div class="modal fade" id="postUpdateModal">
+			   <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			         
+			         <!-- Modal Header -->
+			         <div class="modal-header">
+			            <h3 class="modal-title" style='color: black;'><strong>선택한 게시물</strong> 수정하기</h3>
+			            <button type="button" class="close" data-dismiss="modal">&times;</button>
+			         </div>
+			                     
+			         <!-- Modal body -->
+			         <form id="updatePostFrm" method="post" action="${path }/group/updateGroupPost.do?groupNo=${groupNo }" enctype="multipart/form-data">
+			            <div class="modal-body">
+			               <input type="hidden" id="postNo" name="g_post_no" value="${post.getG_post_no() }"/>
+			               <input type="hidden" id="postWriter" name="g_post_writer" value="${memberLoggedIn.getMemberEmail() }"/>
+			               <textarea class="form-control" rows="5" id="postContents" name="g_post_contents" placeholder="문구 입력..."></textarea>
+			               <hr>
+			               
+			               <!-- 이미지 업로드 -->
+			               <div id="imgDisplayUpdateContainer"></div>
+			               <hr>
+			               
+			               <div class="filebox"> <label for="imgUpdateInput">업로드</label> <input type="file" id="imgUpdateInput" name="upFile" multiple> </div>
+			            </div>
+			            
+			            <!-- Modal footer -->
+			            <div class="modal-footer">
+			               <button type="submit" class="btn btn-primary text-center">등록하기</button>
+			               <input type="reset" class="btn btn-danger text-center" value="취소" data-dismiss="modal"/>
+			            </div>
+			         </form>
+			      </div>
+			   </div>
+			</div>
+	        
+	    </div> --%>
 	    
 	    <div class="panel-body">
 	       <div id="postContentsContainer">
@@ -352,7 +420,7 @@ function fn_subMenu(e) {
 	
 	      <!-- 댓글 쓰기 -->
 	      <div id="inputComment-container">
-	         <form id="createCommentFrm" method="post" action="${path }/group/postCommentInsert.do?groupNo=${post.getG_post_no() }">
+	         <form id="createCommentFrm" method="post" action="${path }/group/postCommentInsert.do?groupNo=${g.g_no }">
 	            <span><img class="commentProfile rounded-circle" src="${path }/resources/upload/post/20180030_210021127_730.jpg"></span>
 	            <input type="text" id="inputCommentTxt" name="g_comment_contents" class="form-control" placeholder=" 댓글을 입력하세요..."/>
 	            <input type="hidden" id="reply_postRef" name="g_post_ref" value="${post.getG_post_no() }"/>

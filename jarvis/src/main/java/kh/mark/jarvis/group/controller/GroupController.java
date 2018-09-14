@@ -2,6 +2,7 @@ package kh.mark.jarvis.group.controller;
 
 import java.io.File;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,8 @@ import kh.mark.jarvis.group.model.vo.GroupComment;
 import kh.mark.jarvis.group.model.vo.GroupLike;
 import kh.mark.jarvis.group.model.vo.GroupPost;
 import kh.mark.jarvis.member.model.vo.Member;
+import kh.mark.jarvis.post.model.vo.Attachment;
+import kh.mark.jarvis.post.model.vo.Post;
 
 @Controller
 public class GroupController {
@@ -163,6 +166,7 @@ public class GroupController {
 	@RequestMapping("/group/groupView.do")
 	public ModelAndView groupView(int groupNo, HttpSession hs) {
 		ModelAndView mv=new ModelAndView();
+		System.out.println("asdfsadfasdfasdfasdfasdfasdfasdf"+groupNo);
 		
 		Member m = (Member)hs.getAttribute("memberLoggedIn");
 		String mEmail = m.getMemberEmail();
@@ -171,6 +175,7 @@ public class GroupController {
 		
 		List<GroupPost> postList = service.groupView(groupNo); // 전체 Post
 		Group g = service.groupViewDetail(groupNo);
+		System.out.println(g);
 		List<GroupAttachment> attachmentList = service.selectAttachList(groupNo); 
 		List<GroupComment> commentList = service.selectCommentList();
 		List<Member> memberList = service.selectMemberList(); 
@@ -183,7 +188,7 @@ public class GroupController {
 		logger.debug("멤버 그룹 디테일 : "+g.toString());
 		logger.debug(commentList.toString());
 		logger.debug(memberList.toString());
-		for(int i=0;i<memberList.size();i++) {
+		for(int i=0;i<gMemberList.size();i++) {
 			/*logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).values().toString());
 			logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).get("MEMBER_EMAIL"));
 			logger.debug("그룹 멤버 셀렉트"+gMemberList.get(i).containsValue(mEmail));*/
@@ -439,10 +444,10 @@ public class GroupController {
 			String loc = "";
 			
 			if(result>0) {
-				msg = "게시물을 삭제하였습니다.";
+				msg = "POST가 성공적으로 삭제되었습니다.";
 				loc = "/group/groupView.do?groupNo="+groupNo;
 			} else {
-				msg = "게시물 삭제에 실패하였습니다.";
+				msg = "POST 삭제가 실패하였습니다.";
 				loc = "/group/groupView.do?groupNo="+groupNo;
 			}
 			
@@ -450,6 +455,63 @@ public class GroupController {
 			mv.addObject("loc", loc);
 			
 			mv.setViewName("common/msg");
+			return mv;
+		}
+		
+		@RequestMapping("/group/updateGroupPost.do")
+		public ModelAndView postUpdate(GroupPost post, MultipartFile[] upFile, HttpServletRequest request, int groupNo) throws ParseException {
+			String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/group");
+			List<GroupAttachment> attList = new ArrayList<GroupAttachment>();
+			
+			File dir = new File(saveDir);
+			if(dir.exists() == false) dir.mkdirs();
+			
+			for(MultipartFile f : upFile) {
+				if(!f.isEmpty()) {
+					String originalFileName = f.getOriginalFilename();
+					String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+					
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd_HHmmssSS"); 
+					
+					int rndNum = (int) (Math.random() * 1000);
+					String renamedFileName = sdf.format(new Date(System.currentTimeMillis()));
+					renamedFileName += "_" + rndNum + "." + ext; 
+					
+					try {
+						f.transferTo(new File(saveDir + "/" + renamedFileName));
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+					
+					GroupAttachment attach = new GroupAttachment();
+					attach.setG_original_filename(originalFileName);
+					attach.setG_renamed_filename(renamedFileName);
+					attList.add(attach);
+					
+				}
+			}
+			
+			int result = service.updateGroupPost(post, attList);
+			
+			String msg="";
+			String loc="";
+			
+			if(result>0) {
+				msg = "POST를 성공적으로 수정하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			} else {
+				msg = "POST 수정이 실패하였습니다.";
+				loc = "/group/groupView.do?groupNo="+groupNo;
+			}
+			
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			
+			mv.setViewName("common/msg");
+			
 			return mv;
 		}
 	

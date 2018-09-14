@@ -40,4 +40,5 @@ public interface GroupService {
 	List<Member> selectMemberList();
 	
 	int deleteGroupPost(int postNo);
+	int updateGroupPost(GroupPost post, List<GroupAttachment> attList);
 }

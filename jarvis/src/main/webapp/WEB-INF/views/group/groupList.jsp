@@ -13,26 +13,9 @@
 	<jsp:param value="social" name="title"/>	
 </jsp:include>
 <title>Agency - Start Bootstrap Theme</title>
-<link href="${path }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="${path }/resources/bootstrap/css/all.min.css" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+ 
 <link href="${path }/resources/css/agency.min.css" rel="stylesheet">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-<link rel="stylesheet" type="text/css" media="screen" href="${path }/resources/groupJs/css/CSSreset.min.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="${path }/resources/groupJs/css/als_demo.css" />
-<link rel="icon" href="${path }/resources/groupJs/images/favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="${path }/resources/groupJs/images/favicon.ico" type="image/x-icon" />
-<meta name="robots" content="index,follow" />
-<meta name="keywords" content="jQuery plugin, jQuery scroller, list jQuery, jQuery lists, css3, html5, jQuery" />
-<meta name="description" content="any list scroller demo - jQuery scrolling plugin by musings.it to scroll any kind of list with any content - musings.it web design and development - Bergamo Italy" /> 	
-<meta name="author" content="Federica Sibella - musings.it" />
-<meta name="geo.placename" content="via Generale Alberico Albricci 1, 24128 Bergamo, Italy">
-<script type="text/javascript" src="${path }/resources/groupJs/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="${path }/resources/groupJs/js/jquery.als-1.7.min.js"></script>
+<link rel="stylesheet" href="${path }/resources/css/socialHome.css?ver=15">
 <style>
 
 </style>
@@ -99,6 +82,34 @@
 				$("a[href^='http://']").attr("target","_blank");
 				$("a[href^='http://als']").attr("target","_self");
 			});
+   	
+   	function readURL(input) {
+   	   for(var i=0; i<input.files.length; i++) {
+   	       if (input.files[i]) {
+   	          var reader = new FileReader();
+   	   
+   	          reader.onload = function (e) {
+   	             var img = $('<img id="imgDisplay" class="img-thumbnail">');
+   	             img.attr('src', e.target.result);
+   	             img.appendTo('#imgDisplayContainer');
+   	          }
+   	          reader.readAsDataURL(input.files[i]);
+   	       }
+   	   }
+   	}
+   	$(function() {
+   	 // 게시글 등록
+   	 $("#imgInput").on('change', function(){
+   	    ext = $(this).val().split(".").pop().toLowerCase(); 
+   	    
+   	    if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+   	       resetFormElement($(this)) // resetFormElement실행
+   	       alert('이미지 파일이 아닙니다.');
+   	    } else {
+   	       readURL(this);   
+   	    }
+   	 });
+   	})
  
 </script>
 
@@ -191,12 +202,19 @@
                         <label for="comment">그룹 소개 글</label>
 						<textarea class="form-control" name="g_intro" rows="5" id="comment" placeholder="간단한 소개 글을 입력해 주세요."></textarea>
 						<label for="upFile1">그룹 이미지</label>
-	                    <div class="custom-file">
-		                    <input type="file" class="custom-file-input" name="upFile" id="upFile">
-		                    <label class="custom-file-label" for="upFile">파일을 선택하세요</label>
-	                	</div>
+	                	<div id="imgDisplayContainer"></div>
+		                <hr>
+		                <div class="modal-body">
+			                <div style="text-align: right;">
+			                	<div class="filebox" style="float: none">
+			                		<label for="imgInput">업로드</label>
+			                		<input type="file" id="imgInput" name="upFile">
+		                		</div>
+	                		</div>
+						</div>
+						<hr>
                     	<span>그룹 분류</span>
-                    	<div class="form-control-lg mb-2">
+                    	<div class="form-control-lg">
 	                    	<div class="row">
 		                        <div class="custom-control custom-checkbox mr-3">
 								    <input type="checkbox" class="custom-control-input" id="category1" name="g_category" value="c1"/>
