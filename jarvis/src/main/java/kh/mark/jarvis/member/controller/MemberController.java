@@ -413,21 +413,38 @@ public class MemberController {
 	  
 		  
 		  
-		  //개인정보수정 페이지로 이동
+		 /* //개인정보수정 페이지로 이동
 		  @RequestMapping("/memberUpdateView.do")
 			public String memberUpdateView() 
 			{
 					return "member/memberUpdateView"; //회원수정페이지로
-			}
+			}*/
 		  
 		  
-		  //내 정보 보기
+		  //내 정보 보기 - 메인 상단바에서 클릭시 정보보기 페이지로 이동
 		  @RequestMapping("/memberView.do")
-			public String memberView() 
+			public ModelAndView memberView(Member m) 
 			{
-					return "member/memberView"; //회원수정페이지로
+			  	ModelAndView mv = new ModelAndView();
+				mv.addObject("m",m);
+				System.out.println("정보보기 페이지아이디: "+m.getMemberEmail());
+				mv.setViewName("member/memberInfoView");
+				
+				return mv; //--->폴더이름/jsp명 
 			}
 		  	
+		  
+		  	//내 정보 수정 - memberinfoview에서 클릭시 
+		  	@RequestMapping("/memberUpdateView.do")
+			public ModelAndView memberUpdateView(Member m) 
+			{
+			  	ModelAndView mv = new ModelAndView();
+				mv.addObject("m",m);
+				System.out.println("정보수정 페이지아이디: "+m.getMemberEmail());
+				mv.setViewName("member/memberUpdateView");
+				
+				return mv; //--->폴더이름/jsp명 
+			}
 		  
 		  
 }

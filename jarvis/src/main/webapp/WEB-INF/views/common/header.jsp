@@ -77,7 +77,7 @@
 	      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
 	    </div>
 	  </div>
-	  <a href="${path }/memberUpdateView.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+	  <a href="${path }/memberView.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
 	    <img src="${path}/resources/upload/profileImg/defaultmen.PNG" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
 	  </a>
 	 </div>

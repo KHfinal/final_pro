@@ -34,7 +34,7 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
-  		<div class="col-sm-10"><h1>프로필 수정</h1></div>
+  		<div class="col-sm-10"><h1>프로필 정보</h1></div>
     </div>
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
@@ -42,16 +42,19 @@
 
       <div class="text-center">
         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>Upload a different photo...</h6>
-        <input type="file" class="text-center center-block file-upload">
+        
       </div></hr><br>
 
-   
+               
+          
+          
+        
+         
           
         </div><!--/col-3-->
     	<div class="col-sm-9">
             <ul class="nav nav-tabs">
-                 <li class="active"><a href="${path }/memberView.do">내 정보 </a></li> 
+                <li class="active"><a href="${path }/memberView.do">내 정보 </a></li> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <li><a href="${path }/memberUpdateView.do">수정하기</a></li>
                
@@ -61,12 +64,12 @@
           <div class="tab-content">
             <div class="tab-pane active" id="home">
                 <hr>
-                  <form class="form" action="##" method="post" id="registrationForm">
+                  <form class="form" action="#" method="post" id="registrationForm">
                       <div class="form-group">
                           
                           <div class="col-xs-6">
                               <label for="first_name"><h4>이름</h4></label>
-                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." readonly>
                           </div>
                       </div>
                       <div class="form-group">
@@ -122,17 +125,17 @@
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                              	<!-- <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button> -->
                             </div>
                       </div>
               	</form>
               
               <hr>
               
-             </div><!--/tab-pane-->
             
-    
+          
+               
               </div><!--/tab-pane-->
           </div><!--/tab-content-->
 
