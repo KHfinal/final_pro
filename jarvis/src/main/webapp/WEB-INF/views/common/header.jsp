@@ -28,53 +28,10 @@
 <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet">
 </head>
 <script>
-$(document).ready(function(){
-	ajax();
-	var email2 = '${memberLoggedIn.memberEmail}';
-	$.ajax({
-		url:"${path}/friend/friednRecommendList.do",
-		type:"GET",
-		data:{email:email2},
-		dataType:"json",
-		success : function(data){
-			console.log("friendList :"+friendList);
-			var friendConcernTag;
-			var tr="";
-			$.each(data.concernCompareList,function(i,item){
-				var f_email2 = item;
-				
-				console.log("가져온 값 : "+f_email2);
-				
-				for(var i =0; i<friendList.length;i++){
-					friendConcernTag ="";
-					
-					/* sbg1208@naver.com, admin@naver.com, aaaa@naver.com, eeee@naver.com, bbbb@naver.com, dddd@naver.com, gggg@naver.com, cccc@naver.com */
-					if(friendList[i]==f_email2 ){
-						console.log("친구중에 있다");
-						friendConcernTag ;
-						console.log("friendConcernTag : " + friendConcernTag);
-						
-						break;
-					}if(friendList[i]==f_email2){
-						console.log("나다");
-						break;
-					}
-					if(i==friendList.length-1){
-						if(f_email2==email2){
-							break;
-						}
-						
-						 friendConcernTag = "<tr><td>"+f_email2+"</td><td>"+'<button type="button" id="friend_add" onclick="fn_friendAdd('+"'"+f_email2+"'"+');">친추</button></td></tr>'; 
-						  
-							console.log(f_email2 +" 추가했음");
-						 $('.tablefriend').append(friendConcernTag);
-						 break;
-					}	
-				}
-			}); 
-		}
-	});
-});  
+
+
+
+
 var userIdList=[] ;
 var su =0;
 var friendList=[];
@@ -159,6 +116,7 @@ self.close();
 
 
 $(document).ready(function () {
+	
 $('#fr').hover(
 		function(){
 			dell();
@@ -168,9 +126,7 @@ $('#fr').hover(
 			dell();
 		});
 });
-function reFresh() {
-dell();
-};
+
 function dell() {
 $("#myDropdown").empty();
 };
@@ -196,7 +152,7 @@ function fn_friendAdd(data){
 };
 function fn_submit() {
 	submit();
-}
+};
 </script>
 
 <style>
